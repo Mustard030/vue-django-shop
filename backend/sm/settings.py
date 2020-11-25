@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'test01',
     'test02',
 ]
@@ -49,6 +50,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'sm.urls'
@@ -73,7 +75,12 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'sm.wsgi.application'
+CORS_ORIGIN_WHITELIST = (
+    'http://127.0.0.1:8080',
+    'http://localhost:9528', #凡是出现在白名单中的域名，都可以访问后端接口
+)
 
+CORS_ALLOW_CREDENTIALS = True  # 允许携带cookie
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 

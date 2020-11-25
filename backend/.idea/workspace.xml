@@ -25,7 +25,16 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="582da8aa-470c-4504-aef3-f6f4ca6bdbcd" name="Default Changelist" comment="staticfiles" />
+    <list default="true" id="582da8aa-470c-4504-aef3-f6f4ca6bdbcd" name="Default Changelist" comment="staticfiles">
+      <change afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/assets/css/global.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/App.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/HelloWorld.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/plugins/element.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/plugins/element.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/router/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/views/About.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/views/Home.vue" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -66,7 +75,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PythonContentEntriesConfigurable" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -141,6 +150,8 @@
       <workItem from="1606055607176" duration="2271000" />
       <workItem from="1606157191746" duration="6000" />
       <workItem from="1606308498353" duration="91000" />
+      <workItem from="1606327919169" duration="19000" />
+      <workItem from="1606327969202" duration="640000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1603520933070</created>
@@ -520,10 +531,10 @@
       <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state width="272" height="540" key="HiddenNamespacesPopup/0.0.1536.864@0.0.1536.864" timestamp="1605871306107" />
-    <state x="195" y="64" key="SettingsEditor" timestamp="1605778704130">
+    <state x="195" y="64" key="SettingsEditor" timestamp="1606328023860">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state x="195" y="64" key="SettingsEditor/0.0.1536.864@0.0.1536.864" timestamp="1605778704130" />
+    <state x="195" y="64" key="SettingsEditor/0.0.1536.864@0.0.1536.864" timestamp="1606328023860" />
     <state x="361" y="146" key="Vcs.Push.Dialog.v2" timestamp="1606056160808">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
