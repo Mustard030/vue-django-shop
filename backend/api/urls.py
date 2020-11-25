@@ -16,14 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, re_path, include
 
-import test01.views
+
+from api import views
+
+app_name = 'api'
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    # path('timer/', views.timer),
-    path('login/', test01.views.login, name='Login'),
-    re_path(r'^register/', include(('register.urls', 'register'))),
-    re_path(r'^test01/', include(('test01.urls', 'test01'))),
-    re_path(r'^test02/', include(('test02.urls', 'test02'))),
-    path('api/', include(('api.urls', 'api'))),
+    path('private/login/', views.login, name='index'),
 ]

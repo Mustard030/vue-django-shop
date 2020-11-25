@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'test01',
     'test02',
+    'api',
 ]
 
 MIDDLEWARE = [

@@ -26,14 +26,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="582da8aa-470c-4504-aef3-f6f4ca6bdbcd" name="Default Changelist" comment="staticfiles">
-      <change afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/assets/css/global.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/App.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/HelloWorld.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/Login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/Login.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/plugins/element.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/plugins/element.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/router/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/views/About.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/views/Home.vue" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,18 +66,19 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="add_unversioned_files" value="true" />
     <property name="ignore_missing_gitignore" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/api" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\coding\vue-django-supermarket\backend\api" />
+      <recent name="D:\coding\sm\static" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\coding\sm\test01\templates" />
       <recent name="D:\coding\sm\templates\test01" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\coding\sm\static" />
     </key>
   </component>
   <component name="RunManager">
@@ -151,7 +146,7 @@
       <workItem from="1606157191746" duration="6000" />
       <workItem from="1606308498353" duration="91000" />
       <workItem from="1606327919169" duration="19000" />
-      <workItem from="1606327969202" duration="640000" />
+      <workItem from="1606327969202" duration="2624000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1603520933070</created>
@@ -454,7 +449,14 @@
       <option name="project" value="LOCAL" />
       <updated>1606056157167</updated>
     </task>
-    <option name="localTasksCounter" value="44" />
+    <task id="LOCAL-00044" summary="staticfiles">
+      <created>1606328680794</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1606328680794</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -535,9 +537,9 @@
       <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state x="195" y="64" key="SettingsEditor/0.0.1536.864@0.0.1536.864" timestamp="1606328023860" />
-    <state x="361" y="146" key="Vcs.Push.Dialog.v2" timestamp="1606056160808">
+    <state x="361" y="146" key="Vcs.Push.Dialog.v2" timestamp="1606328717230">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state x="361" y="146" key="Vcs.Push.Dialog.v2/0.0.1536.864@0.0.1536.864" timestamp="1606056160808" />
+    <state x="361" y="146" key="Vcs.Push.Dialog.v2/0.0.1536.864@0.0.1536.864" timestamp="1606328717230" />
   </component>
 </project>
