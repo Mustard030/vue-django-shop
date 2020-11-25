@@ -25,7 +25,19 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="582da8aa-470c-4504-aef3-f6f4ca6bdbcd" name="Default Changelist" comment="staticfiles" />
+    <list default="true" id="582da8aa-470c-4504-aef3-f6f4ca6bdbcd" name="Default Changelist" comment="staticfiles">
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/build/build.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/build/check-versions.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/build/logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/build/utils.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/build/vue-loader.conf.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/build/webpack.base.conf.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/build/webpack.dev.conf.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/build/webpack.prod.conf.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/config/dev.env.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/config/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/config/prod.env.js" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -143,7 +155,7 @@
       <workItem from="1606157191746" duration="6000" />
       <workItem from="1606308498353" duration="91000" />
       <workItem from="1606327919169" duration="19000" />
-      <workItem from="1606327969202" duration="4153000" />
+      <workItem from="1606327969202" duration="4773000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1603520933070</created>
