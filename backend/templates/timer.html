@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>时间戳</title>
+    <link href="{% static 'css/bootstrap.css' %}">
+    <link href="{% static 'js/bootstrap.js' %}">
+</head>
+<body>
+<h3>time:{{ timer }}</h3>
+{#<img src="{% static '33.jpg' %}" width="300px">#}
+<div class=""></div>
+<br>
+{% load my_tags %}
+<p>{{ i|multi_filter:20 }}</p>
+
+<p>{% multi_tag i 9 %}</p>
+
+<br>
+
+{% if i|multi_filter:10 > 100 %}
+    <p>100</p>
+{% else %}
+    {{ i }}
+{% endif %}
+</body>
+</html>

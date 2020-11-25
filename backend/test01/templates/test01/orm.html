@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>orm测试</title>
+</head>
+<body>
+<h5>添加</h5>
+<form action="{% url 'test01:orm_add' %}" method="post">
+    {% csrf_token %}
+    书名 <input type="text" name="title">&nbsp;
+    价格 <input type="text" name="price">&nbsp;
+    发行日期 <input type="date" name="pub_date">&nbsp;
+    发行商 <input type="text" name="publish">&nbsp;
+    <input type="submit">
+</form>
+</body>
+</html>
