@@ -91,8 +91,8 @@ export default {
     login: function () {
       this.$refs.loginFormRef.validate((valid) => {
         // 登陆请求
-        if (!valid) return;
-        this.$http.
+        if (!valid) return
+        this.$http.post('login/', this.loginForm)
       })
     }
   }
