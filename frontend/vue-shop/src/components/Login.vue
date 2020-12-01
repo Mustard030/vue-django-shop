@@ -91,14 +91,14 @@ export default {
     login: function () {
       this.$refs.loginFormRef.validate((valid) => {
         // 登陆请求
-        if (!valid) return;
+        if (!valid) return
         this.$http.post('login/', this.loginForm).then((res) => {
           if (res.data.meta.code !== 200) {
-            return this.$message.error('用户名或密码错误');
+            return this.$message.error('用户名或密码错误')
           }
-          this.$message.success('登陆成功！');
-          window.sessionStorage.setItem('token',res.data.data.token)
-          this.$router.push("/home")
+          this.$message.success('登陆成功！')
+          window.sessionStorage.setItem('token', res.data.data.token)
+          this.$router.push('/home')
         })
       })
     }
