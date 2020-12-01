@@ -24,4 +24,5 @@ app_name = 'api'
 urlpatterns = [
 
     path('private/login/', views.Login_view.as_view(), name='index'),
+    path('private/menus/', views.menus, name='menus'),
 ]

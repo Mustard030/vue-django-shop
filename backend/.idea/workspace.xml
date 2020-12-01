@@ -26,9 +26,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="582da8aa-470c-4504-aef3-f6f4ca6bdbcd" name="Default Changelist" comment="staticfiles">
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/Login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/Login.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/.eslintrc.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/.eslintrc.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/Home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/Home.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/vue.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/vue.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/plugins/element.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/plugins/element.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -149,7 +150,7 @@
       <workItem from="1606327919169" duration="19000" />
       <workItem from="1606327969202" duration="18626000" />
       <workItem from="1606634094172" duration="7809000" />
-      <workItem from="1606798464254" duration="4096000" />
+      <workItem from="1606798464254" duration="6984000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1603520933070</created>

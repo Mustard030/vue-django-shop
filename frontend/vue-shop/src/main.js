@@ -10,6 +10,10 @@ import axios from 'axios'
 
 // 配置请求根路径
 axios.defaults.baseURL = 'http://localhost:80/api/private/'
+axios.interceptors.request.use(config => {
+  config.headers.Authorization = window.sessionStorage.getItem('token')
+  return config
+})
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 Vue.prototype.$http = axios
 

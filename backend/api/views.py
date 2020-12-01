@@ -46,3 +46,9 @@ class Login_view(APIView):
         return JsonResponse(res, safe=False)
 
 
+def menus(request):
+    res = {
+        'meta': {
+            'message': '获取数数据失败',
+            'code': 400
+        }}
