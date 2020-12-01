@@ -43,8 +43,8 @@ export default {
     return {
       // 登陆表单的数据绑定对象
       loginForm: {
-        username: '',
-        password: ''
+        username: '12213',
+        password: '123123'
       },
       // 表单验证规则对象
       loginFormRules: {
@@ -91,8 +91,15 @@ export default {
     login: function () {
       this.$refs.loginFormRef.validate((valid) => {
         // 登陆请求
-        if (!valid) return
-        this.$http.post('login/', this.loginForm)
+        if (!valid) return;
+        this.$http.post('login/', this.loginForm).then((res) => {
+          if (res.data.meta.code !== 200) {
+            return this.$message.error('用户名或密码错误');
+          }
+          this.$message.success('登陆成功！');
+          window.sessionStorage.setItem('token',res.data.data.token)
+          this.$router.push("/home")
+        })
       })
     }
   }

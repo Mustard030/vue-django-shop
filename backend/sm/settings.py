@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
+    'rest_framework',
+    'rest_framework.authtoken',
     'test01',
     'test02',
     'api',
@@ -72,19 +74,7 @@ CORS_ALLOW_METHODS = (
     'PUT',
     'VIEW',
 )
-CORS_ALLOW_HEADERS = (
-    'XMLHttpRequest',
-    'X_FILENAME',
-    'accept-encoding',
-    'authorization',
-    'content-type',
-    'dnt',
-    'origin',
-    'user-agent',
-    'x-csrftoken',
-    'x-requested-with',
-    'Pragma',
-)
+CORS_ALLOW_HEADERS = ('*')
 
 ROOT_URLCONF = 'sm.urls'
 
@@ -92,8 +82,8 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, "templates"),
-            os.path.join(BASE_DIR, "test01", 'templates'),
+            "templates",
+            "test01/templates",
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -122,10 +112,10 @@ WSGI_APPLICATION = 'sm.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'orm_test',
-        'USER': 'sm',
-        'PASSWORD': 'Jimmy!201120606',
-        'HOST': '127.0.0.1',
+        'NAME': 'shop',
+        'USER': 'root',
+        'PASSWORD': 'root',
+        'HOST': 'localhost',
         'PORT': 3306
     }
 }

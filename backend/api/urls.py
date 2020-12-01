@@ -22,5 +22,6 @@ from api import views
 app_name = 'api'
 
 urlpatterns = [
-    path('private/login/', views.login, name='index'),
+
+    path('private/login/', views.Login_view.as_view(), name='index'),
 ]

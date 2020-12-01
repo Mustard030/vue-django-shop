@@ -25,7 +25,11 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="582da8aa-470c-4504-aef3-f6f4ca6bdbcd" name="Default Changelist" comment="staticfiles" />
+    <list default="true" id="582da8aa-470c-4504-aef3-f6f4ca6bdbcd" name="Default Changelist" comment="staticfiles">
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/Login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/Login.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/vue.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/vue.config.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -63,7 +67,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="add_unversioned_files" value="true" />
     <property name="ignore_missing_gitignore" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/api" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/MyDjango01" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
@@ -143,7 +147,9 @@
       <workItem from="1606157191746" duration="6000" />
       <workItem from="1606308498353" duration="91000" />
       <workItem from="1606327919169" duration="19000" />
-      <workItem from="1606327969202" duration="5966000" />
+      <workItem from="1606327969202" duration="18626000" />
+      <workItem from="1606634094172" duration="7809000" />
+      <workItem from="1606798464254" duration="4096000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1603520933070</created>
@@ -529,21 +535,28 @@
       <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state width="246" height="195" key="DatabaseViewActions_Filter/0.0.1536.864@0.0.1536.864" timestamp="1605871387447" />
-    <state x="549" y="187" key="FileChooserDialogImpl" timestamp="1605951637244">
-      <screen x="0" y="0" width="1536" height="864" />
+    <state x="686" y="234" key="FileChooserDialogImpl" timestamp="1606636450958">
+      <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="549" y="187" key="FileChooserDialogImpl/0.0.1536.864@0.0.1536.864" timestamp="1605951637244" />
+    <state x="686" y="234" key="FileChooserDialogImpl/0.0.1920.1080@0.0.1920.1080" timestamp="1606636450958" />
     <state width="272" height="540" key="HiddenNamespacesPopup" timestamp="1605871306107">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state width="272" height="540" key="HiddenNamespacesPopup/0.0.1536.864@0.0.1536.864" timestamp="1605871306107" />
-    <state x="195" y="64" key="SettingsEditor" timestamp="1606331761956">
-      <screen x="0" y="0" width="1536" height="864" />
+    <state x="244" y="80" key="SettingsEditor" timestamp="1606634307467">
+      <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="195" y="64" key="SettingsEditor/0.0.1536.864@0.0.1536.864" timestamp="1606331761956" />
+    <state x="195" y="64" key="SettingsEditor/0.0.1536.864@0.0.1536.864" timestamp="1606384410843" />
+    <state x="244" y="80" key="SettingsEditor/0.0.1920.1080@0.0.1920.1080" timestamp="1606634307467" />
     <state x="361" y="146" key="Vcs.Push.Dialog.v2" timestamp="1606330925641">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state x="361" y="146" key="Vcs.Push.Dialog.v2/0.0.1536.864@0.0.1536.864" timestamp="1606330925641" />
+    <state x="539" y="226" width="840" height="848" key="search.everywhere.popup" timestamp="1606634486876">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="431" y="181" width="672" height="678" key="search.everywhere.popup/0.0.1536.864@0.0.1536.864" timestamp="1606388832063" />
+    <state x="539" y="226" width="840" height="848" key="search.everywhere.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1606634486876" />
   </component>
 </project>

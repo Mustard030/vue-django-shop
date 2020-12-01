@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.shortcuts import HttpResponse
 from django.urls import reverse
 from test01.models import Book
+from django.contrib.auth import authenticate, login
+from django.contrib import auth
 
 
 # Create your views here.
@@ -17,14 +19,16 @@ def index(request):
     return HttpResponse(reverse("test01:index"))
 
 
-def login(request):
-    print(reverse('test01:Login'))
+def userlogin(request):
+    print(reverse('Login'))
     if request.method == 'GET':
         print(request.GET)
         return render(request, 'login.html')
     else:
         print(request.POST)
-        return HttpResponse("OK")
+        jiemoo = auth.authenticate(username='jiemoo', password='123456')
+        login(request, jiemoo)
+        return HttpResponse("OK " + jiemoo.username)
 
 
 def orm(request):
