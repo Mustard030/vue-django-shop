@@ -43,8 +43,8 @@ export default {
     return {
       // 登陆表单的数据绑定对象
       loginForm: {
-        username: '12213',
-        password: '123123'
+        username: 'admin',
+        password: '123456'
       },
       // 表单验证规则对象
       loginFormRules: {
@@ -92,7 +92,7 @@ export default {
       this.$refs.loginFormRef.validate((valid) => {
         // 登陆请求
         if (!valid) return
-        this.$http.post('login/', this.loginForm).then((res) => {
+        this.$http.post('adminLogin/', this.loginForm).then((res) => {
           if (res.data.meta.code !== 200) {
             return this.$message.error('用户名或密码错误')
           }

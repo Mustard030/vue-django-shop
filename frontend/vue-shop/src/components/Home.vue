@@ -6,44 +6,66 @@
                 <img src="..\assets\logo.png" alt="" height="50px">
                 <span>电商后台管理系统</span>
             </div>
-            <el-button type="danger" @click="logout">退出 </el-button>
+            <el-button type="danger" @click="logout"> <i class="el-icon-switch-button"></i>
+                退出 </el-button>
         </el-header>
         <!-- 页面主体 -->
         <el-container>
             <!-- 侧边栏 -->
             <el-aside width="200px">
                 <!-- 侧边栏菜单区 -->
-                <el-menu background-color="#333744" text-color="#fff" active-text-color="#ffd04b">
+                <el-menu background-color="#333744" text-color="#fff" 
+                active-text-color="#ffd04b" unique-opened router
+                :default-active="activePath"
+                >
                     <!-- 一级菜单 -->
-                    <el-submenu index="1">
+                    <el-submenu :index="item.id + ''" v-for="item in menulist" :key="item.id">
                         <!-- 一级菜单模板区 -->
                         <template slot="title">
                             <!-- 图标 -->
-                            <i class="el-icon-location"></i>
+                            <!-- <i class="el-icon-location"></i> -->
                             <!-- 文本 -->
-                            <span>导航一</span>
+                            <span>{{item.authname}}</span>
                         </template>
-                        <el-menu-item index="1-4-1">选项1</el-menu-item>
-                        <el-submenu index="1-4">
+                        <!-- 二级菜单 -->
+                        <el-menu-item :index="'/'+subItem.path" v-for="subItem in item.children" 
+                        :key="subItem.id" @click="saveNavState('/'+subItem.path)">
+                            <template slot="title">
+                                <!-- 图标 -->
+                                <i class="el-icon-menu"></i>
+                                <!-- 文本 -->
+                                <span>{{subItem.authname}}</span>
+                            </template>
+                        </el-menu-item>
+                        <!-- <el-submenu index="1-4">
                             <template slot="title">选项4</template>
                             <el-menu-item index="1-4-1">选项1</el-menu-item>
-                        </el-submenu>
+                        </el-submenu> -->
                     </el-submenu>
-                    
+
                 </el-menu>
 
             </el-aside>
             <!-- 主视图 -->
-            <el-main>Main
-
+            <el-main>
+                <!-- 欢迎页占位符 -->
+                <router-view></router-view>
             </el-main>
         </el-container>
     </el-container>
 </template>
 <script>
     export default {
-        created(){
+        data() {
+            return {
+                menulist: [],
+                // 激活的地址
+                activePath:''
+            }
+        },
+        created() {
             this.getMenuList()
+            this.activePath = window.sessionStorage.getItem('activePath')
         },
         methods: {
             logout() {
@@ -51,9 +73,17 @@
                 this.$router.push('/login')
             },
             //获取侧边栏数据
-            async getMenuList(){
-                const {data:res} = await this.$http.get('menus/')
-                console.log('res')
+            async getMenuList() {
+                const { data: res } = await this.$http.get('menus/')
+
+                if (res.meta.code !== 200) { return this.$message.error(res.meta.message); }
+                this.menulist = res.data
+                console.log(res)
+            },
+            // 保存链接的激活状态
+            saveNavState(activePath){
+                window.sessionStorage.setItem('activePath',activePath)
+                this.activePath = activePath
             }
         }
     }
@@ -87,7 +117,8 @@
     .el-main {
         background-color: #eaedf1;
     }
-    .el-menu{
-        border-right: solid 0px #e6e6e6;
+
+    .el-menu {
+        border-right: none;
     }
 </style>
