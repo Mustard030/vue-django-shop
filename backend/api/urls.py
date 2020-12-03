@@ -23,6 +23,7 @@ app_name = 'api'
 
 urlpatterns = [
 
-    path('private/login/', views.Login_view.as_view(), name='index'),
+    path('private/adminLogin/', views.LoginView.as_view(), name='adminLogin'),
     path('private/menus/', views.menus, name='menus'),
+    path('private/users/', views.Users.as_view(), name='users'),
 ]

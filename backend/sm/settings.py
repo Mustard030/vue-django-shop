@@ -178,3 +178,6 @@ LOGGING = {
         },
     }
 }
+
+# 用户验证的表
+# AUTH_USER_MODEL = 'api.MyUserInfo'
