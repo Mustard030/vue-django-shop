@@ -20,13 +20,13 @@ const router = new VueRouter({
     {
       path: '/home',
       component: Home,
-      redirect:'/welcome',
-      children:[
+      redirect: '/welcome',
+      children: [
         {
-          path:'/welcome',component:Welcome
+          path: '/welcome', component: Welcome
         },
         {
-          path:'/users',component: User
+          path: '/users', component: User
         }
       ]
     }

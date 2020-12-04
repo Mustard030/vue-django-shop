@@ -13,3 +13,11 @@ html,body,#app{
 .el-card{
     box-shadow: 0 1 1 rgba(0, 0, 0, 0.15) !important;
 }
+
+.el-table{
+    margin-top: 15px;
+    font-size: 12px;
+}
+.el-pagination{
+    margin-top: 15px;
+}

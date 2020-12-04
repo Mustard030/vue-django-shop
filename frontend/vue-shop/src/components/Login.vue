@@ -6,26 +6,14 @@
         <img src="../assets/logo.png" />
       </div>
       <!-- 登陆表单 -->
-      <el-form
-        class="login_form"
-        :model="loginForm"
-        :rules="loginFormRules"
-        ref="loginFormRef"
-      >
+      <el-form class="login_form" :model="loginForm" :rules="loginFormRules" ref="loginFormRef">
         <!-- 用户名 -->
         <el-form-item prop="username">
-          <el-input
-            prefix-icon="el-icon-user"
-            v-model="loginForm.username"
-          ></el-input>
+          <el-input prefix-icon="el-icon-user" v-model="loginForm.username"></el-input>
         </el-form-item>
         <!-- 密码 -->
         <el-form-item prop="password">
-          <el-input
-            prefix-icon="el-icon-key"
-            v-model="loginForm.password"
-            type="password"
-          ></el-input>
+          <el-input prefix-icon="el-icon-key" v-model="loginForm.password" type="password"></el-input>
         </el-form-item>
         <!-- 按钮 -->
         <el-form-item class="btns">
@@ -39,7 +27,7 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       // 登陆表单的数据绑定对象
       loginForm: {
@@ -98,7 +86,10 @@ export default {
           }
           this.$message.success('登陆成功！')
           window.sessionStorage.setItem('token', res.data.data.token)
+          window.sessionStorage.setItem('user', res.data.data.username)
           this.$router.push('/home')
+        }).catch((err) => {
+          return this.$message.error('连接服务器失败')
         })
       })
     }
@@ -107,52 +98,52 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.login_container {
-  background-color: #2b4b6b;
-  height: 100%;
-}
+  .login_container {
+    background-color: #2b4b6b;
+    height: 100%;
+  }
 
-.login_box {
-  width: 450px;
-  height: 300px;
-  background-color: #fff;
-  border-radius: 3px;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-
-  .avatar_box {
-    height: 130px;
-    width: 130px;
-    border: 1px solid #eee;
-    border-radius: 50%;
-    padding: 10px;
-    box-shadow: 0 0 10px #ddd;
+  .login_box {
+    width: 450px;
+    height: 300px;
+    background-color: #fff;
+    border-radius: 3px;
     position: absolute;
     left: 50%;
+    top: 50%;
     transform: translate(-50%, -50%);
-    background-color: #fff;
 
-    img {
-      width: 100%;
-      height: 100%;
+    .avatar_box {
+      height: 130px;
+      width: 130px;
+      border: 1px solid #eee;
       border-radius: 50%;
-      background-color: #eee;
+      padding: 10px;
+      box-shadow: 0 0 10px #ddd;
+      position: absolute;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #fff;
+
+      img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background-color: #eee;
+      }
     }
   }
-}
 
-.btns {
-  display: flex;
-  justify-content: flex-end;
-}
+  .btns {
+    display: flex;
+    justify-content: flex-end;
+  }
 
-.login_form {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  padding: 0 30px;
-  box-sizing: border-box;
-}
+  .login_form {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 0 30px;
+    box-sizing: border-box;
+  }
 </style>
