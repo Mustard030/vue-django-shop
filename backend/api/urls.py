@@ -23,7 +23,8 @@ app_name = 'api'
 
 urlpatterns = [
 
-    path('private/adminLogin/', views.LoginView.as_view(), name='adminLogin'),
-    path('private/menus/', views.menus, name='menus'),
-    path('private/users/', views.Users.as_view(), name='users'),
+    path('adminLogin/', views.LoginView.as_view(), name='adminLogin'),
+    path('menus/', views.menus, name='menus'),
+    path('users/', views.Users.as_view(), name='users'),
+    path('users/<int:uid>/state/<int:state>', views.Users.as_view()),
 ]

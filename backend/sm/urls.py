@@ -25,5 +25,5 @@ urlpatterns = [
     re_path(r'^register/', include(('register.urls', 'register'))),
     re_path(r'^test01/', include(('test01.urls', 'test01'))),
     re_path(r'^test02/', include(('test02.urls', 'test02'))),
-    path('api/', include(('api.urls', 'api'))),
+    path('api/private/', include(('api.urls', 'api'))),
 ]

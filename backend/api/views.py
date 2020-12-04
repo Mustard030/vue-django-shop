@@ -1,6 +1,8 @@
 import json
-from django.contrib.auth import *
+from django.contrib import auth
 from django.shortcuts import render
+from django.contrib.auth.models import User
+from django.contrib.auth.hashers import make_password, check_password
 from django.http import JsonResponse, HttpResponse
 from rest_framework.views import APIView
 from . import models
@@ -12,8 +14,8 @@ from .utils.token import get_token_code
 
 class LoginView(APIView):
     def post(self, request):
-        print(request.body)
-        print(request.POST)
+        # print(request.body)
+        # print(request.POST)
         data = json.loads(str(request.body, encoding='utf8'))
 
         res = {
@@ -21,12 +23,15 @@ class LoginView(APIView):
                 'message': '登陆失败',
                 'code': 400
             }}
+        username = data.get('username')
+        password = data.get('password')
+        user_obj = auth.authenticate(username=username, password=password)
+        login_success = user_obj.is_superuser or user_obj.is_staff
 
-        exist_user = models.AdminInfo.objects.filter(username=data.get('username'),
-                                                     password=data.get('password')).exists()
-        if exist_user:
-            user_obj = models.AdminInfo.objects.get(username=data.get('username'),
-                                                    password=data.get('password'))
+        if login_success:
+            # user_obj = models.AdminInfo.objects.get(username=data.get('username'),
+            #                                         password=data.get('password'))
+
             token = get_token_code(user_obj.username)
             token_obj = models.Token.objects.filter(user_id=user_obj.id).first()
             if token_obj:
@@ -52,16 +57,63 @@ class Users(APIView):
         pass
 
     def get(self, request):
+        res = {
+            'data': {},
+            'meta': {
+                'message': '获取数据失败',
+                'code': 400
+            }}
         query = request.GET.get('query', '')
-        pagenum = request.GET.get('pagenum', '')
-        pagesize = request.GET.get('pagesize', '')
-        pass
+        pagenum = int(request.GET.get('pagenum', ''))
+        pagesize = int(request.GET.get('pagesize', ''))
+        head: int = (pagenum - 1) * pagesize
+        tail: int = pagenum * pagesize
+        total = User.objects.filter(username__icontains=query).count()
+        userlist = User.objects.filter(username__icontains=query)[head:tail]
+
+        return_list = list()
+        for subuser in userlist:
+            user = dict()
+            user['id'] = subuser.pk
+            user['username'] = subuser.username
+            user['password'] = subuser.password
+            role = '普通用户'
+            if subuser.is_staff:
+                role = '商家'
+            if subuser.is_superuser:
+                role = '管理员'
+            user['role_name'] = role
+            user['state'] = bool(subuser.is_active)
+
+            return_list.append(user)
+
+        res['data']['userlist'] = return_list
+        res['data']['total'] = total
+        if return_list:
+            res['meta']['message'] = '获取数据成功'
+            res['meta']['code'] = 200
+
+        return JsonResponse(res, safe=False)
 
     def delete(self, request):
         pass
 
-    def put(self, request):
-        pass
+    def put(self, request, **kwargs):
+        res = {
+            'meta': {
+                'message': '修改状态失败',
+                'code': 500
+            }}
+        uid = kwargs.get('uid', 0)
+        state = kwargs.get('state', '')
+
+        changed_user = User.objects.get(pk=uid)
+        changed_user.is_active = state
+        changed_user.save()
+        if changed_user.is_active == state:
+            res['meta']['message'] = '修改状态成功'
+            res['meta']['code'] = 200
+        return JsonResponse(res, safe=False)
 
 
 def menus(request):

@@ -9,17 +9,17 @@ from django.contrib.auth.models import AbstractUser
 #     phone = models.CharField(max_length=11, blank=True)
 
 
-class AdminInfo(models.Model):
-    username = models.CharField(max_length=10)
-    password = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.username
+# class AdminInfo(models.Model):
+#     username = models.CharField(max_length=10)
+#     password = models.CharField(max_length=100)
+#
+#     def __str__(self):
+#         return self.username
 
 
 class Token(models.Model):
     token = models.CharField(max_length=128)
-    user = models.OneToOneField(to='AdminInfo', on_delete=models.CASCADE)
+    user = models.OneToOneField(to='auth.User', on_delete=models.CASCADE)
 
 
 class Menu(models.Model):
@@ -41,13 +41,13 @@ class ItemInfo(models.Model):
     reserve = models.IntegerField(default=0)
 
 
-class UserInfo(models.Model):
-    address = models.CharField(max_length=128)
-    phone = models.CharField(max_length=11)
-    recipient = models.CharField(max_length=10)
-
-
 class DeliveryInfo(models.Model):
-    name = models.CharField(max_length=10)
+    recipient = models.CharField(max_length=10)
     phone = models.CharField(max_length=11)
+    address = models.CharField(max_length=128, default='')
     masterid = models.ForeignKey(to='auth.User', on_delete=models.CASCADE)
+
+# class Area(models.Model):
+#     name = models.CharField(max_length=20, verbose_name='名称')
+#     # 自关联(特殊的一对多): 生成的字段名 parent_id
+#     parent = models.ForeignKey(to='self', verbose_name='上级行政区划', on_delete=None)
