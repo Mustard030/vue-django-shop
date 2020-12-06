@@ -54,7 +54,30 @@ class LoginView(APIView):
 
 class Users(APIView):
     def post(self, request):
-        pass
+        res = {
+            'data': {},
+            'meta': {
+                'message': '添加用户失败',
+                'code': 400
+            }}
+        data = json.loads(str(request.body, encoding='utf8'))
+        username = data.get('username', '')
+        password = data.get('password', '')
+        mg_state = data.get('mg_state', '')
+        if not username:
+            return JsonResponse(res, safe=False)
+        if mg_state == 3:
+            user = User.objects.create_superuser(username=username, password=password)
+        elif mg_state == 2:
+            user = User.objects.create_superuser(username=username, password=password)
+            user.is_superuser = 0
+        else:
+            user = User.objects.create_user(username=username, password=password)
+        user.save()
+        if user:
+            res['meta']['message'] = '添加用户成功'
+            res['meta']['code'] = 201
+        return JsonResponse(res, safe=False)
 
     def get(self, request):
         res = {
@@ -89,30 +112,49 @@ class Users(APIView):
 
         res['data']['userlist'] = return_list
         res['data']['total'] = total
-        if return_list:
-            res['meta']['message'] = '获取数据成功'
-            res['meta']['code'] = 200
+        # if return_list:
+        res['meta']['message'] = '获取数据成功'
+        res['meta']['code'] = 200
 
         return JsonResponse(res, safe=False)
 
     def delete(self, request):
         pass
 
-    def put(self, request, **kwargs):
+    def put(self, request):
         res = {
             'meta': {
-                'message': '修改状态失败',
+                'message': '修改密码失败',
                 'code': 500
             }}
-        uid = kwargs.get('uid', 0)
-        state = kwargs.get('state', '')
+        data = json.loads(str(request.body, encoding='utf8'))
+        uid = data.get('id', 0)
+        password = data.get('password', '')
+        if not password:
+            return JsonResponse(res, safe=False)
+        user = User.objects.get(pk=uid)
+        user.set_password(password)
+        user.save()
+        if user:
+            res['meta']['message'] = '修改密码成功'
+            res['meta']['code'] = 201
 
-        changed_user = User.objects.get(pk=uid)
-        changed_user.is_active = state
-        changed_user.save()
-        if changed_user.is_active == state:
-            res['meta']['message'] = '修改状态成功'
+        return JsonResponse(res, safe=False)
+
+    def patch(self, request):
+        res = {
+            'meta': {
+                'message': '删除用户失败',
+                'code': 500
+            }}
+        data = json.loads(str(request.body, encoding='utf8'))
+        uid = data.get('id', 0)
+        user = User.objects.get(pk=uid)
+        user.delete()
+        if user:
+            res['meta']['message'] = '删除用户成功'
             res['meta']['code'] = 200
+
         return JsonResponse(res, safe=False)
 
 
@@ -162,4 +204,55 @@ def item_manage(request):
 
     res['meta']['message'] = '获取数据成功'
     res['meta']['code'] = 200
+    return JsonResponse(res, safe=False)
+
+
+def check_useable(request, check_username):
+    res = {
+        'meta': {
+            'message': '用户名不可用',
+            'code': 500
+        }}
+    exist = User.objects.filter(username=check_username).exists()
+    if not exist:
+        res['meta']['message'] = '用户名可用'
+        res['meta']['code'] = 200
+    return JsonResponse(res, safe=False)
+
+
+def change_active(request, **kwargs):
+    res = {
+        'meta': {
+            'message': '修改状态失败',
+            'code': 500
+        }}
+    uid = kwargs.get('uid', 0)
+    state = kwargs.get('state', None)
+
+    changed_user = User.objects.get(pk=uid)
+    if state is not None:
+        changed_user.is_active = state
+
+    changed_user.save()
+    if changed_user.is_active == state:
+        res['meta']['message'] = '修改状态成功'
+        res['meta']['code'] = 200
+    return JsonResponse(res, safe=False)
+
+
+def get_info_by_id(request, uid):
+    res = {
+        'data': {},
+        'meta': {
+            'message': '获取数据失败',
+            'code': 400
+        }}
+    user = User.objects.get(pk=uid)
+    username = user.username
+    if user:
+        res['data']['id'] = uid
+        res['data']['username'] = username
+        res['meta']['message'] = '获取数据成功'
+        res['meta']['code'] = 200
+
     return JsonResponse(res, safe=False)

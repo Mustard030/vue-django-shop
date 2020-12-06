@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.shortcuts import HttpResponse
 from django.urls import reverse
-from test01.models import Book
+# from test01.models import Book
 from django.contrib.auth import authenticate, login
 from django.contrib import auth
 

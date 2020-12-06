@@ -19,11 +19,11 @@ from django.urls import path, re_path, include
 import test01.views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    # path('admin/', admin.site.urls),
     # path('timer/', views.timer),
-    path('login/', test01.views.userlogin, name='Login'),
-    re_path(r'^register/', include(('register.urls', 'register'))),
-    re_path(r'^test01/', include(('test01.urls', 'test01'))),
-    re_path(r'^test02/', include(('test02.urls', 'test02'))),
+    # path('login/', test01.views.userlogin, name='Login'),
+    # re_path(r'^register/', include(('register.urls', 'register'))),
+    # re_path(r'^test01/', include(('test01.urls', 'test01'))),
+    # re_path(r'^test02/', include(('test02.urls', 'test02'))),
     path('api/private/', include(('api.urls', 'api'))),
 ]

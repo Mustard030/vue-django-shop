@@ -25,6 +25,8 @@ urlpatterns = [
 
     path('adminLogin/', views.LoginView.as_view(), name='adminLogin'),
     path('menus/', views.menus, name='menus'),
+    path('users/<int:uid>/state/<int:state>', views.change_active),
+    path('users/<int:uid>', views.get_info_by_id),
     path('users/', views.Users.as_view(), name='users'),
-    path('users/<int:uid>/state/<int:state>', views.Users.as_view()),
+    path('checkUseable/<slug:check_username>', views.check_useable),
 ]
