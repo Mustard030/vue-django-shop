@@ -320,7 +320,7 @@
                 if(confirmResult !== 'confirm'){
                     return this.$message.info('已取消删除')
                 }
-                const { data: res } = await this.$http.patch('users/',{id:id})
+                const { data: res } = await this.$http.delete('users/',{data:{'id':id}})
                 if(res.meta.code !== 200){
                     this.$message.error(res.meta.message)
                 }

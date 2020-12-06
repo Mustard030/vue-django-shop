@@ -1,6 +1,7 @@
 import json
 from django.contrib import auth
 from django.shortcuts import render
+from django.http import QueryDict
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password, check_password
 from django.http import JsonResponse, HttpResponse
@@ -119,7 +120,20 @@ class Users(APIView):
         return JsonResponse(res, safe=False)
 
     def delete(self, request):
-        pass
+        res = {
+            'meta': {
+                'message': '删除用户失败',
+                'code': 500
+            }}
+        data = json.loads(str(request.body, encoding='utf8'))
+        uid = data.get('id', 0)
+        user = User.objects.get(pk=uid)
+        user.delete()
+        if user:
+            res['meta']['message'] = '删除用户成功'
+            res['meta']['code'] = 200
+
+        return JsonResponse(res, safe=False)
 
     def put(self, request):
         res = {
@@ -142,20 +156,7 @@ class Users(APIView):
         return JsonResponse(res, safe=False)
 
     def patch(self, request):
-        res = {
-            'meta': {
-                'message': '删除用户失败',
-                'code': 500
-            }}
-        data = json.loads(str(request.body, encoding='utf8'))
-        uid = data.get('id', 0)
-        user = User.objects.get(pk=uid)
-        user.delete()
-        if user:
-            res['meta']['message'] = '删除用户成功'
-            res['meta']['code'] = 200
-
-        return JsonResponse(res, safe=False)
+        pass
 
 
 def menus(request):
