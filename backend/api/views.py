@@ -30,9 +30,6 @@ class LoginView(APIView):
         login_success = user_obj.is_superuser or user_obj.is_staff
 
         if login_success:
-            # user_obj = models.AdminInfo.objects.get(username=data.get('username'),
-            #                                         password=data.get('password'))
-
             token = get_token_code(user_obj.username)
             token_obj = models.Token.objects.filter(user_id=user_obj.id).first()
             if token_obj:

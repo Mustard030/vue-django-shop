@@ -10,11 +10,12 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 import os
+import sys
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
@@ -38,10 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
+    'guardian',
     'rest_framework',
     'rest_framework.authtoken',
-    # 'test01',
-    # 'test02',
+    'test01',
+    'test02',
     'api',
 ]
 
@@ -83,7 +85,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             "templates",
-            "test01/templates",
+            "apps/test01/templates",
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -187,4 +189,9 @@ PASSWORD_HASHERS = (
     'django.contrib.auth.hashers.SHA1PasswordHasher',
     'django.contrib.auth.hashers.MD5PasswordHasher',
     'django.contrib.auth.hashers.CryptPasswordHasher',
+)
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',  # 这是Django默认的
+    'guardian.backends.ObjectPermissionBackend',  # 这是guardian的
 )
