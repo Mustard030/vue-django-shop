@@ -9,14 +9,14 @@
 
         <!-- 卡片视图 -->
         <el-card>
-            
+
         </el-card>
     </div>
 </template>
 <script>
-    export default{
+export default {
 
-    }
+}
 </script>
 
 <style lang="less" scoped>

@@ -4,8 +4,13 @@ import {
   Header, Aside, Main, Menu, Submenu, MenuItemGroup, MenuItem,
   Breadcrumb, BreadcrumbItem, Card, Select, Option, Row, Col,
   Table, TableColumn, Switch, Tooltip, Pagination, Dialog,
-  RadioGroup,Radio,RadioButton,MessageBox
+  RadioGroup, Radio, RadioButton, MessageBox
 } from 'element-ui'
+
+// require styles 引入样式
+// import 'quill/dist/quill.core.css'
+// import 'quill/dist/quill.snow.css'
+// import 'quill/dist/quill.bubble.css'
 
 Vue.use(Button)
 Vue.use(Form)
@@ -38,3 +43,4 @@ Vue.use(RadioButton)
 
 Vue.prototype.$message = Message
 Vue.prototype.$confirm = MessageBox.confirm
+// Vue.use(VueQuillEditor)

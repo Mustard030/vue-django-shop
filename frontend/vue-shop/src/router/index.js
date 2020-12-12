@@ -5,6 +5,7 @@ import Home from '../components/Home'
 import Welcome from '../components/Welcome'
 import User from '../components/user/User'
 import Rights from '../components/power/Rights'
+import Main from '../components/shop/Main'
 
 Vue.use(VueRouter)
 
@@ -12,7 +13,15 @@ const router = new VueRouter({
   routes: [
     {
       path: '/',
+      redirect: '/shop'
+    },
+    {
+      path: '/admin',
       redirect: '/login'
+    },
+    {
+      path: '/shop',
+      component: Main
     },
     {
       path: '/login',

@@ -88,7 +88,7 @@ export default {
           window.sessionStorage.setItem('token', res.data.data.token)
           window.sessionStorage.setItem('user', res.data.data.username)
           this.$router.push('/home')
-        }).catch((err) => {
+        }).catch(err => {
           return this.$message.error('连接服务器失败')
         })
       })
