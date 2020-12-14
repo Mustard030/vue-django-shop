@@ -33,12 +33,30 @@ class ChildrenMenu(models.Model):
     parentMenu = models.ForeignKey(to='Menu', on_delete=models.PROTECT)
 
 
-class ItemInfo(models.Model):
-    item_class = models.CharField(max_length=10)
-    item_name = models.CharField(max_length=100)
+class GoodsImage(models.Model):
+    image = models.ImageField()
+
+
+class GoodsInfo(models.Model):
+    itemClass = models.ForeignKey(to='GoodsKind', on_delete=models.PROTECT)
+    merchantId = models.ForeignKey(to='Merchant', on_delete=models.PROTECT)
+    itemName = models.CharField(max_length=100)
     sales = models.IntegerField(default=0)
     price = models.DecimalField(max_digits=8, decimal_places=2)
     reserve = models.IntegerField(default=0)
+
+
+class GoodsKind(models.Model):
+    mainKind = models.CharField(max_length=10)
+    secondKind = models.ForeignKey(to='self', null=True, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.mainKind
+
+
+class Merchant(models.Model):
+    admin = models.OneToOneField(to='auth.User', on_delete=models.CASCADE)
+    merchantName = models.CharField(max_length=30)
 
 
 class DeliveryInfo(models.Model):
