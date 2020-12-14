@@ -4,7 +4,7 @@ import {
   Header, Aside, Main, Menu, Submenu, MenuItemGroup, MenuItem,
   Breadcrumb, BreadcrumbItem, Card, Select, Option, Row, Col,
   Table, TableColumn, Switch, Tooltip, Pagination, Dialog,
-  RadioGroup, Radio, RadioButton, MessageBox
+  RadioGroup, Radio, RadioButton, MessageBox, Tag
 } from 'element-ui'
 
 // require styles 引入样式
@@ -40,6 +40,7 @@ Vue.use(Dialog)
 Vue.use(RadioGroup)
 Vue.use(Radio)
 Vue.use(RadioButton)
+Vue.use(Tag)
 
 Vue.prototype.$message = Message
 Vue.prototype.$confirm = MessageBox.confirm

@@ -6,7 +6,10 @@ import 'element-ui'
 import './plugins/element.js'
 import './assets/css/global.css'
 import axios from 'axios'
+import TreeTable from 'vue-table-with-tree-grid'
 // import VueQuillEditor from './vue-quill-editor'
+
+Vue.component('tree-table', TreeTable)
 
 // 配置请求根路径
 axios.defaults.baseURL = 'http://localhost:80/api/private/'
