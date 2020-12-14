@@ -188,21 +188,21 @@ def menus(request):
     return JsonResponse(res, safe=False)
 
 
-def item_manage(request):
-    res = {
-        'meta': {
-            'message': '获取数据失败',
-            'code': 400
-        }}
-    item_class_list = list()
-    item_class = models.ItemInfo.objects.values('item_class').distinct().order_by()
-    for item in item_class:
-        item_class_list.append(item)
-    res.update({'data': item_class_list})
+# def item_manage(request):
+#     res = {
+#         'meta': {
+#             'message': '获取数据失败',
+#             'code': 400
+#         }}
+#     item_class_list = list()
+#     item_class = models.GoodsInfo.objects.values('itemClass').distinct().order_by()
+#     for item in item_class:
+#         item_class_list.append(item)
+#     res.update({'data': item_class_list})
 
-    res['meta']['message'] = '获取数据成功'
-    res['meta']['code'] = 200
-    return JsonResponse(res, safe=False)
+# res['meta']['message'] = '获取数据成功'
+# res['meta']['code'] = 200
+# return JsonResponse(res, safe=False)
 
 
 def check_useable(request, check_username):
@@ -252,5 +252,40 @@ def get_info_by_id(request, uid):
         res['data']['username'] = username
         res['meta']['message'] = '获取数据成功'
         res['meta']['code'] = 200
+
+    return JsonResponse(res, safe=False)
+
+
+def get_categories(request):
+    res = {
+        'meta': {
+            'message': '获取数据失败',
+            'code': 400
+        }}
+    if request.method == "GET":
+        data_list = list()
+        categories_list = models.GoodsKind.objects.filter(parent=None)
+        for klass in categories_list:
+            klass_dict = dict()
+            klass_children = list()
+
+            klass_dict['cat_id'] = klass.pk
+            klass_dict['cat_name'] = klass.name
+            klass_dict['cat_level'] = 0
+            children_list = models.GoodsKind.objects.filter(parent=klass.pk)
+            for children in children_list:
+                children_dict = dict()
+                children_dict['cat_id'] = children.pk
+                children_dict['cat_name'] = children.name
+                children_dict['cat_level'] = 1
+
+                klass_children.append(children_dict)
+
+            klass_dict['children'] = klass_children
+            data_list.append(klass_dict)
+        if data_list:
+            res['data'] = data_list
+            res['meta']['message'] = '获取数据成功'
+            res['meta']['code'] = 200
 
     return JsonResponse(res, safe=False)

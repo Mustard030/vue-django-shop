@@ -47,11 +47,11 @@ class GoodsInfo(models.Model):
 
 
 class GoodsKind(models.Model):
-    mainKind = models.CharField(max_length=10)
-    secondKind = models.ForeignKey(to='self', null=True, on_delete=models.CASCADE)
+    name = models.CharField(max_length=10)
+    parent = models.ForeignKey(to='self', null=True, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.mainKind
+        return self.name
 
 
 class Merchant(models.Model):
