@@ -105,7 +105,7 @@
 
             <!-- 分页区域 -->
             <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-                :current-page="queryInfo.pagenum" :page-sizes="[2, 5, 10, 50]" :page-size="queryInfo.pagesize"
+                :current-page="queryInfo.pagenum" :page-sizes="[10, 20, 50]" :page-size="queryInfo.pagesize"
                 layout="total, sizes, prev, pager, next, jumper" :total="total">
             </el-pagination>
 
@@ -132,7 +132,7 @@ export default {
       queryInfo: {
         query: '',
         pagenum: 1,
-        pagesize: 5
+        pagesize: 10
       },
       // 用户列表
       userlist: [],
