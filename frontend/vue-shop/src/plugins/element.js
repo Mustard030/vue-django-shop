@@ -42,6 +42,7 @@ Vue.use(Radio)
 Vue.use(RadioButton)
 Vue.use(Tag)
 
+
 Vue.prototype.$message = Message
 Vue.prototype.$confirm = MessageBox.confirm
 // Vue.use(VueQuillEditor)

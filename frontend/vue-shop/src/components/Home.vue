@@ -82,7 +82,7 @@ export default {
 
       if (res.meta.code !== 200) { return this.$message.error(res.meta.message) }
       this.menulist = res.data
-      console.log(res)
+    //   console.log(res)
     },
     // 保存链接的激活状态
     saveNavState(activePath) {
