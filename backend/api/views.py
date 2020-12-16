@@ -14,6 +14,7 @@ from .utils.token import get_token_code
 
 
 class LoginView(APIView):
+    # 登陆
     def post(self, request):
         # print(request.body)
         # print(request.POST)
@@ -51,6 +52,7 @@ class LoginView(APIView):
 
 
 class Users(APIView):
+    # 添加用户
     def post(self, request):
         res = {
             'data': {},
@@ -77,6 +79,7 @@ class Users(APIView):
             res['meta']['code'] = 201
         return JsonResponse(res, safe=False)
 
+    # 获取用户列表
     def get(self, request):
         res = {
             'data': {},
@@ -116,6 +119,7 @@ class Users(APIView):
 
         return JsonResponse(res, safe=False)
 
+    # 删除用户
     def delete(self, request):
         res = {
             'meta': {
@@ -132,6 +136,7 @@ class Users(APIView):
 
         return JsonResponse(res, safe=False)
 
+    # 修改用户密码
     def put(self, request):
         res = {
             'meta': {
@@ -156,6 +161,7 @@ class Users(APIView):
         pass
 
 
+# 获取侧边栏菜单
 def menus(request):
     res = {
         'meta': {
@@ -204,7 +210,7 @@ def menus(request):
 # res['meta']['code'] = 200
 # return JsonResponse(res, safe=False)
 
-
+# 检查用户名是否可用
 def check_useable(request, check_username):
     res = {
         'meta': {
@@ -218,6 +224,7 @@ def check_useable(request, check_username):
     return JsonResponse(res, safe=False)
 
 
+# 修改用户可用状态
 def change_active(request, **kwargs):
     res = {
         'meta': {
@@ -238,6 +245,7 @@ def change_active(request, **kwargs):
     return JsonResponse(res, safe=False)
 
 
+# 根据ID获取用户信息
 def get_info_by_id(request, uid):
     res = {
         'data': {},
@@ -256,36 +264,98 @@ def get_info_by_id(request, uid):
     return JsonResponse(res, safe=False)
 
 
-def get_categories(request):
-    res = {
-        'meta': {
-            'message': '获取数据失败',
-            'code': 400
-        }}
-    if request.method == "GET":
-        data_list = list()
-        categories_list = models.GoodsKind.objects.filter(parent=None)
-        for klass in categories_list:
-            klass_dict = dict()
-            klass_children = list()
+# 商品分类
+class Categories(APIView):
+    # 根据级别获取商品分类
+    def get(self, request):
+        res = {
+            'meta': {
+                'message': '获取数据失败',
+                'code': 400
+            }}
+        # 获取1、2级商品类别
+        if request.GET.get('type') == '2':
+            data_list = list()
+            categories_list = models.GoodsKind.objects.filter(parent=None)
+            for klass in categories_list:
+                klass_dict = dict()
+                klass_children = list()
 
-            klass_dict['cat_id'] = klass.pk
-            klass_dict['cat_name'] = klass.name
-            klass_dict['cat_level'] = 0
-            children_list = models.GoodsKind.objects.filter(parent=klass.pk)
-            for children in children_list:
-                children_dict = dict()
-                children_dict['cat_id'] = children.pk
-                children_dict['cat_name'] = children.name
-                children_dict['cat_level'] = 1
+                klass_dict['cat_id'] = klass.pk
+                klass_dict['cat_name'] = klass.name
+                klass_dict['cat_level'] = 0
+                children_list = models.GoodsKind.objects.filter(parent=klass.pk)
+                for children in children_list:
+                    children_dict = dict()
+                    children_dict['cat_id'] = children.pk
+                    children_dict['cat_name'] = children.name
+                    children_dict['cat_level'] = 1
 
-                klass_children.append(children_dict)
+                    klass_children.append(children_dict)
 
-            klass_dict['children'] = klass_children
-            data_list.append(klass_dict)
-        if data_list:
-            res['data'] = data_list
-            res['meta']['message'] = '获取数据成功'
+                klass_dict['children'] = klass_children
+                data_list.append(klass_dict)
+            if data_list:
+                res['data'] = data_list
+                res['meta']['message'] = '获取数据成功'
+                res['meta']['code'] = 200
+
+        # 仅获取父级商品类别
+        elif request.GET.get('type') == '1':
+            data_list = list()
+            categories_list = models.GoodsKind.objects.filter(parent=None)
+            for klass in categories_list:
+                klass_dict = dict()
+                klass_dict['cat_id'] = klass.pk
+                klass_dict['cat_name'] = klass.name
+                klass_dict['cat_level'] = 0
+                data_list.append(klass_dict)
+            if data_list:
+                res['data'] = data_list
+                res['meta']['message'] = '获取数据成功'
+                res['meta']['code'] = 200
+
+        return JsonResponse(res, safe=False)
+
+    # 添加商品分类
+    def put(self, request):
+        res = {
+            'meta': {
+                'message': '获取数据失败',
+                'code': 400
+            }}
+        data = json.loads(str(request.body, encoding='utf8'))
+        cat_name = data.get('cat_name')
+        parent_cate_id = data.get('parentCateId', None)
+        if models.GoodsKind.objects.filter(name=cat_name).exists():
+            res['meta']['code'] = 500
+            res['meta']['message'] = '数据已存在'
+            return JsonResponse(res, safe=False)
+
+        # 获得父级分类
+        parent_cate = models.GoodsKind.objects.get(pk=parent_cate_id) if parent_cate_id else None
+
+        try:
+            new_cate = models.GoodsKind(name=cat_name, parent=parent_cate)
+            new_cate.save()
+            cat_level = 1 if parent_cate_id else 0
+            res['data'] = {
+                'cat_id': new_cate.pk,
+                'cat_name': new_cate.name,
+                'cat_level': cat_level
+            }
             res['meta']['code'] = 200
+            res['meta']['message'] = '数据添加成功'
+        except Exception as e:
+            print(e)
 
-    return JsonResponse(res, safe=False)
+        return JsonResponse(res, safe=False)
+
+    # 删除商品分类(级联删除)
+    def delete(self, request):
+        res = {
+            'meta': {
+                'message': '删除分组失败',
+                'code': 500
+            }}
+        data = json.loads(str(request.body, encoding='utf8'))
