@@ -27,6 +27,8 @@
   <component name="ChangeListManager">
     <list default="true" id="582da8aa-470c-4504-aef3-f6f4ca6bdbcd" name="Default Changelist" comment="staticfiles">
       <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/goods/Cate.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/goods/Cate.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/plugins/element.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/plugins/element.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/router/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -151,7 +153,7 @@
       <workItem from="1606798464254" duration="28979000" />
       <workItem from="1607084344106" duration="46253000" />
       <workItem from="1607933807157" duration="4478000" />
-      <workItem from="1608032133665" duration="14595000" />
+      <workItem from="1608032133665" duration="16768000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1603520933070</created>

@@ -19,7 +19,7 @@
             <!-- 表格区域 -->
             <tree-table :data="catelist" :columns = "columns" 
             :selection-type="false" :expand-type="false" show-index
-            index-text='#' border>
+            index-text='#' border class="select">
                 <template v-slot:isok="scope">
                     <i class="el-icon-success" style="color: green;" v-if="scope"></i>
                 </template>
@@ -95,10 +95,6 @@
                 })
             }
             return {
-                // queryInfo:{
-                //     type:3
-                // },
-                
                 // 商品分类的数据列表
                 catelist:[],
                 total:0,
@@ -305,8 +301,8 @@
 </script>
 
 <style lang="less" scoped>
-.tree-table {
-    margin-top: 10px;
+.select {
+    margin-top: 15px;
 }
 .el-select {
     width: 100%;

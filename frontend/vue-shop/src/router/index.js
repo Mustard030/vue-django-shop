@@ -7,6 +7,7 @@ import User from '../components/user/User'
 import Rights from '../components/power/Rights'
 import Main from '../components/shop/Main'
 import Cate from '../components/goods/Cate'
+import GoodsList from '../components/goods/List'
 
 Vue.use(VueRouter)
 
@@ -44,7 +45,10 @@ const router = new VueRouter({
         },
         {
           path: '/categories', component: Cate
-        }
+        },
+        {
+          path: '/goods', component: GoodsList
+        },
       ]
     }
   ]

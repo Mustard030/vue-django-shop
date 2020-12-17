@@ -400,3 +400,12 @@ class Categories(APIView):
                 res['meta']['code'] = 200
 
         return JsonResponse(res, safe=False)
+
+
+# 商品列表
+class Goods(APIView):
+    def get(self, request):
+        pass
+
+    def post(self, request):
+        pass

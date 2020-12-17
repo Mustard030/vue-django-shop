@@ -1,10 +1,37 @@
 import Vue from 'vue'
 import {
-  Button, Form, FormItem, Input, Message, Container,
-  Header, Aside, Main, Menu, Submenu, MenuItemGroup, MenuItem,
-  Breadcrumb, BreadcrumbItem, Card, Select, Option, Row, Col,
-  Table, TableColumn, Switch, Tooltip, Pagination, Dialog,
-  RadioGroup, Radio, RadioButton, MessageBox, Tag
+  Button,
+  Form,
+  FormItem,
+  Input,
+  Message,
+  Container,
+  Header,
+  Aside,
+  Main,
+  Menu,
+  Submenu,
+  MenuItemGroup,
+  MenuItem,
+  Breadcrumb,
+  BreadcrumbItem,
+  Card,
+  Select,
+  Option,
+  Row,
+  Col,
+  Table,
+  TableColumn,
+  Switch,
+  Tooltip,
+  Pagination,
+  Dialog,
+  RadioGroup,
+  Radio,
+  RadioButton,
+  MessageBox,
+  Tag,
+  Alert
 } from 'element-ui'
 
 // require styles 引入样式
@@ -41,6 +68,8 @@ Vue.use(RadioGroup)
 Vue.use(Radio)
 Vue.use(RadioButton)
 Vue.use(Tag)
+Vue.use(Alert)
+
 
 
 Vue.prototype.$message = Message

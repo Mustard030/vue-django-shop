@@ -16,19 +16,27 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, re_path, include
 
-
 from api import views
 
 app_name = 'api'
 
 urlpatterns = [
-
+    # 管理员登陆
     path('adminLogin/', views.LoginView.as_view(), name='adminLogin'),
+    # 获取左边栏菜单
     path('menus/', views.menus, name='menus'),
+    # 修改用户可用状态
     path('users/<int:uid>/state/<int:state>', views.change_active),
-    path('categories/', views.Categories.as_view()),
+    # 商品分类增删改查
+    path('categories/', views.Categories.as_view(), name='categories'),
+    # 根据ID获取用户信息
     path('users/<int:uid>', views.get_info_by_id),
+    # 用户数据增删改查
     path('users/', views.Users.as_view(), name='users'),
+    # 检查用户名是否可用
     path('checkUseable/<slug:check_username>', views.check_useable),
+    # 检查商品类别名是否可用
     path('checkCateNameUseable/<str:check_cate_name>', views.check_cate_name_useable),
+    # 商品增删改查
+    path('goods/', views.Goods.as_view(), name='goods')
 ]
