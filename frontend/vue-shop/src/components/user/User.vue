@@ -297,7 +297,7 @@ export default {
       if (res.meta.code !== 200) return this.$message.error('获取信息失败')
       this.editForm = res.data
       this.editDialogVisible = true
-      console.log(id)
+      // console.log(id)
     },
     // 删除用户确认弹框
     async deleteUser(id) {
@@ -319,7 +319,8 @@ export default {
       }
       const { data: res } = await this.$http.delete('users/', { data: { id: id } })
       if (res.meta.code !== 200) {
-        this.$message.error(res.meta.message)
+        return this.$message.error(res.meta.message)
+        
       }
       this.$message.success(res.meta.message)
       this.getUserList()
