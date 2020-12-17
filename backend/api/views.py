@@ -224,6 +224,20 @@ def check_useable(request, check_username):
     return JsonResponse(res, safe=False)
 
 
+# 检查分类名是否可用
+def check_cate_name_useable(request, check_cate_name):
+    res = {
+        'meta': {
+            'message': '分类名不可用',
+            'code': 500
+        }}
+    exist = models.GoodsKind.objects.filter(name=check_cate_name).exists()
+    if not exist:
+        res['meta']['message'] = '分类名可用'
+        res['meta']['code'] = 200
+    return JsonResponse(res, safe=False)
+
+
 # 修改用户可用状态
 def change_active(request, **kwargs):
     res = {
@@ -351,11 +365,38 @@ class Categories(APIView):
 
         return JsonResponse(res, safe=False)
 
+    # 修改商品分类名称
+    def post(self, request):
+        res = {
+            'meta': {
+                'message': '修改分类名失败',
+                'code': 500
+            }}
+        data = json.loads(str(request.body, encoding='utf8'))
+        cat_id = data.get('cat_id')
+        cat_name = data.get('cat_name')
+        change_kind = models.GoodsKind.objects.get(pk=cat_id)
+        if change_kind:
+            change_kind.name = cat_name
+            change_kind.save()
+            res['meta']['message'] = '修改分类名成功'
+            res['meta']['code'] = 200
+        return JsonResponse(res, safe=False)
+
     # 删除商品分类(级联删除)
     def delete(self, request):
         res = {
             'meta': {
-                'message': '删除分组失败',
+                'message': '删除分类失败',
                 'code': 500
             }}
         data = json.loads(str(request.body, encoding='utf8'))
+        cat_id = data.get('id', None)
+        if cat_id:
+            delete_kind = models.GoodsKind.objects.get(pk=cat_id)
+            delete_kind.delete()
+            if delete_kind:
+                res['meta']['message'] = '删除分类成功'
+                res['meta']['code'] = 200
+
+        return JsonResponse(res, safe=False)
