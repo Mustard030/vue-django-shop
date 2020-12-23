@@ -8,6 +8,7 @@ import Rights from '../components/power/Rights'
 import Main from '../components/shop/Main'
 import Cate from '../components/goods/Cate'
 import GoodsList from '../components/goods/List'
+import Add from '../components/goods/Add'
 
 Vue.use(VueRouter)
 
@@ -48,6 +49,9 @@ const router = new VueRouter({
         },
         {
           path: '/goods', component: GoodsList
+        },
+        {
+          path: '/goods/add', component: Add
         },
       ]
     }

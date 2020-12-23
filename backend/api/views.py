@@ -1,10 +1,9 @@
 import json
 from django.contrib import auth
-from django.shortcuts import render
 from django.contrib.auth.models import Group
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password, check_password
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse
 from rest_framework.views import APIView
 from . import models
 from .utils.token import get_token_code
@@ -404,8 +403,67 @@ class Categories(APIView):
 
 # 商品列表
 class Goods(APIView):
-    def get(self, request):
-        pass
 
+    # 获取用户列表
+    def get(self, request):
+        res = {
+            'data': {},
+            'meta': {
+                'message': '获取数据失败',
+                'code': 400
+            }}
+        query = request.GET.get('query', '')
+        pagenum = int(request.GET.get('pagenum', ''))
+        pagesize = int(request.GET.get('pagesize', ''))
+        categoryId = int(request.GET.get('categoryId', 0))
+        head: int = (pagenum - 1) * pagesize
+        tail: int = pagenum * pagesize
+        if categoryId:
+            total = models.GoodsInfo.objects.filter(itemName__icontains=query, itemClass=categoryId).count()
+            goodslist = models.GoodsInfo.objects.filter(itemName__icontains=query, itemClass=categoryId)[head:tail]
+        else:
+            total = models.GoodsInfo.objects.filter(itemName__icontains=query).count()
+            goodslist = models.GoodsInfo.objects.filter(itemName__icontains=query)[head:tail]
+
+        return_list = list()
+        for subitem in goodslist:
+            item = dict()
+            item['id'] = subitem.pk
+            item['itemName'] = subitem.itemName
+            item['sales'] = subitem.sales
+            item['price'] = subitem.price
+            item['reserve'] = subitem.reserve
+            item['itemClass'] = subitem.itemClass.name
+            item['merchantName'] = subitem.merchantId.merchantName
+            item['unit'] = subitem.unit
+
+            return_list.append(item)
+
+        res['data']['goodslist'] = return_list
+        res['data']['total'] = total
+        # if return_list:
+        res['meta']['message'] = '获取数据成功'
+        res['meta']['code'] = 200
+
+        return JsonResponse(res, safe=False)
+
+    # 添加商品
     def post(self, request):
         pass
+
+    # 根据ID删除商品信息
+    def delete(self, request):
+        res = {
+            'meta': {
+                'message': '删除商品失败',
+                'code': 500
+            }}
+        data = json.loads(str(request.body, encoding='utf8'))
+        uid = data.get('id', 0)
+        item = models.GoodsInfo.objects.get(pk=uid)
+        if item:
+            item.delete()
+            res['meta']['message'] = '删除商品成功'
+            res['meta']['code'] = 200
+
+        return JsonResponse(res, safe=False)

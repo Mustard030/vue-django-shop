@@ -31,7 +31,12 @@ import {
   RadioButton,
   MessageBox,
   Tag,
-  Alert
+  Alert,
+  Cascader,
+  Steps,
+  Step,
+  Tabs,
+  TabPane,
 } from 'element-ui'
 
 // require styles 引入样式
@@ -69,8 +74,11 @@ Vue.use(Radio)
 Vue.use(RadioButton)
 Vue.use(Tag)
 Vue.use(Alert)
-
-
+Vue.use(Cascader)
+Vue.use(Steps)
+Vue.use(Step)
+Vue.use(Tabs)
+Vue.use(TabPane)
 
 Vue.prototype.$message = Message
 Vue.prototype.$confirm = MessageBox.confirm
