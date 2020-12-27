@@ -1,4 +1,5 @@
 from django.db import models
+from .utils.changeName import changeName, item_directory_path, changeTempName
 from django.contrib.auth.models import AbstractUser
 
 
@@ -24,22 +25,29 @@ class Token(models.Model):
 
 class Menu(models.Model):
     authName = models.CharField(max_length=10)
-    path = models.CharField(max_length=128, default='')
+    path = models.CharField(max_length=128)
 
 
 class ChildrenMenu(models.Model):
     authName = models.CharField(max_length=20)
-    path = models.CharField(max_length=128, default='')
-    parentMenu = models.ForeignKey(to='Menu', on_delete=models.DO_NOTHING)
+    path = models.CharField(max_length=128)
+    parentMenu = models.ForeignKey(to='Menu', on_delete=models.CASCADE)
 
 
 class GoodsImage(models.Model):
-    image = models.ImageField()
+    image = models.ImageField(upload_to=changeName)
+    name = models.CharField(max_length=255)
+    itemID = models.ForeignKey(to='GoodsInfo', on_delete=models.CASCADE)
+
+
+class TempImage(models.Model):
+    image = models.ImageField(upload_to=changeTempName)
+    name = models.CharField(max_length=255)
 
 
 class GoodsInfo(models.Model):
-    itemClass = models.ForeignKey(to='GoodsKind', on_delete=models.DO_NOTHING)
-    merchantId = models.ForeignKey(to='Merchant', on_delete=models.DO_NOTHING)
+    itemClass = models.ForeignKey(to='GoodsKind', on_delete=models.CASCADE)
+    merchantId = models.ForeignKey(to='Merchant', on_delete=models.CASCADE)
     itemName = models.CharField(max_length=100)
     sales = models.IntegerField(default=0)
     price = models.DecimalField(max_digits=8, decimal_places=2)
@@ -53,7 +61,7 @@ class GoodsKind(models.Model):
 
 
 class Merchant(models.Model):
-    admin = models.OneToOneField(to='auth.User', on_delete=models.DO_NOTHING)
+    admin = models.OneToOneField(to='auth.User', on_delete=models.CASCADE)
     merchantName = models.CharField(max_length=30)
 
 
@@ -61,7 +69,7 @@ class DeliveryInfo(models.Model):
     recipient = models.CharField(max_length=10)
     phone = models.CharField(max_length=11)
     address = models.CharField(max_length=128, default='')
-    masterid = models.ForeignKey(to='auth.User', on_delete=models.DO_NOTHING)
+    masterid = models.ForeignKey(to='auth.User', on_delete=models.CASCADE)
 
 # class Area(models.Model):
 #     name = models.CharField(max_length=20, verbose_name='名称')

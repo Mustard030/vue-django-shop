@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'guardian',
+    'imagekit',
     'rest_framework',
     'rest_framework.authtoken',
     'test01',
@@ -96,6 +97,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.core.context_processors.media',
             ],
         },
     },
@@ -159,10 +161,13 @@ USE_TZ = False
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
+MEDIA_URL = '/media/'  # url映射
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media').replace('\\', '/')  # 设置静态文件路径为主目录下的media文件夹
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static")
+    ('media', os.path.join(MEDIA_ROOT, 'media').replace('\\', '/')),
 ]
 
 # LOGGING = {

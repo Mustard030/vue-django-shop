@@ -1,4 +1,6 @@
 import json
+import os
+
 from django.contrib import auth
 from django.contrib.auth.models import Group
 from django.contrib.auth.models import User
@@ -6,6 +8,8 @@ from django.contrib.auth.hashers import make_password, check_password
 from django.http import JsonResponse
 from rest_framework.views import APIView
 from . import models
+from django.conf import settings
+from django.db.utils import IntegrityError
 from .utils.token import get_token_code
 
 
@@ -277,6 +281,68 @@ def get_info_by_id(request, uid):
     return JsonResponse(res, safe=False)
 
 
+# 商品图片接口
+class ItemPics(APIView):
+    def post(self, request, itemid):
+        res = {
+            'data': {},
+            'meta': {
+                'message': '图片上传失败',
+                'code': 400
+            }}
+
+        item = models.GoodsInfo.objects.filter(pk=itemid).first()
+
+        new_img = models.GoodsImage(
+            image=request.FILES.get('file'),
+            name=request.FILES.get('file').name,
+            itemID=item
+        )
+        new_img.save()
+        if new_img.image.url:
+            res['data']['id'] = new_img.pk
+            res['data']['url'] = new_img.image.url
+            res['data']['name'] = new_img.name
+            res['meta']['code'] = 200
+            res['meta']['message'] = '图片上传成功'
+
+        return JsonResponse(res, safe=False)
+
+    def delete(self, request, itemid):
+        res = {
+            'data': {},
+            'meta': {
+                'message': '图片删除失败',
+                'code': 400
+            }}
+        itemPic = models.GoodsImage.objects.filter(pk=itemid).first()
+        itemPicPK = itemPic.pk
+        picurl = itemPic.image.url
+        deleteNum, deletePic = itemPic.delete()
+        if deleteNum > 0:
+            base = str(settings.BASE_DIR).replace('\\', '/')
+            picabsurl = base + picurl
+            # print(picabsurl)
+            os.remove(picabsurl)
+            res['data']['itemPicID'] = itemPicPK
+            res['meta']['code'] = 200
+            res['meta']['message'] = '图片删除成功'
+
+        return JsonResponse(res, safe=False)
+
+
+def tempImage(request):
+    temp_img = models.TempImage(
+        image=request.FILES.get('file'),
+        name=request.FILES.get('file').name,
+    )
+    temp_img.save()
+
+
+def get_img_by_id(request):
+    pass
+
+
 # 商品分类
 class Categories(APIView):
     # 根据级别获取商品分类
@@ -404,7 +470,7 @@ class Categories(APIView):
 # 商品列表
 class Goods(APIView):
 
-    # 获取用户列表
+    # 获取商品列表
     def get(self, request):
         res = {
             'data': {},
@@ -449,7 +515,35 @@ class Goods(APIView):
 
     # 添加商品
     def post(self, request):
-        pass
+        res = {
+            'data': {},
+            'meta': {
+                'message': '添加商品失败',
+                'code': 500
+            }}
+        data = json.loads(str(request.body, encoding='utf8'))
+
+        itemName = data.get('itemName')
+        price = data.get('price')
+        reserve = data.get('reserve')
+        itemClasspk = data.get('itemClass')
+        itemClass = models.GoodsKind.objects.filter(pk=itemClasspk).first()
+        merchant_pk = 1
+        merchant = models.Merchant.objects.filter(pk=merchant_pk).first()
+        unit = data.get('unit')
+
+        new_item = models.GoodsInfo(itemName=itemName,
+                                    price=price,
+                                    reserve=reserve,
+                                    itemClass=itemClass,
+                                    unit=unit,
+                                    merchantId=merchant)
+        new_item.save()
+        if new_item:
+            res['data']['newItemID'] = new_item.pk
+            res['meta']['code'] = 200
+            res['meta']['message'] = '添加商品成功'
+        return JsonResponse(res, safe=False)
 
     # 根据ID删除商品信息
     def delete(self, request):

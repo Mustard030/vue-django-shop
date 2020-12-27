@@ -85,7 +85,7 @@
     export default{
         data(){
             var checkCatename = (rule, value, callback) => {
-                var data = this.$http.get(`checkCateNameUseable/${value}`).then(res => {
+                var data = this.$http.get(`checkCateNameUsable/${value}`).then(res => {
                     // console.log(res.data)
                     if (res.data.meta.code !== 200) {
                         callback(new Error('分类名已被使用！'))

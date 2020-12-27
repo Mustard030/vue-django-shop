@@ -174,7 +174,7 @@
 export default {
   data() {
     var checkUsername = (rule, value, callback) => {
-      var data = this.$http.get(`checkUseable/${value}`).then((res) => {
+      var data = this.$http.get(`checkUsable/${value}`).then((res) => {
         console.log(res.data);
         if (res.data.meta.code !== 200) {
           callback(new Error("用户名已被使用！"));

@@ -15,7 +15,6 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, re_path, include
-
 from api import views
 
 app_name = 'api'
@@ -34,9 +33,15 @@ urlpatterns = [
     # 用户数据增删改查
     path('users/', views.Users.as_view(), name='users'),
     # 检查用户名是否可用
-    path('checkUseable/<slug:check_username>', views.check_useable),
+    path('checkUsable/<slug:check_username>', views.check_useable),
     # 检查商品类别名是否可用
-    path('checkCateNameUseable/<str:check_cate_name>', views.check_cate_name_useable),
+    path('checkCateNameUsable/<str:check_cate_name>', views.check_cate_name_useable),
     # 商品增删改查
-    path('goods/', views.Goods.as_view(), name='goods')
+    path('goods/', views.Goods.as_view(), name='goods'),
+    # 图片上传接口
+    path('itemPics/<int:itemid>', views.ItemPics.as_view()),
+    # 临时图片接口
+    path('tempImage/', views.tempImage, name="tempImage"),
+    # 根据商品ID获得图片接口
+    path('getImgById/', views.get_img_by_id, name="getImg"),
 ]

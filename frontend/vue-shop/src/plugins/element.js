@@ -37,12 +37,10 @@ import {
   Step,
   Tabs,
   TabPane,
+  Upload,
 } from 'element-ui'
 
-// require styles 引入样式
-// import 'quill/dist/quill.core.css'
-// import 'quill/dist/quill.snow.css'
-// import 'quill/dist/quill.bubble.css'
+
 
 Vue.use(Button)
 Vue.use(Form)
@@ -79,6 +77,8 @@ Vue.use(Steps)
 Vue.use(Step)
 Vue.use(Tabs)
 Vue.use(TabPane)
+Vue.use(Upload)
+
 
 Vue.prototype.$message = Message
 Vue.prototype.$confirm = MessageBox.confirm

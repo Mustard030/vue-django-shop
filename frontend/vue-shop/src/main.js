@@ -7,7 +7,15 @@ import './plugins/element.js'
 import './assets/css/global.css'
 import axios from 'axios'
 import TreeTable from 'vue-table-with-tree-grid'
-// import VueQuillEditor from './vue-quill-editor'
+//富文本编辑器
+import VueQuillEditor from 'vue-quill-editor'
+
+//require styles 引入样式
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
+
+Vue.use(VueQuillEditor)
 
 Vue.component('tree-table', TreeTable)
 

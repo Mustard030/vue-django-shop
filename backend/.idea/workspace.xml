@@ -536,10 +536,10 @@
     <option name="LAST_COMMIT_MESSAGE" value="staticfiles" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="696" y="359" key="#Notifications" timestamp="1607433584171">
+    <state x="696" y="359" key="#Notifications" timestamp="1608973125875">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="696" y="359" key="#Notifications/0.0.1920.1080@0.0.1920.1080" timestamp="1607433584171" />
+    <state x="696" y="359" key="#Notifications/0.0.1920.1080@0.0.1920.1080" timestamp="1608973125875" />
     <state x="361" y="90" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1606308521225">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
@@ -557,11 +557,11 @@
       <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state width="272" height="540" key="HiddenNamespacesPopup/0.0.1536.864@0.0.1536.864" timestamp="1605871306107" />
-    <state x="567" y="60" key="SettingsEditor" timestamp="1608724584671">
+    <state x="567" y="60" key="SettingsEditor" timestamp="1608903016864">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="195" y="64" key="SettingsEditor/0.0.1536.864@0.0.1536.864" timestamp="1606384410843" />
-    <state x="567" y="60" key="SettingsEditor/0.0.1920.1080@0.0.1920.1080" timestamp="1608724584671" />
+    <state x="567" y="60" key="SettingsEditor/0.0.1920.1080@0.0.1920.1080" timestamp="1608903016864" />
     <state x="715" y="362" key="SimpleOpenTaskDialog" timestamp="1608707147874">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
@@ -575,16 +575,5 @@
     </state>
     <state x="431" y="181" width="672" height="678" key="search.everywhere.popup/0.0.1536.864@0.0.1536.864" timestamp="1606388832063" />
     <state x="539" y="226" width="840" height="848" key="search.everywhere.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1606634486876" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/sm/settings.py</url>
-          <line>11</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>
