@@ -70,14 +70,14 @@
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\coding\vue-django-supermarket\backend\api" />
+      <recent name="D:\coding\sm\static" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\coding\vue-django-supermarket\backend\apps" />
       <recent name="D:\coding\sm\test01\templates" />
       <recent name="D:\coding\sm\templates\test01" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\coding\vue-django-supermarket\backend\api" />
-      <recent name="D:\coding\sm\static" />
     </key>
   </component>
   <component name="RunManager">

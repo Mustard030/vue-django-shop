@@ -26,10 +26,8 @@
       </el-steps>
 
       <!-- 侧边标签页 -->
-      <el-tabs :tab-position="'left'" v-model="activeName" 
-      :before-leave="beforeTabLeave1231415123"
-      >
-        <el-tab-pane label="基本信息" name="0" disabled>
+      <el-tabs :tab-position="'left'" v-model="activeName">
+        <el-tab-pane label="基本信息" name="0">
           <!-- 表单区域 -->
           <el-form
             :model="addItemForm"
@@ -67,7 +65,7 @@
         <!-- 上传图片Tabs -->
         <el-tab-pane label="上传图片" name="1">
           <el-upload
-            :action="uploadUrl + this.newItemID"
+            :action="uploadUrl"
             :on-preview="handlePreview"
             :on-remove="handleRemove"
             :on-success="handleSuccess"
@@ -82,9 +80,10 @@
 
         <el-tab-pane label="商品内容" name="2">
           <!-- 富文本编辑器组件 -->
-          <quill-editor v-model="addItemForm.introduce">
-
-          </quill-editor>
+          <quill-editor v-model="addItemForm.introduce"> </quill-editor>
+          <el-button type="primary" class="addBtn" @click="submitForm"
+            >添加商品</el-button
+          >
         </el-tab-pane>
 
         <!-- 图片预览 -->
@@ -118,14 +117,15 @@ export default {
         itemName: "",
         price: null,
         reserve: null,
-        itemClass: 0,
+        itemClass: null,
         unit: "",
-        introduce:"",
+        introduce: "",
+        pics: [],
       },
       //新增的商品的返回商品id
-      newItemID: null,
+      //   newItemID: null,
       // 图片上传地址
-      uploadUrl: "http://localhost:80/api/private/itemPics/",
+      uploadUrl: "http://localhost:80/api/private/tempImage/",
       //添加商品的表单验证项
       addItemRules: {
         itemName: [{ required: true, message: "请输入商品名称", trigger: "blur" }],
@@ -164,7 +164,6 @@ export default {
     // 监听分类选择改变事件
     handleCateChange() {
       this.addItemForm.itemClass = this.category[this.category.length - 1];
-      //   console.log(this.addItemForm);
     },
     //离开标签页前的钩子函数
     beforeTabLeave(activeName, oldActiveName) {
@@ -183,39 +182,41 @@ export default {
       } else if (oldActiveName === "0" && this.addItemForm.unit === "") {
         this.$message.error("请先填写商品单位");
         return false;
-      } else if (oldActiveName === "0" && activeName === "1") {
-        this.submitForm();
       }
     },
     // 处理图片预览效果
     handlePreview(file) {
       this.previewUrl = "http://localhost:80" + file.response.data.url;
-      //   console.log(this.previewUrl);
+
       this.previewVisible = true;
     },
     // 处理图片删除
     async handleRemove(file) {
-      const deleteID = file.response.data.id;
-      const { data: res } = await this.$http.delete("itemPics/" + deleteID);
-      if (res.meta.code !== 200) {
-        return this.$message.error(res.meta.message);
-      }
-      console.log(res);
-      return this.$message.success(res.meta.message);
+      const removePicID = file.response.data.id;
+
+      const i = this.addItemForm.pics.findIndex((x) => x === removePicID);
+
+      this.addItemForm.pics.splice(i, 1);
     },
     //监听图片上传成功
     handleSuccess(response) {
-      console.log(response);
+      const newPicID = response.data.id;
+      this.addItemForm.pics.push(newPicID);
     },
     //提交商品表单
     async submitForm() {
+      this.$refs.addItemFormRef.validate((valid) => {
+        if (!valid) {
+          return this.$message.error("请填写必要的表单项");
+        }
+      });
+      // 执行添加
       const { data: res } = await this.$http.post("goods/", this.addItemForm);
       if (res.meta.code !== 200) {
-        this.activeName = "0";
         return this.$message.error(res.meta.message);
       }
-      this.newItemID = res.data.newItemID;
-      //   console.log(this.newItemID)
+      this.$message.success(res.meta.message);
+      this.$router.push('/goods')
     },
   },
   computed: {},
@@ -232,5 +233,8 @@ export default {
 }
 .previewImg {
   width: 100%;
+}
+.addBtn {
+  margin-top: 20px;
 }
 </style>

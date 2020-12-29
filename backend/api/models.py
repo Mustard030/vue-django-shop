@@ -53,6 +53,7 @@ class GoodsInfo(models.Model):
     price = models.DecimalField(max_digits=8, decimal_places=2)
     reserve = models.IntegerField(default=0)
     unit = models.CharField(max_length=5)
+    introduce = models.TextField(blank=True, null=True)
 
 
 class GoodsKind(models.Model):

@@ -11,6 +11,7 @@ from . import models
 from django.conf import settings
 from django.db.utils import IntegrityError
 from .utils.token import get_token_code
+from django.core.files import File
 
 
 # Create your views here.
@@ -332,11 +333,26 @@ class ItemPics(APIView):
 
 
 def tempImage(request):
+    res = {
+        'data': {},
+        'meta': {
+            'message': '图片上传失败',
+            'code': 400
+        }}
     temp_img = models.TempImage(
         image=request.FILES.get('file'),
         name=request.FILES.get('file').name,
     )
+
     temp_img.save()
+    if temp_img.image.url:
+        res['data']['id'] = temp_img.pk
+        res['data']['url'] = temp_img.image.url
+        res['data']['name'] = temp_img.name
+        res['meta']['code'] = 200
+        res['meta']['message'] = '图片上传成功'
+
+    return JsonResponse(res, safe=False)
 
 
 def get_img_by_id(request):
@@ -528,17 +544,30 @@ class Goods(APIView):
         reserve = data.get('reserve')
         itemClasspk = data.get('itemClass')
         itemClass = models.GoodsKind.objects.filter(pk=itemClasspk).first()
-        merchant_pk = 1
+        merchant_pk = data.get('merchant', 1)
         merchant = models.Merchant.objects.filter(pk=merchant_pk).first()
         unit = data.get('unit')
-
+        introduce = data.get('introduce', None)
+        pics = data.get('pics', list())
+        # 添加商品条目
         new_item = models.GoodsInfo(itemName=itemName,
                                     price=price,
                                     reserve=reserve,
                                     itemClass=itemClass,
                                     unit=unit,
-                                    merchantId=merchant)
+                                    merchantId=merchant,
+                                    introduce=introduce)
         new_item.save()
+        for pic in pics:
+            tempPic = models.TempImage.objects.filter(pk=pic).first()
+            pic_name = tempPic.name
+            with open(tempPic.image.path, 'rb') as f:
+                image = File(f)
+                new_pic = models.GoodsImage(image=image, name=pic_name, itemID=new_item)
+                new_pic.save()
+            os.remove(tempPic.image.path)
+            tempPic.delete()
+
         if new_item:
             res['data']['newItemID'] = new_item.pk
             res['meta']['code'] = 200

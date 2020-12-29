@@ -16,6 +16,7 @@ def changeName(instance, filename):
     :param filename: 上传文件的文件名
     :return: 对文件名重新编码，规定文件的读写路径
     """
+
     if isinstance(filename, str):  # 判断name是否是str类型的一个实例
         split = filename.split('.')
 
@@ -24,6 +25,7 @@ def changeName(instance, filename):
         pic_write_path = os.path.join('itemPics', itemID, file_rename)
 
         return pic_write_path
+
 
 
 def changeTempName(instance, filename):
