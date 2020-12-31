@@ -25,9 +25,7 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="582da8aa-470c-4504-aef3-f6f4ca6bdbcd" name="Default Changelist" comment="staticfiles">
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/router/index.js" afterDir="false" />
-    </list>
+    <list default="true" id="582da8aa-470c-4504-aef3-f6f4ca6bdbcd" name="Default Changelist" comment="staticfiles" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -69,7 +67,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -559,11 +557,11 @@
       <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state width="272" height="540" key="HiddenNamespacesPopup/0.0.1536.864@0.0.1536.864" timestamp="1605871306107" />
-    <state x="567" y="60" key="SettingsEditor" timestamp="1608903016864">
+    <state x="567" y="60" key="SettingsEditor" timestamp="1609427233723">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="195" y="64" key="SettingsEditor/0.0.1536.864@0.0.1536.864" timestamp="1606384410843" />
-    <state x="567" y="60" key="SettingsEditor/0.0.1920.1080@0.0.1920.1080" timestamp="1608903016864" />
+    <state x="567" y="60" key="SettingsEditor/0.0.1920.1080@0.0.1920.1080" timestamp="1609427233723" />
     <state x="715" y="362" key="SimpleOpenTaskDialog" timestamp="1608707147874">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
