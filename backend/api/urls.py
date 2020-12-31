@@ -44,4 +44,6 @@ urlpatterns = [
     path('tempImage/', views.tempImage, name="tempImage"),
     # 根据商品ID获得图片接口
     path('getImgById/', views.get_img_by_id, name="getImg"),
+    # 获取订单列表
+    path('order/', views.get_orders_list, name="getOrdersList"),
 ]

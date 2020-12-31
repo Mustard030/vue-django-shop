@@ -1,6 +1,7 @@
 from django.db import models
 from .utils.changeName import changeName, item_directory_path, changeTempName
 from django.contrib.auth.models import AbstractUser
+import django.utils.timezone as timezone
 
 
 # Create your models here.
@@ -70,7 +71,22 @@ class DeliveryInfo(models.Model):
     recipient = models.CharField(max_length=10)
     phone = models.CharField(max_length=11)
     address = models.CharField(max_length=128, default='')
-    masterid = models.ForeignKey(to='auth.User', on_delete=models.CASCADE)
+    user = models.ForeignKey(to='auth.User', on_delete=models.CASCADE)
+
+
+class Orders(models.Model):
+    deliveryInfo = models.ForeignKey(to='DeliveryInfo', on_delete=models.DO_NOTHING)
+    pay_status = models.BooleanField(default=False)
+    send_status = models.BooleanField(default=False)
+    delivery_status = models.BooleanField(default=False)
+    create_date = models.DateTimeField('订单创建日期', default=timezone.now)
+    mod_date = models.DateTimeField('最后修改日期', auto_now=True)
+
+
+class OrderDetail(models.Model):
+    order = models.ForeignKey(to='Orders', on_delete=models.CASCADE)
+    number = models.IntegerField(default=1)
+    item = models.ForeignKey(to='GoodsInfo', on_delete=models.DO_NOTHING)
 
 # class Area(models.Model):
 #     name = models.CharField(max_length=20, verbose_name='名称')

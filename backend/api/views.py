@@ -590,3 +590,15 @@ class Goods(APIView):
             res['meta']['code'] = 200
 
         return JsonResponse(res, safe=False)
+
+
+def get_orders_list(request):
+    res = {
+        'data': {},
+        'meta': {
+            'message': '获取数据失败',
+            'code': 400
+        }}
+    data = request.GET
+
+    return JsonResponse(res, safe=False)
