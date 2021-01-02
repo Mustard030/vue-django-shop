@@ -1,6 +1,7 @@
 import json
 import os
-
+import datetime as dt
+from datetime import datetime
 from django.contrib import auth
 from django.contrib.auth.models import Group
 from django.contrib.auth.models import User
@@ -12,6 +13,7 @@ from django.conf import settings
 from django.db.utils import IntegrityError
 from .utils.token import get_token_code
 from django.core.files import File
+from django.db.models import Q
 
 
 # Create your views here.
@@ -20,8 +22,7 @@ from django.core.files import File
 class LoginView(APIView):
     # 登陆
     def post(self, request):
-        # print(request.body)
-        # print(request.POST)
+
         data = json.loads(str(request.body, encoding='utf8'))
 
         res = {
@@ -600,5 +601,77 @@ def get_orders_list(request):
             'code': 400
         }}
     data = request.GET
+    query = data.get('query')
+    print(query)
+    try:
+        start, end = str(query).split(',')
+    except ValueError:
+        start = datetime(dt.MINYEAR, 1, 1, 0, 0, 0, 0)
+        end = datetime(dt.MAXYEAR, 1, 1, 0, 0, 0, 0)
+    else:
+        start = datetime.strptime(start, '%Y-%m-%d %H:%M:%S')
+        end = datetime.strptime(end, '%Y-%m-%d %H:%M:%S')
+
+    pagenum = int(data.get('pagenum', ''))
+    pagesize = int(data.get('pageSize', ''))
+    head: int = (pagenum - 1) * pagesize
+    tail: int = pagenum * pagesize
+    total = models.Orders.objects.filter(create_date__range=(start, end)).count()
+    order_list = models.Orders.objects.filter(create_date__range=(start, end))[head:tail]
+
+    return_list = list()
+    for order in order_list:
+        order_dict = dict()
+        order_dict['order_number'] = order.pk
+        order_dict['pay_status'] = order.pay_status
+        order_dict['send_status'] = order.send_status
+        order_dict['delivery_status'] = order.delivery_status
+        create_time = str(order.create_date).replace('T', ' ')
+        order_dict['create_time'] = create_time
+        total_prices = 1
+        order_dict['order_price'] = total_prices
+
+        return_list.append(order_dict)
+
+    res['data'].update({'orderList': return_list})
+    res['data'].update({'total': total})
+    res['meta']['code'] = 200
+    res['meta']['message'] = '获取数据成功'
 
     return JsonResponse(res, safe=False)
+
+
+# 快递接口
+class Kuaidi(APIView):
+    # 根据订单编号获取物流信息
+    def get(self, request):
+        res = {
+            'meta': {
+                'message': '获取快递信息失败',
+                'code': 400
+            }}
+        kuaidi_id = request.GET.get('id')
+        order_obj = models.Orders.objects.filter(pk=kuaidi_id).first()
+        kuaidi_list = models.ProgressInfo.objects.filter(order=order_obj).order_by('time')
+        return_list = list()
+        for k in kuaidi_list:
+            k_dict = dict()
+            k_dict['id'] = k.pk
+            k_dict['time'] = str(k.time).replace('T', ' ')
+            k_dict['message'] = k.message
+            return_list.append(k_dict)
+        res.update({'data': return_list})
+        res['meta']['code'] = 200
+        res['meta']['message'] = '获取快递信息成功'
+
+        return JsonResponse(res, safe=False)
+
+    # 根据订单编号更新物流信息
+    def put(self, request):
+        res = {
+            'data': {},
+            'meta': {
+                'message': '获取快递信息失败',
+                'code': 400
+            }}
+        return JsonResponse(res, safe=False)

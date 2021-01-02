@@ -38,6 +38,9 @@ import {
   Tabs,
   TabPane,
   Upload,
+  DatePicker,
+  Timeline,
+  TimelineItem,
 } from 'element-ui'
 
 
@@ -78,6 +81,9 @@ Vue.use(Step)
 Vue.use(Tabs)
 Vue.use(TabPane)
 Vue.use(Upload)
+Vue.use(DatePicker)
+Vue.use(Timeline)
+Vue.use(TimelineItem)
 
 
 Vue.prototype.$message = Message

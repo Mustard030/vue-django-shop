@@ -10,10 +10,16 @@
     <!-- 卡片视图区域 -->
     <el-card>
       <el-row>
-        <el-col :span="8">
-          <el-input placeholder="请输入内容">
-            <el-button slot="append" icon="el-icon-search"></el-button>
-          </el-input>
+        <el-col>
+          <el-date-picker
+            v-model="dateRange"
+            type="datetimerange"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            :default-time="['00:00:00', '23:59:59']"
+            @change="changeData"
+          >
+          </el-date-picker>
         </el-col>
       </el-row>
 
@@ -50,19 +56,21 @@
         <el-table-column label="订单价格" prop="order_price"></el-table-column>
         <el-table-column label="付款状态" prop="pay_status">
           <template slot-scope="scope">
-            <el-tag type="danger" v-if="scope.row.pay_status === 0">未付款</el-tag>
+            <el-tag type="danger" v-if="scope.row.pay_status === false">未付款</el-tag>
             <el-tag type="success" v-else>已付款</el-tag>
           </template>
         </el-table-column>
         <el-table-column label="发货状态" prop="send_status">
           <template slot-scope="scope">
-            <el-tag type="danger" v-if="scope.row.send_status === 0">未发货</el-tag>
+            <el-tag type="danger" v-if="scope.row.send_status === false">未发货</el-tag>
             <el-tag type="success" v-else>已发货</el-tag>
           </template>
         </el-table-column>
         <el-table-column label="收货状态" prop="delivery_status">
           <template slot-scope="scope">
-            <el-tag type="danger" v-if="scope.row.delivery_status === 0">未收货</el-tag>
+            <el-tag type="danger" v-if="scope.row.delivery_status === false"
+              >未收货</el-tag
+            >
             <el-tag type="success" v-else>已收货</el-tag>
           </template>
         </el-table-column>
@@ -71,13 +79,31 @@
             {{ scope.row.create_time }}
           </template>
         </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column label="查看物流信息">
           <template slot-scope="scope">
-            <el-button type="primary" icon="el-icon-edit" size="mini"> </el-button>
-            <el-button type="success" icon="el-icon-location" size="mini"></el-button>
+            <!-- <el-button type="primary" icon="el-icon-edit" size="mini"></el-button> -->
+            <el-button
+              type="success"
+              icon="el-icon-location"
+              size="mini"
+              @click="showProgressBox(scope.row.order_number)"
+            ></el-button>
           </template>
         </el-table-column>
       </el-table>
+
+      <!-- 物流进度对话框 -->
+      <el-dialog title="物流进度" :visible.sync="progressDialogVisible" width="50%">
+        <el-timeline :reverse="reverse">
+          <el-timeline-item
+            v-for="(activity, index) in progressInfo"
+            :key="index"
+            :timestamp="activity.time"
+          >
+            {{ activity.message }}
+          </el-timeline-item>
+        </el-timeline>
+      </el-dialog>
 
       <!-- 分页区域 -->
       <el-pagination
@@ -108,6 +134,14 @@ export default {
       total: 0,
       //订单列表
       orderList: [],
+      //选择日期范围
+      dateRange: [],
+      //物流进度对话框显示
+      progressDialogVisible: false,
+      //物流信息数组
+      progressInfo: [],
+      //时间线反向
+      reverse: true,
     };
   },
   created() {
@@ -120,6 +154,9 @@ export default {
       if (res.meta.code !== 200) {
         return this.$message.error(res.meta.message);
       }
+      this.orderList = res.data.orderList;
+      this.total = res.data.total;
+      console.log(this.orderList);
     },
     // 监听pagesize改变的事件
     handleSizeChange(newSize) {
@@ -130,6 +167,34 @@ export default {
     handleCurrentChange(newPage) {
       this.queryInfo.pagenum = newPage;
       this.getOrderList();
+    },
+    //监听时间区间选择器
+    changeData() {
+      var start = this.dateRange[0];
+      var end = this.dateRange[1];
+      // UTC时间格式转换——2019-10-14 12:20:12
+      let delayTime = new Date(start).toJSON();
+      this.dateRange[0] = new Date(+new Date(delayTime) + 8 * 3600 * 1000)
+        .toISOString()
+        .replace(/T/g, " ")
+        .replace(/\.[\d]{3}Z/, "");
+      delayTime = new Date(end).toJSON();
+      this.dateRange[1] = new Date(+new Date(delayTime) + 8 * 3600 * 1000)
+        .toISOString()
+        .replace(/T/g, " ")
+        .replace(/\.[\d]{3}Z/, "");
+      this.queryInfo.query = this.dateRange[0] + "," + this.dateRange[1];
+      this.getOrderList();
+    },
+    //显示物流进度
+    async showProgressBox(id) {
+      const { data: res } = await this.$http.get("kuaidi/", { params: { id: id } });
+      if (res.meta.code !== 200) {
+        return this.$message.error(res.meta.message);
+      }
+      this.progressInfo = res.data;
+      console.log(res);
+      this.progressDialogVisible = true;
     },
   },
 };

@@ -202,3 +202,4 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',  # 这是Django默认的
     'guardian.backends.ObjectPermissionBackend',  # 这是guardian的
 )
+
