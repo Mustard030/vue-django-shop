@@ -81,7 +81,6 @@
         </el-table-column>
         <el-table-column label="查看物流信息">
           <template slot-scope="scope">
-            <!-- <el-button type="primary" icon="el-icon-edit" size="mini"></el-button> -->
             <el-button
               type="success"
               icon="el-icon-location"
@@ -93,7 +92,7 @@
       </el-table>
 
       <!-- 物流进度对话框 -->
-      <el-dialog title="物流进度" :visible.sync="progressDialogVisible" width="50%">
+      <el-dialog title="物流进度" :visible.sync="progressDialogVisible" width="30%">
         <el-timeline :reverse="reverse">
           <el-timeline-item
             v-for="(activity, index) in progressInfo"
@@ -156,7 +155,7 @@ export default {
       }
       this.orderList = res.data.orderList;
       this.total = res.data.total;
-      console.log(this.orderList);
+      
     },
     // 监听pagesize改变的事件
     handleSizeChange(newSize) {
@@ -193,7 +192,7 @@ export default {
         return this.$message.error(res.meta.message);
       }
       this.progressInfo = res.data;
-      console.log(res);
+      
       this.progressDialogVisible = true;
     },
   },

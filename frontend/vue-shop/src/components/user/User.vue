@@ -97,7 +97,7 @@
         <el-table-column label="用户名" prop="username" width="105px"></el-table-column>
         <!-- <el-table-column label="密码" prop='password'></el-table-column> -->
         <el-table-column label="角色" prop="role_name"></el-table-column>
-        <el-table-column label="状态">
+        <el-table-column label="可用状态">
           <template slot-scope="scope">
             <el-switch
               v-model="scope.row.state"
