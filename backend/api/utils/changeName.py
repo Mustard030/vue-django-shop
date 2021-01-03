@@ -27,7 +27,6 @@ def changeName(instance, filename):
         return pic_write_path
 
 
-
 def changeTempName(instance, filename):
     """
     :param instance: 函数类的一个实例
@@ -40,6 +39,21 @@ def changeTempName(instance, filename):
         file_rename = getMD5(instance.name + split[0]) + '.' + split[-1]  # 对文件名进行重编码，并规定文件读写路径
 
         pic_write_path = os.path.join('itemPics', 'temp', file_rename)
+
+        return pic_write_path
+
+
+def changeUserName(instance, filename):
+    """
+        :param instance: 函数类的一个实例
+        :param filename: 上传文件的文件名
+        :return: 对文件名重新编码，规定文件的读写路径
+        """
+    if isinstance(filename, str):  # 判断name是否是str类型的一个实例
+        split = filename.split('.')
+        file_rename = getMD5(instance.pk + split[0]) + '.' + split[-1]  # 对文件名进行重编码，并规定文件读写路径
+        ID = str(instance.pk)
+        pic_write_path = os.path.join('UserAvatar', ID, file_rename)
 
         return pic_write_path
 

@@ -14,17 +14,16 @@ from django.db.utils import IntegrityError
 from .utils.token import get_token_code
 from django.core.files import File
 from django.db.models import Q
+from .utils.decorator import need_login
 
 
 # Create your views here.
 
 
 class LoginView(APIView):
-    # 登陆
+    # 管理员登陆
     def post(self, request):
-
         data = json.loads(str(request.body, encoding='utf8'))
-
         res = {
             'meta': {
                 'message': '登陆失败',
@@ -162,41 +161,65 @@ class Users(APIView):
 
         return JsonResponse(res, safe=False)
 
+    # 修改用户角色
     def patch(self, request):
-        pass
+        res = {
+            'meta': {
+                'message': '修改角色失败',
+                'code': 500
+            }}
+        data = json.loads(str(request.body, encoding='utf8'))
+        uid = data.get('id', 0)
+        role = data.get('role', 0)
+
+        if uid and role:
+            user = User.objects.get(pk=uid)
+            if role == 1:
+                user.is_staff, user.is_superuser = 0, 0
+            elif role == 2:
+                user.is_staff, user.is_superuser = 1, 0
+            elif role == 3:
+                user.is_staff, user.is_superuser = 1, 1
+            user.save()
+
+            res['meta']['code'] = 200
+            res['meta']['message'] = '修改角色成功'
+
+        return JsonResponse(res, safe=False)
 
 
 # 获取侧边栏菜单
-def menus(request):
-    res = {
-        'meta': {
-            'message': '获取数据失败',
-            'code': 400
-        }}
-    menu_list = list()
-    items = models.Menu.objects.all()
-    for item in items:
-        parent = dict()
-        children_list = list()
-        parent['id'] = item.pk
-        parent['path'] = item.path
-        parent['authname'] = item.authName
-        parent['children'] = children_list
+class Menus(APIView):
+    def get(self, request):
+        res = {
+            'meta': {
+                'message': '获取数据失败',
+                'code': 400
+            }}
+        menu_list = list()
+        items = models.Menu.objects.all()
+        for item in items:
+            parent = dict()
+            children_list = list()
+            parent['id'] = item.pk
+            parent['path'] = item.path
+            parent['authname'] = item.authName
+            parent['children'] = children_list
 
-        for ch_obj in list(item.childrenmenu_set.all()):
-            children = dict()
-            children['id'] = ch_obj.pk
-            children['authname'] = ch_obj.authName
-            children['path'] = ch_obj.path
-            children_list.append(children)
+            for ch_obj in list(item.childrenmenu_set.all()):
+                children = dict()
+                children['id'] = ch_obj.pk
+                children['authname'] = ch_obj.authName
+                children['path'] = ch_obj.path
+                children_list.append(children)
 
-        menu_list.append(parent)
-    res.update({'data': menu_list})
+            menu_list.append(parent)
+        res.update({'data': menu_list})
 
-    res['meta']['message'] = '获取数据成功'
-    res['meta']['code'] = 200
+        res['meta']['message'] = '获取数据成功'
+        res['meta']['code'] = 200
 
-    return JsonResponse(res, safe=False)
+        return JsonResponse(res, safe=False)
 
 
 # def item_manage(request):
@@ -244,24 +267,25 @@ def check_cate_name_useable(request, check_cate_name):
 
 
 # 修改用户可用状态
-def change_active(request, **kwargs):
-    res = {
-        'meta': {
-            'message': '修改状态失败',
-            'code': 500
-        }}
-    uid = kwargs.get('uid', 0)
-    state = kwargs.get('state', None)
+class ChangeActive(APIView):
+    def put(self, request, **kwargs):
+        res = {
+            'meta': {
+                'message': '修改状态失败',
+                'code': 500
+            }}
+        uid = kwargs.get('uid', 0)
+        state = kwargs.get('state', None)
 
-    changed_user = User.objects.get(pk=uid)
-    if state is not None:
-        changed_user.is_active = state
+        changed_user = User.objects.get(pk=uid)
+        if state is not None:
+            changed_user.is_active = state
 
-    changed_user.save()
-    if changed_user.is_active == state:
-        res['meta']['message'] = '修改状态成功'
-        res['meta']['code'] = 200
-    return JsonResponse(res, safe=False)
+        changed_user.save()
+        if changed_user.is_active == state:
+            res['meta']['message'] = '修改状态成功'
+            res['meta']['code'] = 200
+        return JsonResponse(res, safe=False)
 
 
 # 根据ID获取用户信息
@@ -333,31 +357,29 @@ class ItemPics(APIView):
         return JsonResponse(res, safe=False)
 
 
-def tempImage(request):
-    res = {
-        'data': {},
-        'meta': {
-            'message': '图片上传失败',
-            'code': 400
-        }}
-    temp_img = models.TempImage(
-        image=request.FILES.get('file'),
-        name=request.FILES.get('file').name,
-    )
+# 暂存图片接口
+class TempImage(APIView):
+    def post(self, request):
+        res = {
+            'data': {},
+            'meta': {
+                'message': '图片上传失败',
+                'code': 400
+            }}
+        temp_img = models.TempImage(
+            image=request.FILES.get('file'),
+            name=request.FILES.get('file').name,
+        )
 
-    temp_img.save()
-    if temp_img.image.url:
-        res['data']['id'] = temp_img.pk
-        res['data']['url'] = temp_img.image.url
-        res['data']['name'] = temp_img.name
-        res['meta']['code'] = 200
-        res['meta']['message'] = '图片上传成功'
+        temp_img.save()
+        if temp_img.image.url:
+            res['data']['id'] = temp_img.pk
+            res['data']['url'] = temp_img.image.url
+            res['data']['name'] = temp_img.name
+            res['meta']['code'] = 200
+            res['meta']['message'] = '图片上传成功'
 
-    return JsonResponse(res, safe=False)
-
-
-def get_img_by_id(request):
-    pass
+        return JsonResponse(res, safe=False)
 
 
 # 商品分类
@@ -593,57 +615,59 @@ class Goods(APIView):
         return JsonResponse(res, safe=False)
 
 
-def get_orders_list(request):
-    res = {
-        'data': {},
-        'meta': {
-            'message': '获取数据失败',
-            'code': 400
-        }}
-    data = request.GET
-    query = data.get('query')
-    print(query)
-    try:
-        start, end = str(query).split(',')
-    except ValueError:
-        start = datetime(dt.MINYEAR, 1, 1, 0, 0, 0, 0)
-        end = datetime(dt.MAXYEAR, 1, 1, 0, 0, 0, 0)
-    else:
-        start = datetime.strptime(start, '%Y-%m-%d %H:%M:%S')
-        end = datetime.strptime(end, '%Y-%m-%d %H:%M:%S')
+class GetOrderList(APIView):
+    def get(self, request):
+        res = {
+            'data': {},
+            'meta': {
+                'message': '获取数据失败',
+                'code': 400
+            }}
+        data = request.GET
+        query = data.get('query')
+        print(query)
+        try:
+            start, end = str(query).split(',')
+        except ValueError:
+            start = datetime(dt.MINYEAR, 1, 1, 0, 0, 0, 0)
+            end = datetime(dt.MAXYEAR, 1, 1, 0, 0, 0, 0)
+        else:
+            start = datetime.strptime(start, '%Y-%m-%d %H:%M:%S')
+            end = datetime.strptime(end, '%Y-%m-%d %H:%M:%S')
 
-    pagenum = int(data.get('pagenum', ''))
-    pagesize = int(data.get('pageSize', ''))
-    head: int = (pagenum - 1) * pagesize
-    tail: int = pagenum * pagesize
-    total = models.Orders.objects.filter(create_date__range=(start, end)).count()
-    order_list = models.Orders.objects.filter(create_date__range=(start, end))[head:tail]
+        pagenum = int(data.get('pagenum', ''))
+        pagesize = int(data.get('pageSize', ''))
+        head: int = (pagenum - 1) * pagesize
+        tail: int = pagenum * pagesize
+        total = models.Orders.objects.filter(create_date__range=(start, end)).count()
+        order_list = models.Orders.objects.filter(create_date__range=(start, end))[head:tail]
 
-    return_list = list()
-    for order in order_list:
-        order_dict = dict()
-        order_dict['order_number'] = order.pk
-        order_dict['pay_status'] = order.pay_status
-        order_dict['send_status'] = order.send_status
-        order_dict['delivery_status'] = order.delivery_status
-        create_time = str(order.create_date).replace('T', ' ')
-        order_dict['create_time'] = create_time
-        total_prices = 1
-        order_dict['order_price'] = total_prices
+        return_list = list()
+        for order in order_list:
+            order_dict = dict()
+            order_dict['order_number'] = order.pk
+            order_dict['pay_status'] = order.pay_status
+            order_dict['send_status'] = order.send_status
+            order_dict['delivery_status'] = order.delivery_status
+            create_time = str(order.create_date).replace('T', ' ')
+            order_dict['create_time'] = create_time
+            total_prices = 1
+            order_dict['order_price'] = total_prices
 
-        return_list.append(order_dict)
+            return_list.append(order_dict)
 
-    res['data'].update({'orderList': return_list})
-    res['data'].update({'total': total})
-    res['meta']['code'] = 200
-    res['meta']['message'] = '获取数据成功'
+        res['data'].update({'orderList': return_list})
+        res['data'].update({'total': total})
+        res['meta']['code'] = 200
+        res['meta']['message'] = '获取数据成功'
 
-    return JsonResponse(res, safe=False)
+        return JsonResponse(res, safe=False)
 
 
 # 快递接口
 class Kuaidi(APIView):
     # 根据订单编号获取物流信息
+    @need_login
     def get(self, request):
         res = {
             'meta': {

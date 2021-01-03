@@ -1,5 +1,5 @@
 from django.db import models
-from .utils.changeName import changeName, item_directory_path, changeTempName
+from .utils.changeName import changeName, item_directory_path, changeTempName,changeUserName
 from django.contrib.auth.models import AbstractUser
 import django.utils.timezone as timezone
 
@@ -7,16 +7,9 @@ import django.utils.timezone as timezone
 # Create your models here.
 
 # 扩展user表
-# class MyUserInfo(AbstractUser):
-#     phone = models.CharField(max_length=11, blank=True)
-
-
-# class AdminInfo(models.Model):
-#     username = models.CharField(max_length=10)
-#     password = models.CharField(max_length=100)
-#
-#     def __str__(self):
-#         return self.username
+class MyUserInfo(AbstractUser):
+    phone = models.CharField(max_length=11, blank=True, null=True)
+    userImage = models.ImageField(upload_to=changeUserName)
 
 
 class Token(models.Model):
@@ -95,7 +88,9 @@ class ProgressInfo(models.Model):
     message = models.TextField(verbose_name='货物运送阶段信息', blank=True, null=True)
     order = models.ForeignKey(verbose_name='归属订单', to='Orders', on_delete=models.CASCADE)
 
-# class Area(models.Model):
-#     name = models.CharField(max_length=20, verbose_name='名称')
-#     # 自关联(特殊的一对多): 生成的字段名 parent_id
-#     parent = models.ForeignKey(to='self', verbose_name='上级行政区划', on_delete=None)
+
+class CookBooks(models.Model):
+    time = models.DateTimeField(verbose_name='创建时间', default=timezone.now)
+    title = models.CharField(verbose_name='标题', max_length=128)
+    author = models.ForeignKey(verbose_name='作者', to='auth.User', on_delete=models.CASCADE)
+    content = models.TextField(verbose_name='正文', blank=True, null=True)

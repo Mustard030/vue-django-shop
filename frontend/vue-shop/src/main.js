@@ -19,6 +19,14 @@ import 'quill/dist/quill.bubble.css'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 
+//cookies全局方法
+import {setCookie,getCookie,delCookie} from './assets/js/cookie'
+Vue.prototype.$cookieStore = {
+  setCookie,
+  getCookie,
+  delCookie
+}
+
 Vue.use(VueQuillEditor)
 
 Vue.component('tree-table', TreeTable)

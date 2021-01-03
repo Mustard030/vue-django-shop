@@ -90,12 +90,35 @@
         </span>
       </el-dialog>
 
+      <!-- 修改用户身份的对话框 -->
+      <el-dialog title="修改身份" :visible.sync="editRoleDialogVisible" width="30%" >
+        <el-form
+          ref="editRoleFormRef"
+          :model="editRoleForm"
+          :rules="editRoleFormRules"
+          label-width="70px"
+        >
+          <el-form-item label="角色" prop="role">
+            <el-radio-group v-model="editRoleForm.role" size="medium">
+              <el-radio-button border :label="1">普通用户</el-radio-button>
+              <el-radio-button border :label="2">商家</el-radio-button>
+              <el-radio-button border :label="3">管理员</el-radio-button>
+            </el-radio-group>
+          </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="editRoleDialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="updateUserRole">确 定</el-button>
+        </span>
+      </el-dialog>
+
       <!-- 用户列表区 -->
       <el-table :data="userlist" border stripe>
         <!-- <el-table-column type="index" label="#"></el-table-column> -->
         <el-table-column label="ID" prop="id" width="85px"></el-table-column>
         <el-table-column label="用户名" prop="username" width="105px"></el-table-column>
-        <!-- <el-table-column label="密码" prop='password'></el-table-column> -->
+        <el-table-column label="手机号" prop="phone"></el-table-column>
+        <el-table-column label="邮箱" prop="email"></el-table-column>
         <el-table-column label="角色" prop="role_name"></el-table-column>
         <el-table-column label="可用状态">
           <template slot-scope="scope">
@@ -149,7 +172,11 @@
               placement="top"
               :enterable="false"
             >
-              <el-button type="warning" icon="el-icon-setting"></el-button>
+              <el-button
+                type="warning"
+                icon="el-icon-setting"
+                @click="showEditRoleDialog(scope.row.id)"
+              ></el-button>
             </el-tooltip>
           </template>
         </el-table-column>
@@ -175,21 +202,21 @@ export default {
   data() {
     var checkUsername = (rule, value, callback) => {
       var data = this.$http.get(`checkUsable/${value}`).then((res) => {
-        console.log(res.data)
+        console.log(res.data);
         if (res.data.meta.code !== 200) {
-          callback(new Error('用户名已被使用！'))
+          callback(new Error("用户名已被使用！"));
         } else {
-          callback()
+          callback();
         }
-      })
-    }
+      });
+    };
 
     return {
       // 获取用户列表的参数对象
       queryInfo: {
-        query: '',
+        query: "",
         pagenum: 1,
-        pagesize: 10
+        pagesize: 10,
       },
       // 用户列表
       userlist: [],
@@ -198,192 +225,219 @@ export default {
       addDialogVisible: false,
       // 修改用户对话框显示
       editDialogVisible: false,
+      //修改用户角色对话框
+      editRoleDialogVisible: false,
       // 添加用户表单数据
       addForm: {
-        username: '',
-        password: '',
-        // checkPass: '',
-        mg_state: 1
+        username: "",
+        password: "",
+        mg_state: 1,
       },
       // 修改信息表单数据
       editForm: {
-        id: '',
-        username: '',
-        password: ''
+        id: "",
+        username: "",
+        password: "",
+      },
+      //修改用户角色表单数据
+      editRoleForm: {
+        id: "",
+        role: "",
       },
       // 添加用户表单验证规则对象
       addFormRules: {
         username: [
-          { required: true, message: '请输入用户名', trigger: 'blur' },
+          { required: true, message: "请输入用户名", trigger: "blur" },
           {
             min: 3,
             max: 10,
-            message: '长度在 3 到 10 个字符之间',
-            trigger: 'blur'
+            message: "长度在 3 到 10 个字符之间",
+            trigger: "blur",
           },
           {
             min: 3,
             max: 10,
-            message: '长度在 3 到 10 个字符之间',
-            trigger: 'change'
+            message: "长度在 3 到 10 个字符之间",
+            trigger: "change",
           },
           {
             validator: checkUsername,
-            message: '用户名已被使用！',
-            trigger: 'blur'
-          }
+            message: "用户名已被使用！",
+            trigger: "blur",
+          },
         ],
         password: [
-          { required: true, message: '请输入密码', trigger: 'blur' },
+          { required: true, message: "请输入密码", trigger: "blur" },
           {
             min: 6,
             max: 16,
-            message: '长度在 6 到 16 个字符之间',
-            trigger: 'blur'
+            message: "长度在 6 到 16 个字符之间",
+            trigger: "blur",
           },
           {
             min: 6,
             max: 16,
-            message: '长度在 6 到 16 个字符之间',
-            trigger: 'change'
-          }
-        ]
+            message: "长度在 6 到 16 个字符之间",
+            trigger: "change",
+          },
+        ],
       },
       // 修改用户表单规则
       editFormRules: {
         password: [
-          { required: true, message: '请输入密码', trigger: 'blur' },
+          { required: true, message: "请输入密码", trigger: "blur" },
           {
             min: 6,
             max: 16,
-            message: '长度在 6 到 16 个字符之间',
-            trigger: 'blur'
+            message: "长度在 6 到 16 个字符之间",
+            trigger: "blur",
           },
           {
             min: 6,
             max: 16,
-            message: '长度在 6 到 16 个字符之间',
-            trigger: 'change'
-          }
-        ]
-      }
-    }
+            message: "长度在 6 到 16 个字符之间",
+            trigger: "change",
+          },
+        ],
+      },
+      //更改用户角色表单规则
+      editRoleFormRules: {
+        role: [{ required: true, message: "请选择用户角色", trigger: "blur" }]
+      },
+    };
   },
   created() {
-    this.getUserList()
+    this.getUserList();
   },
   methods: {
     async getUserList() {
-      const { data: res } = await this.$http.get('users', {
-        params: this.queryInfo
-      })
-      if (res.meta.code !== 200) return this.$message.error('获取用户列表失败！')
-      this.userlist = res.data.userlist
-      this.total = res.data.total
+      const { data: res } = await this.$http.get("users", {
+        params: this.queryInfo,
+      });
+      if (res.meta.code !== 200) return this.$message.error("获取用户列表失败！");
+      this.userlist = res.data.userlist;
+      this.total = res.data.total;
     },
     // 监听pagesize改变的事件
     handleSizeChange(newSize) {
-      this.queryInfo.pagesize = newSize
-      this.getUserList()
+      this.queryInfo.pagesize = newSize;
+      this.getUserList();
     },
     // 监听页码值改变的事件
     handleCurrentChange(newPage) {
-      this.queryInfo.pagenum = newPage
-      this.getUserList()
+      this.queryInfo.pagenum = newPage;
+      this.getUserList();
     },
     // 监听用户状态改变
     async userStateChanged(userinfo) {
-      var stateTemp = 0
+      var stateTemp = 0;
       if (userinfo.state === true) {
-        stateTemp = 1
+        stateTemp = 1;
       }
 
       const { data: res } = await this.$http.put(
         `users/${userinfo.id}/state/${stateTemp}`
-      )
-      console.log(res)
+      );
+      console.log(res);
       if (res.meta.code !== 200) {
-        userinfo.state = !userinfo.state
-        return this.$message.error('更新状态失败')
+        userinfo.state = !userinfo.state;
+        return this.$message.error("更新状态失败");
       }
-      this.$message.success('更新状态成功')
+      this.$message.success("更新状态成功");
     },
     // 监听添加用户对话框的关闭事件
     addDialogClosed() {
-      this.$refs.addFormRef.resetFields()
-      this.addForm.mg_state = 1
+      this.$refs.addFormRef.resetFields();
+      this.addForm.mg_state = 1;
     },
     // 添加用户
     addUser() {
       this.$refs.addFormRef.validate(async (valid) => {
-        if (!valid) return
-        const { data: res } = await this.$http.post('users/', this.addForm)
+        if (!valid) return;
+        const { data: res } = await this.$http.post("users/", this.addForm);
         // console.log(res)
         if (res.meta.code !== 201) {
-          return this.$message.error(res.meta.message)
+          return this.$message.error(res.meta.message);
         }
-        this.$message.success(res.meta.message)
+        this.$message.success(res.meta.message);
         // 隐藏添加提示框
-        this.addDialogVisible = false
+        this.addDialogVisible = false;
         // 重新获取用户数据
-        this.getUserList()
-      })
+        this.getUserList();
+      });
     },
     // 修改用户密码
     updateUser() {
       this.$refs.editFormRef.validate(async (valid) => {
-        if (!valid) return
-        const { data: res } = await this.$http.put('users/', this.editForm)
+        if (!valid) return;
+        const { data: res } = await this.$http.put("users/", this.editForm);
         // console.log(res)
         if (res.meta.code !== 201) {
-          return this.$message.error(res.meta.message)
+          return this.$message.error(res.meta.message);
         }
-        this.$message.success(res.meta.message)
+        this.$message.success(res.meta.message);
         // 隐藏添加提示框
-        this.editDialogVisible = false
+        this.editDialogVisible = false;
         // 重新获取用户数据
-        this.getUserList()
-      })
+        this.getUserList();
+      });
     },
     // 监听修改用户对话框的关闭事件
     editDialogClosed() {
-      this.$refs.editFormRef.resetFields()
+      this.$refs.editFormRef.resetFields();
     },
     // 显示编辑用户的对话框
     async showEditDialog(id) {
-      const { data: res } = await this.$http.get('users/' + id)
-      if (res.meta.code !== 200) return this.$message.error('获取信息失败')
-      this.editForm = res.data
-      this.editDialogVisible = true
+      const { data: res } = await this.$http.get("users/" + id);
+      if (res.meta.code !== 200) return this.$message.error("获取信息失败");
+      this.editForm = res.data;
+      this.editDialogVisible = true;
       // console.log(id)
+    },
+    // 显示更改用户角色的对话框
+    async showEditRoleDialog(id) {
+      this.editRoleForm.id = id;
+      this.editRoleDialogVisible = true;
+    },
+    //更新用户角色
+    async updateUserRole() {
+      // console.log(this.editRoleForm)
+      const { data:res} = await this.$http.patch("users/",this.editRoleForm)
+      if(res.meta.code!==200){
+        return this.$message.error(res.meta.message);
+      }
+      this.$message.success(res.meta.message);
+      this.getUserList();
+      this.$refs.editRoleFormRef.resetFields();
+      this.editRoleDialogVisible = false;
+      return;
     },
     // 删除用户确认弹框
     async deleteUser(id) {
       // console.log(id)
       const confirmResult = await this.$confirm(
-        '此操作将永久删除该用户, 是否继续?',
-        '提示',
+        "此操作将永久删除该用户, 是否继续?",
+        "提示",
         {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning",
         }
-      ).catch((res) => res)
+      ).catch((res) => res);
 
-      if (confirmResult !== 'confirm') {
-        return this.$message.info('已取消删除')
+      if (confirmResult !== "confirm") {
+        return this.$message.info("已取消删除");
       }
-      const { data: res } = await this.$http.delete('users/', { data: { id: id } })
+      const { data: res } = await this.$http.delete("users/", { data: { id: id } });
       if (res.meta.code !== 200) {
-        return this.$message.error(res.meta.message)
+        return this.$message.error(res.meta.message);
       }
-      this.$message.success(res.meta.message)
-      this.getUserList()
+      this.$message.success(res.meta.message);
+      this.getUserList();
       // console.log(res);
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
-<style lang="less" scoped>
-</style>
+<style lang="less" scoped></style>
