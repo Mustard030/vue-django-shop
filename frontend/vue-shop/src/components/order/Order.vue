@@ -123,80 +123,79 @@
 export default {
   data() {
     return {
-      //查询参数对象
+      // 查询参数对象
       queryInfo: {
-        query: "",
+        query: '',
         pagenum: 1,
-        pageSize: 10,
+        pageSize: 10
       },
       // 查询条目总数
       total: 0,
-      //订单列表
+      // 订单列表
       orderList: [],
-      //选择日期范围
+      // 选择日期范围
       dateRange: [],
-      //物流进度对话框显示
+      // 物流进度对话框显示
       progressDialogVisible: false,
-      //物流信息数组
+      // 物流信息数组
       progressInfo: [],
-      //时间线反向
-      reverse: true,
-    };
+      // 时间线反向
+      reverse: true
+    }
   },
   created() {
-    this.getOrderList();
+    this.getOrderList()
   },
   methods: {
-    //获取订单列表
+    // 获取订单列表
     async getOrderList() {
-      const { data: res } = await this.$http.get("orders/", { params: this.queryInfo });
+      const { data: res } = await this.$http.get('orders/', { params: this.queryInfo })
       if (res.meta.code !== 200) {
-        return this.$message.error(res.meta.message);
+        return this.$message.error(res.meta.message)
       }
-      this.orderList = res.data.orderList;
-      this.total = res.data.total;
-      
+      this.orderList = res.data.orderList
+      this.total = res.data.total
     },
     // 监听pagesize改变的事件
     handleSizeChange(newSize) {
-      this.queryInfo.pagesize = newSize;
-      this.getOrderList();
+      this.queryInfo.pagesize = newSize
+      this.getOrderList()
     },
     // 监听页码值改变的事件
     handleCurrentChange(newPage) {
-      this.queryInfo.pagenum = newPage;
-      this.getOrderList();
+      this.queryInfo.pagenum = newPage
+      this.getOrderList()
     },
-    //监听时间区间选择器
+    // 监听时间区间选择器
     changeData() {
-      var start = this.dateRange[0];
-      var end = this.dateRange[1];
+      var start = this.dateRange[0]
+      var end = this.dateRange[1]
       // UTC时间格式转换——2019-10-14 12:20:12
-      let delayTime = new Date(start).toJSON();
+      let delayTime = new Date(start).toJSON()
       this.dateRange[0] = new Date(+new Date(delayTime) + 8 * 3600 * 1000)
         .toISOString()
-        .replace(/T/g, " ")
-        .replace(/\.[\d]{3}Z/, "");
-      delayTime = new Date(end).toJSON();
+        .replace(/T/g, ' ')
+        .replace(/\.[\d]{3}Z/, '')
+      delayTime = new Date(end).toJSON()
       this.dateRange[1] = new Date(+new Date(delayTime) + 8 * 3600 * 1000)
         .toISOString()
-        .replace(/T/g, " ")
-        .replace(/\.[\d]{3}Z/, "");
-      this.queryInfo.query = this.dateRange[0] + "," + this.dateRange[1];
-      this.getOrderList();
+        .replace(/T/g, ' ')
+        .replace(/\.[\d]{3}Z/, '')
+      this.queryInfo.query = this.dateRange[0] + ',' + this.dateRange[1]
+      this.getOrderList()
     },
-    //显示物流进度
+    // 显示物流进度
     async showProgressBox(id) {
-      const { data: res } = await this.$http.get("kuaidi/", { params: { id: id } });
+      const { data: res } = await this.$http.get('kuaidi/', { params: { id: id } })
       if (res.meta.code !== 200) {
-        return this.$message.error(res.meta.message);
+        return this.$message.error(res.meta.message)
       }
-      this.progressInfo = res.data;
-      
-      this.progressDialogVisible = true;
-    },
-  },
-};
+      this.progressInfo = res.data
+
+      this.progressDialogVisible = true
+    }
+  }
+}
 </script>
 
 <style lang="less" scoped></style>

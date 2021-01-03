@@ -17,7 +17,7 @@
             </el-row>
 
             <!-- 表格区域 -->
-            <tree-table :data="catelist" :columns = "columns" 
+            <tree-table :data="catelist" :columns = "columns"
             :selection-type="false" :expand-type="false" show-index
             index-text='#' border class="select">
                 <template v-slot:isok="scope">
@@ -63,13 +63,13 @@
 
         <!-- 修改信息的对话框 -->
         <el-dialog title="重命名分类" :visible.sync="renameDialogVisible"
-                    width="45%" 
+                    width="45%"
                     >
             <el-form :model="renameCateForm" :rules="renameCateFormRules" ref="renameCateFormRef" label-width="100px">
                 <el-form-item label="分类名称：" prop="cat_name" >
                     <el-input v-model="renameCateForm.cat_name"></el-input>
                 </el-form-item>
-                
+
             </el-form>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="renameDialogVisible=false">取 消</el-button>
@@ -77,227 +77,225 @@
             </span>
         </el-dialog>
 
-        
     </div>
 </template>
 
 <script>
-    export default{
-        data(){
-            var checkCatename = (rule, value, callback) => {
-                var data = this.$http.get(`checkCateNameUsable/${value}`).then(res => {
-                    // console.log(res.data)
-                    if (res.data.meta.code !== 200) {
-                        callback(new Error('分类名已被使用！'))
-                    } else {
-                    callback()
-                    }
-                })
-            }
-            return {
-                // 商品分类的数据列表
-                catelist:[],
-                total:0,
-                // 表单列
-                columns:[
-                    {
-                        label: '分类名称',
-                        prop:'cat_name'
-                    },
-                    {
-                        label: '是否有效',
-                        type:'template',
-                        template: 'isok'
-                    },
-                    {
-                        label: '排序',
-                        type:'template',
-                        template: 'order'
-                    },
-                    {
-                        label: '操作',
-                        type:'template',
-                        template: 'opt'
-                    }
-                ],
-                renameDialogVisible:false,
-                addDialogVisible: false,
-                //添加分类的表单数据项
-                addCateForm:{
-                    cat_name:'',
-                    parentCateId:'',
-                },
-                //添加分类表单的验证规则
-                addCateFormRules:{
-                    cat_name: [
-                        {
-                            required:true,
-                            message: '请输入分类名称',
-                            trigger: 'blur'
-                        },
-                        {
-                            min: 1,
-                            max: 10,
-                            message: '长度在 1 到 10 个字符之间',
-                            trigger: 'blur'
-                        },
-                        {
-                            min: 1,
-                            max: 10,
-                            message: '长度在 1 到 10 个字符之间',
-                            trigger: 'change'
-                        }
-                    ]
-                },
-                //重命名分类表单的验证规则
-                renameCateFormRules:{
-                    cat_name: [
-                        {
-                            required:true,
-                            message: '请输入分类名称',
-                            trigger: 'blur'
-                        },
-                        {
-                            validator: checkCatename,
-                            message: '分类名已被使用！',
-                            trigger: 'blur'
-                        },
-                        {
-                            min: 1,
-                            max: 10,
-                            message: '长度在 1 到 10 个字符之间',
-                            trigger: 'blur'
-                        },
-                        {
-                            min: 1,
-                            max: 10,
-                            message: '长度在 1 到 10 个字符之间',
-                            trigger: 'change'
-                        }
-
-                    ]
-                },
-                //重命名分类的表单数据项
-                renameCateForm:{
-                    cat_name:'',
-                    cat_id:'',
-                },
-                
-                //父级分类数据
-                parentCateList:[],
-
-            };
-        },
-        created() {
-            this.getCateList()
-        },
-        methods: {
-            // 获取商品分类数据
-            async getCateList(){
-                const {data:res} = await this.$http.get('categories/'
-                ,{params: { type:2 }}
-                )
-                if (res.meta.code !== 200) return this.$message.error(res.meta.message)
-
-                //数据列表
-                this.catelist = res.data
-            },
-            //添加分类对话框
-            showAddDialog(){
-                //获取父级分类数据
-                this.getParentCateList()
-                //显示添加对话框
-                this.addDialogVisible=true;
-            },
-            //重命名分类对话框
-            showRenameDialog(row){
-                this.renameCateForm.cat_id=row.cat_id
-                this.renameCateForm.cat_name=row.cat_name
-                // console.log(this.renameCateForm)
-                //显示重命名对话框
-                this.renameDialogVisible=true;
-            },
-            //删除分类对话框
-            showDeleteCateDialog(){
-                
-                //显示删除对话框
-                this.deleteDialogVisible=true;
-            },
-            //获取父级分类的数据
-            async getParentCateList(){
-                const {data:res} = await this.$http.get('categories/'
-                ,{params: { type:1 }}
-                )
-                if (res.meta.code !== 200) return this.$message.error(res.meta.message)
-                this.parentCateList = res.data
-                // console.log(res.data)
-            },
-            //父级分类选择项改变则触发
-            parentCateChanged(){
-                // console.log(this.parentCateId)
-            },
-            //提交分类
-            async addCate(){
-                this.$refs.addCateFormRef.validate(async valid => {
-                    if (!valid) return
-                    const {data:res} = await this.$http.put('categories/',this.addCateForm )
-                    if(res.meta.code !== 200) {return this.$message.error(res.meta.message)}
-                    
-                    this.$message.success(res.meta.message)
-                    // 隐藏添加提示框
-                    this.addDialogVisible = false
-                    // 重新获取分类数据
-                    this.getCateList()
-                })
-            },
-            //关闭添加分类窗口
-            closeAddCateDialog(){
-                // console.log('clear')
-                this.$refs.addCateFormRef.resetFields()
-                this.addDialogVisible = false
-            },
-            // 重命名分类
-            async renameCate(){
-                this.$refs.renameCateFormRef.validate(async valid => {
-                    if (!valid) return
-                    const {data:res} = await this.$http.post('categories/',this.renameCateForm)
-                    // console.log(res)
-                    if (res.meta.code !== 200) { return this.$message.error(res.meta.message) }
-                    this.$message.success(res.meta.message)
-                    // 隐藏添加提示框
-                    this.renameDialogVisible = false
-                    // 重新获取用户数据
-                    this.getCateList()
-                })
-            },
-            // 删除分类
-            async deleteCate(id) {
-                // console.log(id)
-                const confirmResult = await this.$confirm('此操作将永久删除该分类及其子分类, 是否继续?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).catch(res => res)
-                // .then(() => {
-                //     this.$message({
-                //         type: 'success',
-                //         message: '删除成功!'
-                //     });
-                // })
-
-                if (confirmResult !== 'confirm') {
-                    return this.$message.info('已取消删除')
-                }
-                const { data: res } = await this.$http.delete('categories/', { data: { id: id } })
-                if (res.meta.code !== 200) {
-                    return this.$message.error(res.meta.message)
-                }
-                this.$message.success(res.meta.message)
-                this.getCateList()
-                // console.log(res)
-            }
+export default {
+  data() {
+    var checkCatename = (rule, value, callback) => {
+      var data = this.$http.get(`checkCateNameUsable/${value}`).then(res => {
+        // console.log(res.data)
+        if (res.data.meta.code !== 200) {
+          callback(new Error('分类名已被使用！'))
+        } else {
+          callback()
         }
+      })
     }
+    return {
+      // 商品分类的数据列表
+      catelist: [],
+      total: 0,
+      // 表单列
+      columns: [
+        {
+          label: '分类名称',
+          prop: 'cat_name'
+        },
+        {
+          label: '是否有效',
+          type: 'template',
+          template: 'isok'
+        },
+        {
+          label: '排序',
+          type: 'template',
+          template: 'order'
+        },
+        {
+          label: '操作',
+          type: 'template',
+          template: 'opt'
+        }
+      ],
+      renameDialogVisible: false,
+      addDialogVisible: false,
+      // 添加分类的表单数据项
+      addCateForm: {
+        cat_name: '',
+        parentCateId: ''
+      },
+      // 添加分类表单的验证规则
+      addCateFormRules: {
+        cat_name: [
+          {
+            required: true,
+            message: '请输入分类名称',
+            trigger: 'blur'
+          },
+          {
+            min: 1,
+            max: 10,
+            message: '长度在 1 到 10 个字符之间',
+            trigger: 'blur'
+          },
+          {
+            min: 1,
+            max: 10,
+            message: '长度在 1 到 10 个字符之间',
+            trigger: 'change'
+          }
+        ]
+      },
+      // 重命名分类表单的验证规则
+      renameCateFormRules: {
+        cat_name: [
+          {
+            required: true,
+            message: '请输入分类名称',
+            trigger: 'blur'
+          },
+          {
+            validator: checkCatename,
+            message: '分类名已被使用！',
+            trigger: 'blur'
+          },
+          {
+            min: 1,
+            max: 10,
+            message: '长度在 1 到 10 个字符之间',
+            trigger: 'blur'
+          },
+          {
+            min: 1,
+            max: 10,
+            message: '长度在 1 到 10 个字符之间',
+            trigger: 'change'
+          }
+
+        ]
+      },
+      // 重命名分类的表单数据项
+      renameCateForm: {
+        cat_name: '',
+        cat_id: ''
+      },
+
+      // 父级分类数据
+      parentCateList: []
+
+    }
+  },
+  created() {
+    this.getCateList()
+  },
+  methods: {
+    // 获取商品分类数据
+    async getCateList() {
+      const { data: res } = await this.$http.get('categories/'
+        , { params: { type: 2 } }
+      )
+      if (res.meta.code !== 200) return this.$message.error(res.meta.message)
+
+      // 数据列表
+      this.catelist = res.data
+    },
+    // 添加分类对话框
+    showAddDialog() {
+      // 获取父级分类数据
+      this.getParentCateList()
+      // 显示添加对话框
+      this.addDialogVisible = true
+    },
+    // 重命名分类对话框
+    showRenameDialog(row) {
+      this.renameCateForm.cat_id = row.cat_id
+      this.renameCateForm.cat_name = row.cat_name
+      // console.log(this.renameCateForm)
+      // 显示重命名对话框
+      this.renameDialogVisible = true
+    },
+    // 删除分类对话框
+    showDeleteCateDialog() {
+      // 显示删除对话框
+      this.deleteDialogVisible = true
+    },
+    // 获取父级分类的数据
+    async getParentCateList() {
+      const { data: res } = await this.$http.get('categories/'
+        , { params: { type: 1 } }
+      )
+      if (res.meta.code !== 200) return this.$message.error(res.meta.message)
+      this.parentCateList = res.data
+      // console.log(res.data)
+    },
+    // 父级分类选择项改变则触发
+    parentCateChanged() {
+      // console.log(this.parentCateId)
+    },
+    // 提交分类
+    async addCate() {
+      this.$refs.addCateFormRef.validate(async valid => {
+        if (!valid) return
+        const { data: res } = await this.$http.put('categories/', this.addCateForm)
+        if (res.meta.code !== 200) { return this.$message.error(res.meta.message) }
+
+        this.$message.success(res.meta.message)
+        // 隐藏添加提示框
+        this.addDialogVisible = false
+        // 重新获取分类数据
+        this.getCateList()
+      })
+    },
+    // 关闭添加分类窗口
+    closeAddCateDialog() {
+      // console.log('clear')
+      this.$refs.addCateFormRef.resetFields()
+      this.addDialogVisible = false
+    },
+    // 重命名分类
+    async renameCate() {
+      this.$refs.renameCateFormRef.validate(async valid => {
+        if (!valid) return
+        const { data: res } = await this.$http.post('categories/', this.renameCateForm)
+        // console.log(res)
+        if (res.meta.code !== 200) { return this.$message.error(res.meta.message) }
+        this.$message.success(res.meta.message)
+        // 隐藏添加提示框
+        this.renameDialogVisible = false
+        // 重新获取用户数据
+        this.getCateList()
+      })
+    },
+    // 删除分类
+    async deleteCate(id) {
+      // console.log(id)
+      const confirmResult = await this.$confirm('此操作将永久删除该分类及其子分类, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).catch(res => res)
+      // .then(() => {
+      //     this.$message({
+      //         type: 'success',
+      //         message: '删除成功!'
+      //     });
+      // })
+
+      if (confirmResult !== 'confirm') {
+        return this.$message.info('已取消删除')
+      }
+      const { data: res } = await this.$http.delete('categories/', { data: { id: id } })
+      if (res.meta.code !== 200) {
+        return this.$message.error(res.meta.message)
+      }
+      this.$message.success(res.meta.message)
+      this.getCateList()
+      // console.log(res)
+    }
+  }
+}
 </script>
 
 <style lang="less" scoped>

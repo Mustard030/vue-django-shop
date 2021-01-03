@@ -99,128 +99,128 @@
 export default {
   data() {
     return {
-      //标签页激活Name
-      activeName: "0",
-      //级联选择器选中项
+      // 标签页激活Name
+      activeName: '0',
+      // 级联选择器选中项
       category: [],
-      //级联选择框配置对象
+      // 级联选择框配置对象
       cateProps: {
-        value: "cat_id",
-        label: "cat_name",
-        children: "children",
-        expandTrigger: "hover",
+        value: 'cat_id',
+        label: 'cat_name',
+        children: 'children',
+        expandTrigger: 'hover'
       },
-      //商品分类列表
+      // 商品分类列表
       categoryList: [],
       // 添加商品的表单数据对象
       addItemForm: {
-        itemName: "",
+        itemName: '',
         price: null,
         reserve: null,
         itemClass: null,
-        unit: "",
-        introduce: "",
-        pics: [],
+        unit: '',
+        introduce: '',
+        pics: []
       },
-      //新增的商品的返回商品id
+      // 新增的商品的返回商品id
       //   newItemID: null,
       // 图片上传地址
-      uploadUrl: "http://localhost:80/api/private/tempImage/",
-      //添加商品的表单验证项
+      uploadUrl: 'http://localhost:80/api/private/tempImage/',
+      // 添加商品的表单验证项
       addItemRules: {
-        itemName: [{ required: true, message: "请输入商品名称", trigger: "blur" }],
+        itemName: [{ required: true, message: '请输入商品名称', trigger: 'blur' }],
         price: [
-          { required: true, message: "请输入商品价格", trigger: "blur" },
+          { required: true, message: '请输入商品价格', trigger: 'blur' }
           //   { min: 0, max: 9999.99, message: "请输入0~9999.99以内的价格", trigger: "blur" },
         ],
         reserve: [
-          { required: true, message: "请输入商品库存量:", trigger: "blur" },
-          { min: 0, max: 3, message: "请输入0~999以内的数字", trigger: "blur" },
+          { required: true, message: '请输入商品库存量:', trigger: 'blur' },
+          { min: 0, max: 3, message: '请输入0~999以内的数字', trigger: 'blur' }
         ],
-        itemClass: [{ required: true, message: "请选择商品分类", trigger: "blur" }],
-        unit: [{ required: true, message: "请填写商品单位", trigger: "blur" }],
+        itemClass: [{ required: true, message: '请选择商品分类', trigger: 'blur' }],
+        unit: [{ required: true, message: '请填写商品单位', trigger: 'blur' }]
       },
-      //文件上传的请求头
+      // 文件上传的请求头
       headersObj: {
-        Authorization: window.sessionStorage.getItem("token"),
+        Authorization: window.sessionStorage.getItem('token')
       },
-      //预览图片地址
-      previewUrl: "",
-      //图片预览对话框显示
-      previewVisible: false,
-    };
+      // 预览图片地址
+      previewUrl: '',
+      // 图片预览对话框显示
+      previewVisible: false
+    }
   },
   created() {
-    this.getCateList();
+    this.getCateList()
   },
   methods: {
-    //获取商品分类
+    // 获取商品分类
     async getCateList() {
-      const { data: res } = await this.$http.get("categories/", { params: { type: 2 } });
-      if (res.meta.code !== 200) return this.$message.error(res.meta.message);
+      const { data: res } = await this.$http.get('categories/', { params: { type: 2 } })
+      if (res.meta.code !== 200) return this.$message.error(res.meta.message)
 
-      this.categoryList = res.data;
+      this.categoryList = res.data
     },
     // 监听分类选择改变事件
     handleCateChange() {
-      this.addItemForm.itemClass = this.category[this.category.length - 1];
+      this.addItemForm.itemClass = this.category[this.category.length - 1]
     },
-    //离开标签页前的钩子函数
+    // 离开标签页前的钩子函数
     beforeTabLeave(activeName, oldActiveName) {
-      if (oldActiveName === "0" && this.addItemForm.itemName === "") {
-        this.$message.error("请先填写商品名称");
-        return false;
-      } else if (oldActiveName === "0" && this.addItemForm.price === null) {
-        this.$message.error("请先填写商品价格");
-        return false;
-      } else if (oldActiveName === "0" && this.addItemForm.reserve === null) {
-        this.$message.error("请先填写商品库存");
-        return false;
-      } else if (oldActiveName === "0" && this.category.length !== 2) {
-        this.$message.error("请先选择商品分类");
-        return false;
-      } else if (oldActiveName === "0" && this.addItemForm.unit === "") {
-        this.$message.error("请先填写商品单位");
-        return false;
+      if (oldActiveName === '0' && this.addItemForm.itemName === '') {
+        this.$message.error('请先填写商品名称')
+        return false
+      } else if (oldActiveName === '0' && this.addItemForm.price === null) {
+        this.$message.error('请先填写商品价格')
+        return false
+      } else if (oldActiveName === '0' && this.addItemForm.reserve === null) {
+        this.$message.error('请先填写商品库存')
+        return false
+      } else if (oldActiveName === '0' && this.category.length !== 2) {
+        this.$message.error('请先选择商品分类')
+        return false
+      } else if (oldActiveName === '0' && this.addItemForm.unit === '') {
+        this.$message.error('请先填写商品单位')
+        return false
       }
     },
     // 处理图片预览效果
     handlePreview(file) {
-      this.previewUrl = "http://localhost:80" + file.response.data.url;
+      this.previewUrl = 'http://localhost:80' + file.response.data.url
 
-      this.previewVisible = true;
+      this.previewVisible = true
     },
     // 处理图片删除
     async handleRemove(file) {
-      const removePicID = file.response.data.id;
+      const removePicID = file.response.data.id
 
-      const i = this.addItemForm.pics.findIndex((x) => x === removePicID);
+      const i = this.addItemForm.pics.findIndex((x) => x === removePicID)
 
-      this.addItemForm.pics.splice(i, 1);
+      this.addItemForm.pics.splice(i, 1)
     },
-    //监听图片上传成功
+    // 监听图片上传成功
     handleSuccess(response) {
-      const newPicID = response.data.id;
-      this.addItemForm.pics.push(newPicID);
+      const newPicID = response.data.id
+      this.addItemForm.pics.push(newPicID)
     },
-    //提交商品表单
+    // 提交商品表单
     async submitForm() {
       this.$refs.addItemFormRef.validate((valid) => {
         if (!valid) {
-          return this.$message.error("请填写必要的表单项");
+          return this.$message.error('请填写必要的表单项')
         }
-      });
+      })
       // 执行添加
-      const { data: res } = await this.$http.post("goods/", this.addItemForm);
+      const { data: res } = await this.$http.post('goods/', this.addItemForm)
       if (res.meta.code !== 200) {
-        return this.$message.error(res.meta.message);
+        return this.$message.error(res.meta.message)
       }
-      this.$message.success(res.meta.message);
+      this.$message.success(res.meta.message)
       this.$router.push('/goods')
-    },
+    }
   },
-  computed: {},
-};
+  computed: {}
+}
 </script>
 
 <style lang="less" scoped>

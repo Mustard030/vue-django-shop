@@ -12,24 +12,24 @@
 </template>
 
 <script>
-import cityOptions from "../assets/js/citydata";
+import cityOptions from '../assets/js/citydata'
 export default {
-    data(){
-        return{
-            
-            city: [],
-            cityOptions,
-            cityProps:{
-                expandTrigger: 'hover',
-            },
-        }
-    },
-    methods: {
-        changeProvince(){
-            console.log(this.city)
-        },
+  data() {
+    return {
+
+      city: [],
+      cityOptions,
+      cityProps: {
+        expandTrigger: 'hover'
+      }
     }
-};
+  },
+  methods: {
+    changeProvince() {
+      console.log(this.city)
+    }
+  }
+}
 </script>
 
 <style></style>

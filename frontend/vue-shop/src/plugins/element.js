@@ -40,10 +40,8 @@ import {
   Upload,
   DatePicker,
   Timeline,
-  TimelineItem,
+  TimelineItem
 } from 'element-ui'
-
-
 
 Vue.use(Button)
 Vue.use(Form)
@@ -84,7 +82,6 @@ Vue.use(Upload)
 Vue.use(DatePicker)
 Vue.use(Timeline)
 Vue.use(TimelineItem)
-
 
 Vue.prototype.$message = Message
 Vue.prototype.$confirm = MessageBox.confirm
