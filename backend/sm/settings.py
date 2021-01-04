@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'test01',
     'test02',
     'api',
+
 ]
 
 MIDDLEWARE = [
@@ -202,4 +203,5 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',  # 这是Django默认的
     'guardian.backends.ObjectPermissionBackend',  # 这是guardian的
 )
-
+# 自定义用户表
+AUTH_USER_MODEL = 'api.MyUserInfo'

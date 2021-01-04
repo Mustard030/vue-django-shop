@@ -4,7 +4,7 @@ import datetime as dt
 from datetime import datetime
 from django.contrib import auth
 from django.contrib.auth.models import Group
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password, check_password
 from django.http import JsonResponse
 from rest_framework.views import APIView
@@ -31,6 +31,7 @@ class LoginView(APIView):
             }}
         username = data.get('username')
         password = data.get('password')
+        user = auth.get_user_model()
         user_obj = auth.authenticate(username=username, password=password)
         login_success = user_obj.is_superuser or user_obj.is_staff
 
@@ -65,6 +66,7 @@ class Users(APIView):
                 'code': 400
             }}
         data = json.loads(str(request.body, encoding='utf8'))
+        User = auth.get_user_model()
         username = data.get('username', '')
         password = data.get('password', '')
         mg_state = data.get('mg_state', '')
@@ -92,6 +94,7 @@ class Users(APIView):
                 'code': 400
             }}
         query = request.GET.get('query', '')
+        User = auth.get_user_model()
         pagenum = int(request.GET.get('pagenum', ''))
         pagesize = int(request.GET.get('pagesize', ''))
         head: int = (pagenum - 1) * pagesize
@@ -131,6 +134,7 @@ class Users(APIView):
                 'code': 500
             }}
         data = json.loads(str(request.body, encoding='utf8'))
+        User = auth.get_user_model()
         uid = data.get('id', 0)
         user = User.objects.get(pk=uid)
         user.delete()
@@ -148,6 +152,7 @@ class Users(APIView):
                 'code': 500
             }}
         data = json.loads(str(request.body, encoding='utf8'))
+        User = auth.get_user_model()
         uid = data.get('id', 0)
         password = data.get('password', '')
         if not password:
@@ -169,6 +174,7 @@ class Users(APIView):
                 'code': 500
             }}
         data = json.loads(str(request.body, encoding='utf8'))
+        User = auth.get_user_model()
         uid = data.get('id', 0)
         role = data.get('role', 0)
 
@@ -197,7 +203,7 @@ class Menus(APIView):
                 'code': 400
             }}
         menu_list = list()
-        items = models.Menu.objects.all()
+        items = models.Menu.objects.filter(parentMenu__isnull=True)
         for item in items:
             parent = dict()
             children_list = list()
@@ -206,7 +212,7 @@ class Menus(APIView):
             parent['authname'] = item.authName
             parent['children'] = children_list
 
-            for ch_obj in list(item.childrenmenu_set.all()):
+            for ch_obj in list(item.menu_set.all()):
                 children = dict()
                 children['id'] = ch_obj.pk
                 children['authname'] = ch_obj.authName
@@ -245,7 +251,7 @@ def check_useable(request, check_username):
             'message': '用户名不可用',
             'code': 500
         }}
-    exist = User.objects.filter(username=check_username).exists()
+    exist = models.MyUserInfo.objects.filter(username=check_username).exists()
     if not exist:
         res['meta']['message'] = '用户名可用'
         res['meta']['code'] = 200
@@ -276,7 +282,7 @@ class ChangeActive(APIView):
             }}
         uid = kwargs.get('uid', 0)
         state = kwargs.get('state', None)
-
+        User = auth.get_user_model()
         changed_user = User.objects.get(pk=uid)
         if state is not None:
             changed_user.is_active = state
@@ -296,6 +302,7 @@ def get_info_by_id(request, uid):
             'message': '获取数据失败',
             'code': 400
         }}
+    User = auth.get_user_model()
     user = User.objects.get(pk=uid)
     username = user.username
     if user:
