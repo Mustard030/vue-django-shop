@@ -45,7 +45,7 @@ urlpatterns = [
     # 根据商品ID获得图片接口
     # path('getImgById/', views.get_img_by_id),
     # 获取订单列表
-    path('orders/', views.GetOrderList.as_view()),
+    path('orders/', views.Orders.as_view()),
     # 获取物流信息
     path('kuaidi/', views.Kuaidi.as_view()),
 ]

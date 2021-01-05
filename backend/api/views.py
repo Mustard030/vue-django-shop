@@ -69,16 +69,18 @@ class Users(APIView):
         User = auth.get_user_model()
         username = data.get('username', '')
         password = data.get('password', '')
+        phone = data.get('password', '')
+        email = data.get('password', '')
         mg_state = data.get('mg_state', '')
         if not username:
             return JsonResponse(res, safe=False)
         if mg_state == 3:
-            user = User.objects.create_superuser(username=username, password=password)
+            user = User.objects.create_superuser(username=username, password=password, phone=phone, email=email)
         elif mg_state == 2:
-            user = User.objects.create_superuser(username=username, password=password)
+            user = User.objects.create_superuser(username=username, password=password, phone=phone, email=email)
             user.is_superuser = 0
         else:
-            user = User.objects.create_user(username=username, password=password)
+            user = User.objects.create_user(username=username, password=password, phone=phone, email=email)
         user.save()
         if user:
             res['meta']['message'] = '添加用户成功'
@@ -108,6 +110,8 @@ class Users(APIView):
             user['id'] = subuser.pk
             user['username'] = subuser.username
             user['password'] = subuser.password
+            user['phone'] = subuser.phone
+            user['email'] = subuser.email
             role = '普通用户'
             if subuser.is_staff:
                 role = '商家'
@@ -622,7 +626,9 @@ class Goods(APIView):
         return JsonResponse(res, safe=False)
 
 
-class GetOrderList(APIView):
+# 订单相关接口
+class Orders(APIView):
+    # 获取订单列表
     def get(self, request):
         res = {
             'data': {},

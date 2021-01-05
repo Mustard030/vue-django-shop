@@ -34,7 +34,7 @@
       <el-dialog
         title="添加用户"
         :visible.sync="addDialogVisible"
-        width="30%"
+        width="40%"
         @close="addDialogClosed"
       >
         <!-- 内容主体 -->
@@ -50,9 +50,12 @@
           <el-form-item label="密码" prop="password">
             <el-input v-model="addForm.password"></el-input>
           </el-form-item>
-          <!-- <el-form-item label="确认密码" prop="checkPass">
-                        <el-input v-model="addForm.checkPass"></el-input>
-                    </el-form-item> -->
+          <el-form-item label="手机号" prop="phone">
+            <el-input v-model="addForm.phone"></el-input>
+          </el-form-item>
+          <el-form-item label="邮箱" prop="email">
+            <el-input v-model="addForm.email"></el-input>
+          </el-form-item>
           <el-form-item label="角色">
             <el-radio-group v-model="addForm.mg_state" size="medium">
               <el-radio-button border :label="1">普通用户</el-radio-button>
@@ -70,7 +73,7 @@
       </el-dialog>
 
       <!-- 修改用户的对话框 -->
-      <el-dialog title="修改密码" :visible.sync="editDialogVisible" width="30%">
+      <el-dialog title="修改用户信息" :visible.sync="editDialogVisible" width="30%">
         <el-form
           ref="editFormRef"
           :model="editForm"
@@ -83,6 +86,12 @@
           <el-form-item label="密码" prop="password">
             <el-input v-model="editForm.password"></el-input>
           </el-form-item>
+          <el-form-item label="手机号" prop="phone">
+            <el-input v-model="editForm.phone"></el-input>
+          </el-form-item>
+          <el-form-item label="邮箱" prop="email">
+            <el-input v-model="editForm.email"></el-input>
+          </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
           <el-button @click="editDialogVisible = false">取 消</el-button>
@@ -91,7 +100,7 @@
       </el-dialog>
 
       <!-- 修改用户身份的对话框 -->
-      <el-dialog title="修改身份" :visible.sync="editRoleDialogVisible" width="30%" >
+      <el-dialog title="修改身份" :visible.sync="editRoleDialogVisible" width="30%">
         <el-form
           ref="editRoleFormRef"
           :model="editRoleForm"
@@ -231,6 +240,8 @@ export default {
       addForm: {
         username: "",
         password: "",
+        phone: "",
+        email: "",
         mg_state: 1,
       },
       // 修改信息表单数据
@@ -281,11 +292,26 @@ export default {
             trigger: "change",
           },
         ],
+        phone: [
+          { required: true, message: "请输入手机号", trigger: "blur" },
+          {
+            min: 11,
+            max: 11,
+            message: "请输入正确格式的手机号码",
+            trigger: "blur",
+          },
+          {
+            min: 11,
+            max: 11,
+            message: "请输入正确格式的手机号码",
+            trigger: "change",
+          },
+        ],
+        email: [{ required: true, message: "请输入邮箱", trigger: "blur" }],
       },
       // 修改用户表单规则
       editFormRules: {
         password: [
-          { required: true, message: "请输入密码", trigger: "blur" },
           {
             min: 6,
             max: 16,
@@ -299,10 +325,25 @@ export default {
             trigger: "change",
           },
         ],
+        phone: [
+          {
+            min: 11,
+            max: 11,
+            message: "请输入正确格式的手机号码",
+            trigger: "blur",
+          },
+          {
+            min: 11,
+            max: 11,
+            message: "请输入正确格式的手机号码",
+            trigger: "change",
+          },
+        ],
+        email: [],
       },
       //更改用户角色表单规则
       editRoleFormRules: {
-        role: [{ required: true, message: "请选择用户角色", trigger: "blur" }]
+        role: [{ required: true, message: "请选择用户角色", trigger: "blur" }],
       },
     };
   },
@@ -402,8 +443,8 @@ export default {
     //更新用户角色
     async updateUserRole() {
       // console.log(this.editRoleForm)
-      const { data:res} = await this.$http.patch("users/",this.editRoleForm)
-      if(res.meta.code!==200){
+      const { data: res } = await this.$http.patch("users/", this.editRoleForm);
+      if (res.meta.code !== 200) {
         return this.$message.error(res.meta.message);
       }
       this.$message.success(res.meta.message);
