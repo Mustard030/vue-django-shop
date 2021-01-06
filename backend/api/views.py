@@ -47,7 +47,8 @@ class LoginView(APIView):
             res.update({'data': {
                 'id': user_obj.id,
                 'username': user_obj.username,
-                'token': token
+                'token': token,
+                'avatar': user_obj.userImage.url
             }
             })
             res['meta']['message'] = '登陆成功'
@@ -69,8 +70,8 @@ class Users(APIView):
         User = auth.get_user_model()
         username = data.get('username', '')
         password = data.get('password', '')
-        phone = data.get('password', '')
-        email = data.get('password', '')
+        phone = data.get('phone', '')
+        email = data.get('email', '')
         mg_state = data.get('mg_state', '')
         if not username:
             return JsonResponse(res, safe=False)
@@ -148,24 +149,29 @@ class Users(APIView):
 
         return JsonResponse(res, safe=False)
 
-    # 修改用户密码
+    # 修改用户信息
     def put(self, request):
         res = {
             'meta': {
-                'message': '修改密码失败',
+                'message': '修改信息失败',
                 'code': 500
             }}
         data = json.loads(str(request.body, encoding='utf8'))
         User = auth.get_user_model()
         uid = data.get('id', 0)
-        password = data.get('password', '')
-        if not password:
-            return JsonResponse(res, safe=False)
+        password = data.get('password')
+        phone = data.get('phone')
+        email = data.get('email')
         user = User.objects.get(pk=uid)
-        user.set_password(password)
+        if password:
+            user.set_password(password)
+        if phone:
+            user.phone = phone
+        if email:
+            user.email = email
         user.save()
         if user:
-            res['meta']['message'] = '修改密码成功'
+            res['meta']['message'] = '修改信息成功'
             res['meta']['code'] = 201
 
         return JsonResponse(res, safe=False)
@@ -578,7 +584,7 @@ class Goods(APIView):
         reserve = data.get('reserve')
         itemClasspk = data.get('itemClass')
         itemClass = models.GoodsKind.objects.filter(pk=itemClasspk).first()
-        merchant_pk = data.get('merchant', 1)
+        merchant_pk = data.get('merchant', 4)
         merchant = models.Merchant.objects.filter(pk=merchant_pk).first()
         unit = data.get('unit')
         introduce = data.get('introduce', None)
@@ -680,7 +686,6 @@ class Orders(APIView):
 # 快递接口
 class Kuaidi(APIView):
     # 根据订单编号获取物流信息
-    @need_login
     def get(self, request):
         res = {
             'meta': {
@@ -707,6 +712,17 @@ class Kuaidi(APIView):
     def put(self, request):
         res = {
             'data': {},
+            'meta': {
+                'message': '获取快递信息失败',
+                'code': 400
+            }}
+        return JsonResponse(res, safe=False)
+
+
+# 用户收货信息
+class Delivery(APIView):
+    def get(self, request):
+        res = {
             'meta': {
                 'message': '获取快递信息失败',
                 'code': 400

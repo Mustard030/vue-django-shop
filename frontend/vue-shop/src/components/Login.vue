@@ -87,9 +87,13 @@ export default {
           this.$message.success('登陆成功！')
           window.sessionStorage.setItem('token', res.data.data.token)
           window.sessionStorage.setItem('user', res.data.data.username)
+
+          this.$store.commit('updateUserInfo',res.data.data)
+
           this.$cookieStore.setCookie('username', this.loginForm.username, 86400);
           this.$router.push('/home')
         }).catch(err => {
+          console.log(err)
           return this.$message.error('连接服务器失败')
         })
       })

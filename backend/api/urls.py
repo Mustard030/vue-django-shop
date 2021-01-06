@@ -33,7 +33,7 @@ urlpatterns = [
     # 用户数据增删改查
     path('users/', views.Users.as_view()),
     # 检查用户名是否可用
-    path('checkUsable/<slug:check_username>', views.check_useable),
+    path('checkUsable/<str:check_username>', views.check_useable),
     # 检查商品类别名是否可用
     path('checkCateNameUsable/<str:check_cate_name>', views.check_cate_name_useable),
     # 商品增删改查
@@ -48,4 +48,6 @@ urlpatterns = [
     path('orders/', views.Orders.as_view()),
     # 获取物流信息
     path('kuaidi/', views.Kuaidi.as_view()),
+    # 用户收货地址相关
+    path('delivery/', views.Delivery.as_view())
 ]

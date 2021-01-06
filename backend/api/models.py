@@ -12,6 +12,9 @@ class MyUserInfo(AbstractUser):
     phone = models.CharField(max_length=11, blank=True, null=True)
     userImage = models.ImageField(upload_to=changeUserName, default=os.path.join('default', 'defaultUser.png'))
 
+    class Meta:
+        ordering = ['-is_active', '-is_superuser', '-is_staff']
+
 
 class Token(models.Model):
     token = models.CharField('token', max_length=128)

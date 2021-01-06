@@ -7,7 +7,8 @@
                 <span>电商后台管理系统</span>
             </div>
             <div>
-                <div id="username">您好！{{username}}</div>
+                <el-avatar :src='this.userava' id="ava"></el-avatar>
+                <div id="username">您好！{{this.userInfo.username}}</div>
             <el-button type="danger" @click="logout"> <i class="el-icon-switch-button"></i>
                 退出 </el-button>
             </div>
@@ -64,16 +65,26 @@ export default {
       menulist: [],
       // 激活的地址
       activePath: '',
-      username: window.sessionStorage.getItem('user')
+      userInfo:{
+          avatar: '',
+          token: '',
+          userId: '',
+          userName: ''
+      },
+      userava:'',
     }
   },
   created() {
     this.getMenuList()
     this.activePath = window.sessionStorage.getItem('activePath')
+    this.userInfo=this.$store.state.userInfo
+    this.userava = this.$store.state.BACKEND_URL+this.userInfo.avatar
+    
   },
   methods: {
     logout() {
       window.sessionStorage.clear()
+      window.localStorage.clear()
       this.$router.push('/login')
     },
     // 获取侧边栏数据
@@ -127,5 +138,9 @@ export default {
     #username{
         margin-right: 20px;
         font-size: 15px;
+    }
+
+    #ava{
+        margin-right: 15px;
     }
 </style>

@@ -4,6 +4,7 @@ import Login from '../components/Login'
 import Home from '../components/Home'
 import Welcome from '../components/Welcome'
 import User from '../components/user/User'
+import Delivery from '../components/user/Delivery'
 import Rights from '../components/power/Rights'
 import Main from '../components/shop/Main'
 import Cate from '../components/goods/Cate'
@@ -11,11 +12,11 @@ import GoodsList from '../components/goods/List'
 import Add from '../components/goods/Add'
 import Order from '../components/order/Order'
 
+
 Vue.use(VueRouter)
 
 const router = new VueRouter({
-  routes: [
-    {
+  routes: [{
       path: '/',
       redirect: '/shop'
     },
@@ -35,27 +36,37 @@ const router = new VueRouter({
       path: '/home',
       component: Home,
       redirect: '/welcome',
-      children: [
-        {
-          path: '/welcome', component: Welcome
+      children: [{
+          path: '/welcome',
+          component: Welcome
         },
         {
-          path: '/users', component: User
+          path: '/users',
+          component: User
         },
         {
-          path: '/rights', component: Rights
+          path: '/rights',
+          component: Rights
         },
         {
-          path: '/categories', component: Cate
+          path: '/categories',
+          component: Cate
         },
         {
-          path: '/goods', component: GoodsList
+          path: '/goods',
+          component: GoodsList
         },
         {
-          path: '/goods/add', component: Add
+          path: '/goods/add',
+          component: Add
         },
         {
-          path: '/order', component: Order
+          path: '/order',
+          component: Order
+        },
+        {
+          path: '/delivery',
+          component: Delivery
         }
       ]
     }

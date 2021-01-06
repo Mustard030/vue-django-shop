@@ -25,8 +25,11 @@
             ></el-button>
           </el-input>
         </el-col>
-        <el-col :span="4">
+        <el-col :span="2">
           <el-button type="primary" @click="addDialogVisible = true">添加用户</el-button>
+        </el-col>
+        <el-col :span="2">
+          <el-button icon="el-icon-refresh" circle @click="getUserList"></el-button>
         </el-col>
       </el-row>
 
@@ -146,7 +149,7 @@
             <el-tooltip
               class="item"
               effect="dark"
-              content="修改密码"
+              content="修改信息"
               placement="top"
               :enterable="false"
             >
@@ -249,6 +252,8 @@ export default {
         id: "",
         username: "",
         password: "",
+        phone: "",
+        email: ""
       },
       //修改用户角色表单数据
       editRoleForm: {
