@@ -48,7 +48,8 @@ class LoginView(APIView):
                 'id': user_obj.id,
                 'username': user_obj.username,
                 'token': token,
-                'avatar': user_obj.userImage.url
+                'avatar': user_obj.userImage.url,
+                'is_superuser': True if user_obj.is_superuser else False
             }
             })
             res['meta']['message'] = '登陆成功'
@@ -96,14 +97,29 @@ class Users(APIView):
                 'message': '获取数据失败',
                 'code': 400
             }}
-        query = request.GET.get('query', '')
+
         User = auth.get_user_model()
+        search_dict = dict()
+        args = tuple()
+
+        query = request.GET.get('query')
+        if query:
+            search_dict['username__icontains'] = query
+        is_staff = request.GET.get('is_staff')
+        if is_staff == 'true':
+            search_dict['is_staff'] = True
+            search_dict['is_superuser'] = False
+
+        is_superuser = request.GET.get('is_superuser')
+        if is_superuser == 'true':
+            search_dict['is_superuser'] = True
+
         pagenum = int(request.GET.get('pagenum', ''))
         pagesize = int(request.GET.get('pagesize', ''))
         head: int = (pagenum - 1) * pagesize
         tail: int = pagenum * pagesize
-        total = User.objects.filter(username__icontains=query).count()
-        userlist = User.objects.filter(username__icontains=query)[head:tail]
+        total = User.objects.filter(*args, **search_dict).count()
+        userlist = User.objects.filter(*args, **search_dict)[head:tail]
 
         return_list = list()
         for subuser in userlist:
@@ -644,13 +660,12 @@ class Orders(APIView):
             }}
         data = request.GET
         query = data.get('query')
-        print(query)
-        try:
-            start, end = str(query).split(',')
-        except ValueError:
+        # print(query)
+        if query == '':
             start = datetime(dt.MINYEAR, 1, 1, 0, 0, 0, 0)
             end = datetime(dt.MAXYEAR, 1, 1, 0, 0, 0, 0)
         else:
+            start, end = str(query).split(',')
             start = datetime.strptime(start, '%Y-%m-%d %H:%M:%S')
             end = datetime.strptime(end, '%Y-%m-%d %H:%M:%S')
 
@@ -721,10 +736,119 @@ class Kuaidi(APIView):
 
 # 用户收货信息
 class Delivery(APIView):
+    # 获取地址列表
     def get(self, request):
         res = {
             'meta': {
-                'message': '获取快递信息失败',
+                'message': '获取地址信息失败',
                 'code': 400
             }}
+
+        search_dict = dict()
+        query = request.GET.get('query')
+        args = (Q(recipient__icontains=query) |
+                Q(phone__icontains=query) |
+                Q(address__icontains=query) |
+                Q(user__username__icontains=query))
+        province = request.GET.getlist('province[]')
+
+        if province:
+            province = '/'.join(province)
+            search_dict['province'] = province
+
+        pagenum = int(request.GET.get('pagenum', ''))
+        pagesize = int(request.GET.get('pagesize', ''))
+        head: int = (pagenum - 1) * pagesize
+        tail: int = pagenum * pagesize
+        total = models.DeliveryInfo.objects.filter(args, **search_dict).count()
+        dataList = models.DeliveryInfo.objects.filter(args, **search_dict)[head:tail]
+        deliveryList = list()
+        for data in dataList:
+            data_dict = dict()
+            data_dict['id'] = data.pk
+            data_dict['recipient'] = data.recipient
+            data_dict['phone'] = data.phone
+            data_dict['province'] = data.province
+            data_dict['address'] = data.address
+            data_dict['user'] = data.user.username
+            data_dict['userID'] = data.user.pk
+            deliveryList.append(data_dict)
+
+        res.update({'data': {}})
+        res['data'].update({'deliveryList': deliveryList})
+        res['data'].update({'total': total})
+        res['meta']['code'] = 200
+        res['meta']['message'] = '获取数据成功'
+        return JsonResponse(res, safe=False)
+
+    # 添加地址信息
+    def post(self, request):
+        res = {
+            'meta': {
+                'message': '添加地址信息失败',
+                'code': 400
+            }}
+        data = json.loads(str(request.body, encoding='utf8'))
+
+        recipient = data.get('recipient')
+        phone = data.get('phone')
+        province = '/'.join(data.get('province'))
+        address = data.get('address')
+        user = models.MyUserInfo.objects.get(pk=data.get('user'))
+
+        new_delivery = models.DeliveryInfo.objects.create(recipient=recipient,
+                                                          phone=phone,
+                                                          province=province,
+                                                          address=address,
+                                                          user=user)
+        if new_delivery:
+            res['meta']['message'] = '添加地址信息成功'
+            res['meta']['code'] = 200
+
+        return JsonResponse(res, safe=False)
+
+    # 修改地址信息
+    def put(self, request):
+        res = {
+            'meta': {
+                'message': '修改地址信息失败',
+                'code': 400
+            }}
+        data = json.loads(str(request.body, encoding='utf8'))
+        uid = data.get('id')
+        delivery_obj = models.DeliveryInfo.objects.get(pk=uid)
+        recipient = data.get('recipient')
+        phone = data.get('phone')
+        province = '/'.join(data.get('province'))
+        address = data.get('address')
+        user = models.MyUserInfo.objects.get(pk=data.get('user'))
+        if delivery_obj:
+            delivery_obj.recipient = recipient
+            delivery_obj.phone = phone
+            delivery_obj.province = province
+            delivery_obj.address = address
+            delivery_obj.user = user
+            delivery_obj.save()
+            res['meta']['message'] = '修改地址信息成功'
+            res['meta']['code'] = 200
+
+
+
+        return JsonResponse(res, safe=False)
+
+    # 删除地址信息
+    def delete(self, request):
+        res = {
+            'meta': {
+                'message': '删除地址信息失败',
+                'code': 400
+            }}
+
+        data = json.loads(str(request.body, encoding='utf8'))
+        uid = data.get('id')
+        item = models.DeliveryInfo.objects.get(pk=uid)
+        if item:
+            item.delete()
+            res['meta']['message'] = '删除地址成功'
+            res['meta']['code'] = 200
         return JsonResponse(res, safe=False)

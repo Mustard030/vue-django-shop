@@ -229,6 +229,7 @@ export default {
         query: "",
         pagenum: 1,
         pagesize: 10,
+        // is_staff:true
       },
       // 用户列表
       userlist: [],
@@ -363,6 +364,7 @@ export default {
       if (res.meta.code !== 200) return this.$message.error("获取用户列表失败！");
       this.userlist = res.data.userlist;
       this.total = res.data.total;
+      console.log(this.userlist)
     },
     // 监听pagesize改变的事件
     handleSizeChange(newSize) {
@@ -384,7 +386,7 @@ export default {
       const { data: res } = await this.$http.put(
         `users/${userinfo.id}/state/${stateTemp}`
       );
-      console.log(res);
+      // console.log(res);
       if (res.meta.code !== 200) {
         userinfo.state = !userinfo.state;
         return this.$message.error("更新状态失败");

@@ -11,7 +11,8 @@ export default new Vuex.Store({
       userId: null,
       avatar: null,
       username: null,
-      token:null
+      token:null,
+      is_superuser:false,
     },
 
   },
@@ -22,6 +23,7 @@ export default new Vuex.Store({
       state.userInfo.avatar = userObj.avatar
       state.userInfo.username = userObj.username
       state.userInfo.token = userObj.token
+      state.userInfo.is_superuser = userObj.is_superuser
     }
   },
   actions: {},
