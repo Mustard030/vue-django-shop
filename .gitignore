@@ -2,7 +2,8 @@
 图片素材
 
 # Byte-compiled / optimized / DLL files
-__pycache__/
+backend/__pycache__/
+backend/.idea/
 *.py[cod]
 *$py.class
 
@@ -29,7 +30,7 @@ MANIFEST
 # Django stuff:
 *.log
 local_settings.py
-db.sqlite3
+backend/db.sqlite3
 db.sqlite3-journal
 
 # Environments
