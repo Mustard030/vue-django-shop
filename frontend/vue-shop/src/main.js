@@ -9,6 +9,12 @@ import axios from 'axios'
 import TreeTable from 'vue-table-with-tree-grid'
 // 富文本编辑器
 import VueQuillEditor from 'vue-quill-editor'
+import { Quill } from 'vue-quill-editor'
+import { ImageDrop } from 'quill-image-drop-module'
+import ImageResize from 'quill-image-resize-module'
+Quill.register('modules/imageDrop', ImageDrop)
+Quill.register('modules/imageResize', ImageResize)
+
 
 // require styles 引入样式
 import 'quill/dist/quill.core.css'

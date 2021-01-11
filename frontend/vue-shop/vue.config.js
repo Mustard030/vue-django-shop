@@ -1,3 +1,4 @@
+var webpack = require('webpack')
 
 module.exports = {
 
@@ -15,8 +16,19 @@ module.exports = {
   runtimeCompiler: true, // 关键点在这
   // 调整内部的 webpack 配置。
   // 查阅 https://github.com/vuejs/vue-doc-zh-cn/vue-cli/webpack.md
-  chainWebpack: () => {},
-  configureWebpack: () => {},
+  chainWebpack: config => {
+    config.plugin('provide').use(webpack.ProvidePlugin, [{
+      'window.Quill': 'quill'
+    }])
+  },
+  configureWebpack: {
+    plugins: [
+      new webpack.ProvidePlugin({
+        'window.Quill': 'quill/dist/quill.js',
+        'Quill': 'quill/dist/quill.js'
+      }),
+    ]
+  },
 
   // vue-loader 选项
   // 查阅 https://vue-loader.vuejs.org/zh-cn/options.html

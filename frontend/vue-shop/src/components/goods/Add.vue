@@ -96,7 +96,7 @@
 
         <el-tab-pane label="商品内容" name="2">
           <!-- 富文本编辑器组件 -->
-          <quill-editor v-model="addItemForm.introduce"></quill-editor>
+          <quill-editor v-model="addItemForm.introduce" :options="editorOption"></quill-editor>
           <el-button type="primary" class="addBtn" @click="submitForm"
             >添加商品</el-button
           >
@@ -115,6 +115,39 @@
 export default {
   data() {
     return {
+      editorOption: {
+        placeholder: "开始编辑吧",
+        modules: {
+          toolbar: [
+            ["bold", "italic", "underline", "strike"], // toggled buttons
+            ["blockquote", "code-block"],
+
+            [{ header: 1 }, { header: 2 }], // custom button values
+            [{ list: "ordered" }, { list: "bullet" }],
+            [{ script: "sub" }, { script: "super" }], // superscript/subscript
+            [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
+            [{ direction: "rtl" }], // text direction
+
+            [{ size: ["small", false, "large", "huge"] }], // custom dropdown
+            [{ header: [1, 2, 3, 4, 5, 6, false] }],
+
+            [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+            [{ font: [] }],
+            [{ align: [] }],
+
+            ["clean"], // remove formatting button
+          ],
+          // 调整图片大小
+          imageResize: {
+            displayStyles: {
+              backgroundColor: "black",
+              border: "none",
+              color: "white",
+            },
+            modules: ["Resize", "DisplaySize", "Toolbar"],
+          },
+        },
+      },
       // 标签页激活Name
       activeName: "0",
       // 级联选择器选中项

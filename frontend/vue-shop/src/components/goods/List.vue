@@ -48,18 +48,12 @@
         <el-table-column type="expand">
           <template slot-scope="props">
             <el-form label-position="left" inline class="demo-table-expand">
-              <el-form-item label="商品 ID">
-                <span>{{ props.row.id }}</span>
+              <el-form-item label="商品介绍">
+                <div>
+                  <p v-html="props.row.introduce"></p>
+                </div> 
               </el-form-item>
-              <el-form-item label="商品名称">
-                <span>{{ props.row.itemName }}</span>
-              </el-form-item>
-              <el-form-item label="所属店铺">
-                <span>{{ props.row.merchantName }}</span>
-              </el-form-item>
-              <el-form-item label="商品分类">
-                <span>{{ props.row.itemClass }}</span>
-              </el-form-item>
+              
             </el-form>
           </template>
         </el-table-column>
@@ -197,7 +191,7 @@ export default {
     },
     // 跳转至更新商品信息页面
     goEditPage(id) {
-      window.sessionStorage.setItem('editItem', id)
+      window.sessionStorage.setItem("editItem", id);
       this.$router.push("/goods/edit");
     },
     // 删除商品

@@ -94,7 +94,10 @@
 
         <el-tab-pane label="商品内容" name="2">
           <!-- 富文本编辑器组件 -->
-          <quill-editor v-model="editItemForm.introduce"></quill-editor>
+          <quill-editor
+            v-model="editItemForm.introduce"
+            :options="editorOption"
+          ></quill-editor>
           <el-button type="primary" class="addBtn" @click="submitForm"
             >确认修改</el-button
           >
@@ -113,6 +116,39 @@
 export default {
   data() {
     return {
+      editorOption: {
+        placeholder: "开始编辑吧",
+        modules: {
+          toolbar: [
+            ["bold", "italic", "underline", "strike"], // toggled buttons
+            ["blockquote", "code-block"],
+
+            [{ header: 1 }, { header: 2 }], // custom button values
+            [{ list: "ordered" }, { list: "bullet" }],
+            [{ script: "sub" }, { script: "super" }], // superscript/subscript
+            [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
+            [{ direction: "rtl" }], // text direction
+
+            [{ size: ["small", false, "large", "huge"] }], // custom dropdown
+            [{ header: [1, 2, 3, 4, 5, 6, false] }],
+
+            [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+            [{ font: [] }],
+            [{ align: [] }],
+
+            ["clean"], // remove formatting button
+          ],
+          // 调整图片大小
+          imageResize: {
+            displayStyles: {
+              backgroundColor: "black",
+              border: "none",
+              color: "white",
+            },
+            modules: ["Resize", "DisplaySize", "Toolbar"],
+          },
+        },
+      },
       // 标签页激活Name
       activeName: "0",
       // 级联选择器选中项
@@ -128,7 +164,7 @@ export default {
       categoryList: [],
       // 添加商品的表单数据对象
       editItemForm: {
-        id:window.sessionStorage.getItem("editItem"),
+        id: window.sessionStorage.getItem("editItem"),
         itemName: "",
         price: 0,
         reserve: 0,
@@ -151,7 +187,7 @@ export default {
         ],
         reserve: [
           { required: true, message: "请输入商品库存量:", trigger: "blur" },
-        //   { min: 0, max: 3, message: "请输入0~999以内的数字", trigger: "blur" },
+          //   { min: 0, max: 3, message: "请输入0~999以内的数字", trigger: "blur" },
         ],
         itemClass: [{ required: true, message: "请选择商品分类", trigger: "blur" }],
         unit: [{ required: true, message: "请填写商品单位", trigger: "blur" }],
@@ -191,8 +227,8 @@ export default {
     },
     // 获取此条目商品信息
     async getItemData(id) {
-      const { data: res } = await this.$http.get("goods/", {params:{ id: id }});
-    //   console.log(res)
+      const { data: res } = await this.$http.get("goods/", { params: { id: id } });
+      //   console.log(res)
       this.editItemForm.itemName = res.data.name;
       this.editItemForm.price = res.data.price;
       this.editItemForm.reserve = res.data.reserve;
@@ -210,7 +246,9 @@ export default {
     // 处理图片删除
     async handleRemove(file, fileList) {
       var removePicID = file.id;
-      const { data: res } = await this.$http.delete('itemPics/',{data:{id:removePicID}});
+      const { data: res } = await this.$http.delete("itemPics/", {
+        data: { id: removePicID },
+      });
       if (res.meta.code !== 200) {
         this.$message.error(res.meta.message);
         reject(false);
@@ -222,7 +260,11 @@ export default {
     // 监听图片上传成功
     handleSuccess(response) {
       const newPicID = response.data.id;
-      this.editItemForm.pics.push({id:newPicID,url:response.data.url,name: response.data.name});
+      this.editItemForm.pics.push({
+        id: newPicID,
+        url: response.data.url,
+        name: response.data.name,
+      });
     },
     // 提交商品表单
     async submitForm() {
@@ -232,7 +274,7 @@ export default {
         }
       });
       // 执行修改
-    //   console.log(this.editItemForm)
+      //   console.log(this.editItemForm)
       const { data: res } = await this.$http.put("goods/", this.editItemForm);
       if (res.meta.code !== 200) {
         return this.$message.error(res.meta.message);

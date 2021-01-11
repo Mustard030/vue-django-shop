@@ -589,6 +589,7 @@ class Goods(APIView):
                 item['itemClass'] = subitem.itemClass.name
                 item['merchantName'] = subitem.merchantId.merchantName
                 item['unit'] = subitem.unit
+                item['introduce'] = subitem.introduce
 
                 return_list.append(item)
 
