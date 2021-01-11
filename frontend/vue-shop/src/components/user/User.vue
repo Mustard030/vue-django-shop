@@ -214,7 +214,7 @@ export default {
   data() {
     var checkUsername = (rule, value, callback) => {
       var data = this.$http.get(`checkUsable/${value}`).then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         if (res.data.meta.code !== 200) {
           callback(new Error("用户名已被使用！"));
         } else {
@@ -364,7 +364,7 @@ export default {
       if (res.meta.code !== 200) return this.$message.error("获取用户列表失败！");
       this.userlist = res.data.userlist;
       this.total = res.data.total;
-      console.log(this.userlist)
+      // console.log(this.userlist)
     },
     // 监听pagesize改变的事件
     handleSizeChange(newSize) {

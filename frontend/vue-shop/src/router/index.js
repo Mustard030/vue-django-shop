@@ -10,6 +10,7 @@ import Main from '../components/shop/Main'
 import Cate from '../components/goods/Cate'
 import GoodsList from '../components/goods/List'
 import Add from '../components/goods/Add'
+import Edit from '../components/goods/Edit'
 import Order from '../components/order/Order'
 
 
@@ -61,6 +62,10 @@ const router = new VueRouter({
           component: Add
         },
         {
+          path: '/goods/edit',
+          component: Edit
+        },
+        {
           path: '/order',
           component: Order
         },
@@ -80,10 +85,10 @@ router.beforeEach((to, from, next) => {
   // next 函数，表示放行
   //  next() 放行 next('/login') 强制跳转到login
 
-  if (to.path === '/login') return next()
+  if (to.path === '/login') {return next()}
   // 获取token
   const tokenStr = window.sessionStorage.getItem('token')
-  if (!tokenStr) return next('/login')
+  if (!tokenStr){ return next('/login')}
   next()
 })
 

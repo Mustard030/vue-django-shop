@@ -21,8 +21,8 @@ def changeName(instance, filename):
         split = filename.split('.')
 
         file_rename = getMD5(instance.name + split[0]) + '.' + split[-1]  # 对文件名进行重编码，并规定文件读写路径
-        itemID = str(instance.itemID.pk)
-        pic_write_path = os.path.join('itemPics', itemID, file_rename)
+        # itemID = str(instance.itemID.pk)
+        pic_write_path = os.path.join('itemPics', file_rename)
 
         return pic_write_path
 

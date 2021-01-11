@@ -39,9 +39,9 @@ urlpatterns = [
     # 商品增删改查
     path('goods/', views.Goods.as_view()),
     # 图片上传接口
-    path('itemPics/<int:itemid>', views.ItemPics.as_view()),
+    path('itemPics/', views.ItemPics.as_view()),
     # 临时图片接口
-    path('tempImage/', views.TempImage.as_view()),
+    # path('tempImage/', views.TempImage.as_view()),
     # 根据商品ID获得图片接口
     # path('getImgById/', views.get_img_by_id),
     # 获取订单列表
@@ -49,5 +49,8 @@ urlpatterns = [
     # 获取物流信息
     path('kuaidi/', views.Kuaidi.as_view()),
     # 用户收货地址相关
-    path('delivery/', views.Delivery.as_view())
+    path('delivery/', views.Delivery.as_view()),
+    # 获取商家列表
+    path('merchant/', views.Merchant.as_view()),
+
 ]

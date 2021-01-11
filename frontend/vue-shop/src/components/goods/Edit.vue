@@ -5,14 +5,14 @@
       <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>商品管理</el-breadcrumb-item>
       <el-breadcrumb-item>商品条目管理</el-breadcrumb-item>
-      <el-breadcrumb-item>添加商品</el-breadcrumb-item>
+      <el-breadcrumb-item>修改商品</el-breadcrumb-item>
     </el-breadcrumb>
 
     <!-- 卡片视图区域 -->
     <el-card>
-      <!-- 添加商品提示信息 -->
+      <!-- 修改商品提示信息 -->
       <el-alert
-        title="添加商品"
+        title="修改商品"
         type="info"
         :closable="false"
         center
@@ -31,24 +31,24 @@
         <el-tab-pane label="基本信息" name="0">
           <!-- 表单区域 -->
           <el-form
-            :model="addItemForm"
-            :rules="addItemRules"
-            ref="addItemFormRef"
+            :model="editItemForm"
+            :rules="editItemRules"
+            ref="editItemFormRef"
             label-width="100px"
             label-position="top"
           >
             <el-form-item label="商品名称" prop="itemName">
-              <el-input v-model="addItemForm.itemName" width="300px"></el-input>
+              <el-input v-model="editItemForm.itemName" width="300px"></el-input>
             </el-form-item>
             <el-form-item label="商品价格" prop="price">
-              <el-input v-model="addItemForm.price" type="number"></el-input>
+              <el-input v-model="editItemForm.price" type="number"></el-input>
             </el-form-item>
             <el-form-item label="库存量" prop="reserve">
-              <el-input v-model="addItemForm.reserve" type="number"></el-input>
+              <el-input v-model="editItemForm.reserve"></el-input>
             </el-form-item>
             <el-form-item label="商品分类" prop="itemClass">
               <el-cascader
-                v-model="addItemForm.itemClass"
+                v-model="editItemForm.itemClass"
                 :options="categoryList"
                 :props="cateProps"
                 clearable
@@ -56,11 +56,11 @@
               ></el-cascader>
             </el-form-item>
             <el-form-item label="单位 如:斤,个,份" prop="unit">
-              <el-input v-model="addItemForm.unit"></el-input>
+              <el-input v-model="editItemForm.unit"></el-input>
             </el-form-item>
             <el-form-item label="所属商家" prop="merchant">
               <el-select
-                v-model="addItemForm.merchant"
+                v-model="editItemForm.merchant"
                 filterable
                 clearable
                 placeholder="请选择"
@@ -86,9 +86,7 @@
             :on-success="handleSuccess"
             list-type="picture-card"
             :headers="headersObj"
-            :limit="5"
-            :on-exceed="outOfLimit"
-            :file-list="addItemForm.pics"
+            :file-list="editItemForm.pics"
           >
             <i class="el-icon-plus"></i>
           </el-upload>
@@ -96,9 +94,9 @@
 
         <el-tab-pane label="商品内容" name="2">
           <!-- 富文本编辑器组件 -->
-          <quill-editor v-model="addItemForm.introduce"></quill-editor>
+          <quill-editor v-model="editItemForm.introduce"></quill-editor>
           <el-button type="primary" class="addBtn" @click="submitForm"
-            >添加商品</el-button
+            >确认修改</el-button
           >
         </el-tab-pane>
 
@@ -129,13 +127,14 @@ export default {
       // 商品分类列表
       categoryList: [],
       // 添加商品的表单数据对象
-      addItemForm: {
+      editItemForm: {
+        id:window.sessionStorage.getItem("editItem"),
         itemName: "",
-        price: null,
-        reserve: null,
+        price: 0,
+        reserve: 0,
         itemClass: [],
         unit: "",
-        merchant: this.$store.state.userInfo.userId,
+        merchant: 0,
         introduce: "",
         pics: [],
       },
@@ -144,7 +143,7 @@ export default {
       // 图片上传地址
       uploadUrl: "http://localhost:80/api/private/itemPics/",
       // 添加商品的表单验证项
-      addItemRules: {
+      editItemRules: {
         itemName: [{ required: true, message: "请输入商品名称", trigger: "blur" }],
         price: [
           { required: true, message: "请输入商品价格", trigger: "blur" },
@@ -152,7 +151,7 @@ export default {
         ],
         reserve: [
           { required: true, message: "请输入商品库存量:", trigger: "blur" },
-          { min: 0, max: 3, message: "请输入0~999以内的数字", trigger: "blur" },
+        //   { min: 0, max: 3, message: "请输入0~999以内的数字", trigger: "blur" },
         ],
         itemClass: [{ required: true, message: "请选择商品分类", trigger: "blur" }],
         unit: [{ required: true, message: "请填写商品单位", trigger: "blur" }],
@@ -172,6 +171,7 @@ export default {
   created() {
     this.getCateList();
     this.getMerchantList();
+    this.getItemData(window.sessionStorage.getItem("editItem"));
   },
   methods: {
     // 获取商品分类
@@ -189,6 +189,19 @@ export default {
       }
       this.merchantList = res.data.merchant;
     },
+    // 获取此条目商品信息
+    async getItemData(id) {
+      const { data: res } = await this.$http.get("goods/", {params:{ id: id }});
+    //   console.log(res)
+      this.editItemForm.itemName = res.data.name;
+      this.editItemForm.price = res.data.price;
+      this.editItemForm.reserve = res.data.reserve;
+      this.editItemForm.itemClass = res.data.itemClass;
+      this.editItemForm.unit = res.data.unit;
+      this.editItemForm.introduce = res.data.introduce;
+      this.editItemForm.merchant = res.data.merchant;
+      this.editItemForm.pics = res.data.pics;
+    },
     // 处理图片预览效果
     handlePreview(file) {
       this.previewUrl = file.url;
@@ -197,43 +210,35 @@ export default {
     // 处理图片删除
     async handleRemove(file, fileList) {
       var removePicID = file.id;
-      const { data: res } = await this.$http.delete("itemPics/", {
-        data: { id: removePicID },
-      });
+      const { data: res } = await this.$http.delete('itemPics/',{data:{id:removePicID}});
       if (res.meta.code !== 200) {
         this.$message.error(res.meta.message);
         reject(false);
       } else {
-        const i = this.addItemForm.pics.findIndex((x) => x.id === removePicID);
-        this.addItemForm.pics.splice(i, 1);
+        const i = this.editItemForm.pics.findIndex((x) => x.id === removePicID);
+        this.editItemForm.pics.splice(i, 1);
       }
     },
     // 监听图片上传成功
     handleSuccess(response) {
-      this.addItemForm.pics.push({
-        id: response.data.id,
-        url: response.data.url,
-        name: response.data.name,
-      });
+      const newPicID = response.data.id;
+      this.editItemForm.pics.push({id:newPicID,url:response.data.url,name: response.data.name});
     },
     // 提交商品表单
     async submitForm() {
-      this.$refs.addItemFormRef.validate((valid) => {
+      this.$refs.editItemFormRef.validate((valid) => {
         if (!valid) {
           return this.$message.error("请填写必要的表单项");
         }
       });
-      // 执行添加
-      const { data: res } = await this.$http.post("goods/", this.addItemForm);
+      // 执行修改
+    //   console.log(this.editItemForm)
+      const { data: res } = await this.$http.put("goods/", this.editItemForm);
       if (res.meta.code !== 200) {
         return this.$message.error(res.meta.message);
       }
       this.$message.success(res.meta.message);
       this.$router.push("/goods");
-    },
-    // 超出文件限制数量
-    outOfLimit() {
-      this.$message.error("最多只允许上传5张图片");
     },
   },
   computed: {},
@@ -253,5 +258,8 @@ export default {
 }
 .addBtn {
   margin-top: 20px;
+}
+.el-tabs {
+  margin-top: 25px;
 }
 </style>

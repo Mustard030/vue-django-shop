@@ -205,3 +205,5 @@ AUTHENTICATION_BACKENDS = (
 )
 # 自定义用户表
 AUTH_USER_MODEL = 'api.MyUserInfo'
+
+RUNNING_HOST = 'http://localhost:80'

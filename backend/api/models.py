@@ -32,18 +32,18 @@ class Menu(models.Model):
 class GoodsImage(models.Model):
     image = models.ImageField(verbose_name='图片', upload_to=changeName)
     name = models.CharField(verbose_name='图片名', max_length=255)
-    itemID = models.ForeignKey(verbose_name='归属商品', to='GoodsInfo', on_delete=models.CASCADE)
+    itemID = models.ForeignKey(verbose_name='归属商品', to='GoodsInfo', on_delete=models.CASCADE, blank=True, null=True)
 
 
-# 缓存图片
-class TempImage(models.Model):
-    image = models.ImageField(verbose_name='暂存图片', upload_to=changeTempName)
-    name = models.CharField(verbose_name='暂存图片名', max_length=255)
+# # 缓存图片
+# class TempImage(models.Model):
+#     image = models.ImageField(verbose_name='暂存图片', upload_to=changeTempName)
+#     name = models.CharField(verbose_name='暂存图片名', max_length=255)
 
 
 # 商品信息
 class GoodsInfo(models.Model):
-    itemClass = models.ForeignKey(verbose_name='商品种类', to='GoodsKind', on_delete=models.CASCADE)
+    itemClass = models.ForeignKey(verbose_name='商品种类', to='GoodsKind', on_delete=models.SET_NULL, null=True)
     merchantId = models.ForeignKey(verbose_name='归属商家', to='Merchant', on_delete=models.CASCADE)
     itemName = models.CharField(verbose_name='商品名', max_length=100)
     sales = models.IntegerField(verbose_name='销量', default=0)

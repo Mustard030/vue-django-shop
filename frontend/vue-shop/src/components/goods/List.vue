@@ -89,7 +89,7 @@
                 type="primary"
                 icon="el-icon-edit"
                 size="small"
-                @click="showEditDialog(scope.row.id)"
+                @click="goEditPage(scope.row.id)"
               >
               </el-button>
             </el-tooltip>
@@ -133,10 +133,10 @@ export default {
     return {
       // 查询参数对象
       queryInfo: {
-        query: '',
+        query: "",
         categoryId: 0,
         pagenum: 1,
-        pagesize: 10
+        pagesize: 10,
       },
       // 商品信息列表
       goodsList: [],
@@ -148,85 +148,86 @@ export default {
       total: 0,
       // 级联选择框配置对象
       cateProps: {
-        value: 'cat_id',
-        label: 'cat_name',
-        children: 'children',
-        expandTrigger: 'hover'
-      }
-    }
+        value: "cat_id",
+        label: "cat_name",
+        children: "children",
+        expandTrigger: "hover",
+      },
+    };
   },
   created() {
-    this.getGoodsList()
-    this.getCateList()
+    this.getGoodsList();
+    this.getCateList();
   },
   methods: {
     // 根据分页获取对应的商品列表
     async getGoodsList() {
-      const { data: res } = await this.$http.get('goods/', {
-        params: this.queryInfo
-      })
+      const { data: res } = await this.$http.get("goods/", {
+        params: this.queryInfo,
+      });
       if (res.meta.code !== 200) {
-        return this.$message.error(res.meta.message)
+        return this.$message.error(res.meta.message);
       }
 
-      this.goodsList = res.data.goodslist
-      this.total = res.data.total
+      this.goodsList = res.data.goodslist;
+      this.total = res.data.total;
     },
     // 获取用于限定搜索范围的商品分类列表
     async getCateList() {
-      const { data: res } = await this.$http.get('categories/', { params: { type: 2 } })
-      if (res.meta.code !== 200) return this.$message.error(res.meta.message)
+      const { data: res } = await this.$http.get("categories/", { params: { type: 2 } });
+      if (res.meta.code !== 200) return this.$message.error(res.meta.message);
 
       // 数据列表
-      this.options = res.data
+      this.options = res.data;
     },
     // 监听pagesize改变的事件
     handleSizeChange(newSize) {
-      this.queryInfo.pagesize = newSize
-      this.getGoodsList()
+      this.queryInfo.pagesize = newSize;
+      this.getGoodsList();
     },
     // 监听页码值改变的事件
     handleCurrentChange(newPage) {
-      this.queryInfo.pagenum = newPage
-      this.getGoodsList()
+      this.queryInfo.pagenum = newPage;
+      this.getGoodsList();
     },
     // 监听分类选择改变事件
     handleCateChange() {
-      this.queryInfo.categoryId = this.category[this.category.length - 1]
-      this.getGoodsList()
+      this.queryInfo.categoryId = this.category[this.category.length - 1];
+      this.getGoodsList();
     },
-    // 添加商品
-
-    // 修改商品信息
-
+    // 跳转至更新商品信息页面
+    goEditPage(id) {
+      window.sessionStorage.setItem('editItem', id)
+      this.$router.push("/goods/edit");
+    },
     // 删除商品
     async deleteItem(id) {
       const confirmResult = await this.$confirm(
-        '此操作将永久删除该商品, 是否继续?',
-        '提示',
+        "此操作将永久删除该商品, 是否继续?",
+        "提示",
         {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning",
         }
-      ).catch((res) => res)
+      ).catch((res) => res);
 
-      if (confirmResult !== 'confirm') {
-        return this.$message.info('已取消删除')
+      if (confirmResult !== "confirm") {
+        return this.$message.info("已取消删除");
       }
-      const { data: res } = await this.$http.delete('goods/', { data: { id: id } })
+      const { data: res } = await this.$http.delete("goods/", { data: { id: id } });
       if (res.meta.code !== 200) {
-        return this.$message.error(res.meta.message)
+        return this.$message.error(res.meta.message);
       }
-      this.$message.success(res.meta.message)
-      this.getGoodsList()
+      this.$message.success(res.meta.message);
+      this.getGoodsList();
     },
     // 跳转至添加商品页面
     goAddPage() {
-      this.$router.push('/goods/add')
-    }
-  }
-}
+      this.$router.push("/goods/add");
+    },
+  },
+};
 </script>
 <style lang="less" scoped>
 .demo-table-expand {

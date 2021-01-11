@@ -342,7 +342,7 @@ def get_info_by_id(request, uid):
 
 # 商品图片接口
 class ItemPics(APIView):
-    def post(self, request, itemid):
+    def post(self, request):
         res = {
             'data': {},
             'meta': {
@@ -350,43 +350,38 @@ class ItemPics(APIView):
                 'code': 400
             }}
 
-        item = models.GoodsInfo.objects.filter(pk=itemid).first()
-
         new_img = models.GoodsImage(
             image=request.FILES.get('file'),
             name=request.FILES.get('file').name,
-            itemID=item
         )
         new_img.save()
         if new_img.image.url:
             res['data']['id'] = new_img.pk
-            res['data']['url'] = new_img.image.url
+            res['data']['url'] = settings.RUNNING_HOST + new_img.image.url
             res['data']['name'] = new_img.name
             res['meta']['code'] = 200
             res['meta']['message'] = '图片上传成功'
 
         return JsonResponse(res, safe=False)
 
-    def delete(self, request, itemid):
+    def delete(self, request):
         res = {
             'data': {},
             'meta': {
                 'message': '图片删除失败',
                 'code': 400
             }}
-        itemPic = models.GoodsImage.objects.filter(pk=itemid).first()
-        itemPicPK = itemPic.pk
-        picurl = itemPic.image.url
-        deleteNum, deletePic = itemPic.delete()
-        if deleteNum > 0:
-            base = str(settings.BASE_DIR).replace('\\', '/')
-            picabsurl = base + picurl
-            # print(picabsurl)
-            os.remove(picabsurl)
-            res['data']['itemPicID'] = itemPicPK
-            res['meta']['code'] = 200
-            res['meta']['message'] = '图片删除成功'
+        data = json.loads(str(request.body, encoding='utf8'))
+        # print(data)
+        del_pk = int(data.get('id'))
+        itemPic = models.GoodsImage.objects.filter(pk=del_pk).first()
 
+        res['data']['itemPicID'] = int(itemPic.pk)
+        res['meta']['code'] = 200
+        res['meta']['message'] = '图片删除成功'
+
+        os.remove(itemPic.image.path)
+        itemPic.delete()
         return JsonResponse(res, safe=False)
 
 
@@ -407,11 +402,28 @@ class TempImage(APIView):
         temp_img.save()
         if temp_img.image.url:
             res['data']['id'] = temp_img.pk
-            res['data']['url'] = temp_img.image.url
+            res['data']['url'] = 'http://localhost:80' + temp_img.image.url
             res['data']['name'] = temp_img.name
             res['meta']['code'] = 200
             res['meta']['message'] = '图片上传成功'
 
+        return JsonResponse(res, safe=False)
+
+    def delete(self, request):
+        res = {
+            'meta': {
+                'message': '图片删除失败',
+                'code': 400
+            }}
+        # print(request.body)
+        data = json.loads(str(request.body, encoding='utf8'))
+        pk = data.get('id')
+        del_pic = models.TempImage.objects.filter(pk=pk).first()
+        if del_pic:
+            os.remove(del_pic.image.path)
+            del_pic.delete()
+            res['meta']['code'] = 200
+            res['meta']['message'] = '删除图片成功'
         return JsonResponse(res, safe=False)
 
 
@@ -550,38 +562,66 @@ class Goods(APIView):
                 'message': '获取数据失败',
                 'code': 400
             }}
-        query = request.GET.get('query', '')
-        pagenum = int(request.GET.get('pagenum', ''))
-        pagesize = int(request.GET.get('pagesize', ''))
-        categoryId = int(request.GET.get('categoryId', 0))
-        head: int = (pagenum - 1) * pagesize
-        tail: int = pagenum * pagesize
-        if categoryId:
-            total = models.GoodsInfo.objects.filter(itemName__icontains=query, itemClass=categoryId).count()
-            goodslist = models.GoodsInfo.objects.filter(itemName__icontains=query, itemClass=categoryId)[head:tail]
-        else:
-            total = models.GoodsInfo.objects.filter(itemName__icontains=query).count()
-            goodslist = models.GoodsInfo.objects.filter(itemName__icontains=query)[head:tail]
+        item = request.GET.get('id')
+        # print(item)
+        if not item:
+            query = request.GET.get('query', '')
+            pagenum = int(request.GET.get('pagenum', 0))
+            pagesize = int(request.GET.get('pagesize', 0))
+            categoryId = int(request.GET.get('categoryId', 0))
+            head: int = (pagenum - 1) * pagesize
+            tail: int = pagenum * pagesize
+            if categoryId:
+                total = models.GoodsInfo.objects.filter(itemName__icontains=query, itemClass=categoryId).count()
+                goodslist = models.GoodsInfo.objects.filter(itemName__icontains=query, itemClass=categoryId)[head:tail]
+            else:
+                total = models.GoodsInfo.objects.filter(itemName__icontains=query).count()
+                goodslist = models.GoodsInfo.objects.filter(itemName__icontains=query)[head:tail]
 
-        return_list = list()
-        for subitem in goodslist:
-            item = dict()
-            item['id'] = subitem.pk
-            item['itemName'] = subitem.itemName
-            item['sales'] = subitem.sales
-            item['price'] = subitem.price
-            item['reserve'] = subitem.reserve
-            item['itemClass'] = subitem.itemClass.name
-            item['merchantName'] = subitem.merchantId.merchantName
-            item['unit'] = subitem.unit
+            return_list = list()
+            for subitem in goodslist:
+                item = dict()
+                item['id'] = subitem.pk
+                item['itemName'] = subitem.itemName
+                item['sales'] = subitem.sales
+                item['price'] = subitem.price
+                item['reserve'] = subitem.reserve
+                item['itemClass'] = subitem.itemClass.name
+                item['merchantName'] = subitem.merchantId.merchantName
+                item['unit'] = subitem.unit
 
-            return_list.append(item)
+                return_list.append(item)
 
-        res['data']['goodslist'] = return_list
-        res['data']['total'] = total
-        # if return_list:
-        res['meta']['message'] = '获取数据成功'
-        res['meta']['code'] = 200
+            res['data']['goodslist'] = return_list
+            res['data']['total'] = total
+            # if return_list:
+            res['meta']['message'] = '获取数据成功'
+            res['meta']['code'] = 200
+        elif item:
+            item_obj = models.GoodsInfo.objects.filter(pk=item).first()
+            if item_obj:
+                pics_list = item_obj.goodsimage_set.all()
+                pics = list()
+                for pic in pics_list:
+                    pic_obj = dict()
+                    pic_obj['id'] = pic.pk
+                    pic_obj['url'] = settings.RUNNING_HOST + pic.image.url
+                    pics.append(pic_obj)
+
+                res['data'].update({
+                    'id': item_obj.pk,
+                    'name': item_obj.itemName,
+                    'sales': item_obj.sales,
+                    'price': item_obj.price,
+                    'reserve': item_obj.reserve,
+                    'unit': item_obj.unit,
+                    'introduce': item_obj.introduce,
+                    'merchant': item_obj.merchantId.admin.pk,
+                    'itemClass': [item_obj.itemClass.parent.pk, item_obj.itemClass.pk],
+                    'pics': pics
+                })
+                res['meta']['code'] = 200
+                res['meta']['message'] = '获取数据成功'
 
         return JsonResponse(res, safe=False)
 
@@ -598,13 +638,13 @@ class Goods(APIView):
         itemName = data.get('itemName')
         price = data.get('price')
         reserve = data.get('reserve')
-        itemClasspk = data.get('itemClass')
+        itemClasspk = data.get('itemClass')[-1]
         itemClass = models.GoodsKind.objects.filter(pk=itemClasspk).first()
-        merchant_pk = data.get('merchant', 4)
-        merchant = models.Merchant.objects.filter(pk=merchant_pk).first()
+        merchant_pk = int(data.get('merchant'))
+        merchant = models.Merchant.objects.filter(admin=merchant_pk).first()
         unit = data.get('unit')
         introduce = data.get('introduce', None)
-        pics = data.get('pics', list())
+        pics = data.get('pics', [])
         # 添加商品条目
         new_item = models.GoodsInfo(itemName=itemName,
                                     price=price,
@@ -614,15 +654,12 @@ class Goods(APIView):
                                     merchantId=merchant,
                                     introduce=introduce)
         new_item.save()
-        for pic in pics:
-            tempPic = models.TempImage.objects.filter(pk=pic).first()
-            pic_name = tempPic.name
-            with open(tempPic.image.path, 'rb') as f:
-                image = File(f)
-                new_pic = models.GoodsImage(image=image, name=pic_name, itemID=new_item)
-                new_pic.save()
-            os.remove(tempPic.image.path)
-            tempPic.delete()
+        if pics:
+            for pic in pics:
+                pic_obj = models.GoodsImage.objects.filter(pk=pic['id']).first()
+                pic_obj.itemID = new_item
+                pic_obj.save()
+            
 
         if new_item:
             res['data']['newItemID'] = new_item.pk
@@ -630,7 +667,7 @@ class Goods(APIView):
             res['meta']['message'] = '添加商品成功'
         return JsonResponse(res, safe=False)
 
-    # 根据ID删除商品信息
+    # 根据ID删除商品
     def delete(self, request):
         res = {
             'meta': {
@@ -644,6 +681,50 @@ class Goods(APIView):
             item.delete()
             res['meta']['message'] = '删除商品成功'
             res['meta']['code'] = 200
+
+        return JsonResponse(res, safe=False)
+
+    # 修改商品信息
+    def put(self, request):
+        res = {
+            'meta': {
+                'message': '修改商品失败',
+                'code': 500
+            }}
+        data = json.loads(str(request.body, encoding='utf8'))
+        # print(data)
+        # {'id': '2', 'itemName': '新鲜白菜 无农药残留', 'price': '3.00', 'reserve': 100, 'itemClass': [3, 31], 'unit': '斤',
+        #  'merchant': 8, 'introduce': '<p>新鲜大白菜啊！快来买啊！！真的很好吃</p>', 'pics': [
+        #     {'id': 44, 'url': 'http://localhost:80/media/itemPics/4b9df4d4a2dd8ab69a61db029b6bf480.jpg',
+        #      'uid': 1610373347237, 'status': 'success'}]}
+        pk = int(data.get('id'))
+        itemName = data.get('itemName')
+        price = data.get('price')
+        reserve = data.get('reserve')
+        itemClass = data.get('itemClass')[-1]
+        unit = data.get('unit')
+        merchantID = data.get('merchant')
+        introduce = data.get('introduce')
+        pics = data.get('pics')
+        item_obj = models.GoodsInfo.objects.filter(pk=pk).first()
+        if item_obj:
+            item_obj.itemName = itemName
+            item_obj.price = price
+            item_obj.reserve = reserve
+            item_obj.itemClass = models.GoodsKind.objects.filter(pk=itemClass).first()
+            item_obj.unit = unit
+            item_obj.introduce = introduce
+            item_obj.unmerchant = models.Merchant.objects.filter(admin=merchantID).first()
+
+            if pics:
+                for pic in pics:
+                    pic_obj = models.GoodsImage.objects.filter(pk=pic['id']).first()
+                    pic_obj.itemID = item_obj
+                    pic_obj.save()
+            item_obj.save()
+
+            res['meta']['code'] = 200
+            res['meta']['message'] = '修改商品成功'
 
         return JsonResponse(res, safe=False)
 
@@ -832,8 +913,6 @@ class Delivery(APIView):
             res['meta']['message'] = '修改地址信息成功'
             res['meta']['code'] = 200
 
-
-
         return JsonResponse(res, safe=False)
 
     # 删除地址信息
@@ -852,3 +931,72 @@ class Delivery(APIView):
             res['meta']['message'] = '删除地址成功'
             res['meta']['code'] = 200
         return JsonResponse(res, safe=False)
+
+
+# 商家相关
+class Merchant(APIView):
+    @staticmethod
+    def get_merchant_list(merchantID):
+        if merchantID:
+            merchant = dict()
+            merchant_obj = models.Merchant.objects.filter(pk=merchantID).first()
+            if merchant_obj:
+                merchant['id'] = merchant_obj.pk
+                merchant['name'] = merchant_obj.merchantName
+                merchant['admin'] = merchant_obj.admin.pk
+                success = True
+                total = 1
+            else:
+                success = False
+                total = 0
+        elif not merchantID:
+            merchant = list()
+            merchant_list = models.Merchant.objects.all()
+            for m in merchant_list:
+                merchant_obj = dict()
+                merchant_obj['id'] = m.pk
+                merchant_obj['name'] = m.merchantName
+                merchant_obj['admin'] = m.admin.pk
+                merchant.append(merchant_obj)
+
+            if merchant:
+                success = True
+                total = models.Merchant.objects.all().count()
+
+        return success, merchant, total
+
+    def get(self, request):
+        res = {
+            'meta': {
+                'message': '获取商铺失败',
+                'code': 400
+            }}
+        merchantID = int(request.GET.get('id', 0))
+        success, merchant, total = self.get_merchant_list(merchantID)
+        if success:
+            res.update({'data': {}})
+            res['data'].update({'merchant': merchant})
+            res['data'].update({'total': total})
+            res['meta']['message'] = '获取商铺成功'
+            res['meta']['code'] = 200
+
+        return JsonResponse(res, safe=False)
+
+    def post(self, request):
+        res = {
+            'meta': {
+                'message': '新增商铺失败',
+                'code': 400
+            }}
+        data = json.loads(str(request.body, encoding='utf8'))
+        name = data.get('name')
+        admin = int(data.get('admin'))
+        admin = models.MyUserInfo.get(pk=admin)
+        new_merchant = models.Merchant.objects.create(merchantName=name, admin=admin)
+        if new_merchant:
+            res.update({'data': {}})
+            res['data'].update({
+                'id': new_merchant.pk,
+                'name': new_merchant.merchantName,
+                'admin': new_merchant.admin.pk
+            })
