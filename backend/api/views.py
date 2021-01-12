@@ -563,7 +563,7 @@ class Goods(APIView):
                 'code': 400
             }}
         item = request.GET.get('id')
-        # print(item)
+
         if not item:
             query = request.GET.get('query', '')
             pagenum = int(request.GET.get('pagenum', 0))
@@ -660,7 +660,6 @@ class Goods(APIView):
                 pic_obj = models.GoodsImage.objects.filter(pk=pic['id']).first()
                 pic_obj.itemID = new_item
                 pic_obj.save()
-            
 
         if new_item:
             res['data']['newItemID'] = new_item.pk
@@ -958,11 +957,17 @@ class Merchant(APIView):
                 merchant_obj['id'] = m.pk
                 merchant_obj['name'] = m.merchantName
                 merchant_obj['admin'] = m.admin.pk
+                merchant_obj['admin_name'] = m.admin.username
                 merchant.append(merchant_obj)
 
             if merchant:
                 success = True
                 total = models.Merchant.objects.all().count()
+
+        else:
+            success = False
+            merchant = None
+            total = 0
 
         return success, merchant, total
 
@@ -1001,3 +1006,15 @@ class Merchant(APIView):
                 'name': new_merchant.merchantName,
                 'admin': new_merchant.admin.pk
             })
+
+
+def test(request):
+    res = {
+        'meta': {
+            'message': '删除地址信息失败',
+            'code': 400
+        }}
+    user_list = models.MyUserInfo.objects.filter(is_staff=True, is_superuser=False) \
+        .exclude(pk__in=models.Merchant.objects.all().values_list('admin'))
+    print(user_list)
+    return JsonResponse(res, safe=False)

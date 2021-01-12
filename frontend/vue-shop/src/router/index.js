@@ -11,6 +11,7 @@ import Cate from '../components/goods/Cate'
 import GoodsList from '../components/goods/List'
 import Add from '../components/goods/Add'
 import Edit from '../components/goods/Edit'
+import MerchantList from '../components/merchant/List'
 import Order from '../components/order/Order'
 
 
@@ -72,7 +73,11 @@ const router = new VueRouter({
         {
           path: '/delivery',
           component: Delivery
-        }
+        },
+        {
+          path: '/merchant',
+          component: MerchantList
+        },
       ]
     }
   ]

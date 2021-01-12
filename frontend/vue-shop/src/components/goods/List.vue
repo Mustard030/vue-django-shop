@@ -227,9 +227,8 @@ export default {
 .demo-table-expand {
   font-size: 0;
 }
-.demo-table-expand label {
-  width: 90px;
-  color: #99a9bf;
+.el-form-item label{
+  
 }
 .demo-table-expand .el-form-item {
   margin-right: 0;

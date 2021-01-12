@@ -52,5 +52,7 @@ urlpatterns = [
     path('delivery/', views.Delivery.as_view()),
     # 获取商家列表
     path('merchant/', views.Merchant.as_view()),
+    # 测试接口
+    path('test/', views.test),
 
 ]

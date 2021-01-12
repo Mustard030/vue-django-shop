@@ -35,12 +35,6 @@ class GoodsImage(models.Model):
     itemID = models.ForeignKey(verbose_name='归属商品', to='GoodsInfo', on_delete=models.CASCADE, blank=True, null=True)
 
 
-# # 缓存图片
-# class TempImage(models.Model):
-#     image = models.ImageField(verbose_name='暂存图片', upload_to=changeTempName)
-#     name = models.CharField(verbose_name='暂存图片名', max_length=255)
-
-
 # 商品信息
 class GoodsInfo(models.Model):
     itemClass = models.ForeignKey(verbose_name='商品种类', to='GoodsKind', on_delete=models.SET_NULL, null=True)
@@ -63,6 +57,7 @@ class GoodsKind(models.Model):
 class Merchant(models.Model):
     admin = models.OneToOneField(verbose_name='管理员', to='MyUserInfo', on_delete=models.CASCADE)
     merchantName = models.CharField(verbose_name='商家名称', max_length=30)
+    introduce = models.TextField(verbose_name='商家介绍', blank=True, null=True)
 
 
 # 收货信息
