@@ -96,10 +96,12 @@
 
         <el-tab-pane label="商品内容" name="2">
           <!-- 富文本编辑器组件 -->
-          <quill-editor v-model="addItemForm.introduce" :options="editorOption"></quill-editor>
+          <quill-editor
+            v-model="addItemForm.introduce"
+            :options="editorOption"
+          ></quill-editor>
           <el-button type="primary" class="addBtn" @click="submitForm"
-            >添加商品</el-button
-          >
+            >添加商品</el-button>
         </el-tab-pane>
 
         <!-- 图片预览 -->
@@ -136,6 +138,7 @@ export default {
             [{ align: [] }],
 
             ["clean"], // remove formatting button
+            ["image"]
           ],
           // 调整图片大小
           imageResize: {
@@ -147,6 +150,12 @@ export default {
             modules: ["Resize", "DisplaySize", "Toolbar"],
           },
         },
+      },
+      // 查询对象
+      queryInfo: {
+        query: "",
+        pagenum: 1,
+        pagesize: 1000000,
       },
       // 标签页激活Name
       activeName: "0",
@@ -189,6 +198,7 @@ export default {
         ],
         itemClass: [{ required: true, message: "请选择商品分类", trigger: "blur" }],
         unit: [{ required: true, message: "请填写商品单位", trigger: "blur" }],
+        merchant: [{ required: true, message: "请选择所属商家", trigger: "blur" }],
       },
       // 文件上传的请求头
       headersObj: {
@@ -216,7 +226,7 @@ export default {
     },
     // 获取商家列表
     async getMerchantList() {
-      const { data: res } = await this.$http.get("merchant/");
+      const { data: res } = await this.$http.get("merchant/", { params: this.queryInfo });
       if (res.meta.code !== 200) {
         return this.$message.error(res.meta.message);
       }

@@ -23,17 +23,17 @@ from .utils.decorator import need_login
 class LoginView(APIView):
     # 管理员登陆
     def post(self, request):
-        data = json.loads(str(request.body, encoding='utf8'))
         res = {
             'meta': {
                 'message': '登陆失败',
                 'code': 400
             }}
+        data = json.loads(str(request.body, encoding='utf8'))
         username = data.get('username')
         password = data.get('password')
-        user = auth.get_user_model()
+        # user = auth.get_user_model()
         user_obj = auth.authenticate(username=username, password=password)
-        login_success = user_obj.is_superuser or user_obj.is_staff
+        login_success = user_obj.is_superuser  # or user_obj.is_staff
 
         if login_success:
             token = get_token_code(user_obj.username)
@@ -73,7 +73,7 @@ class Users(APIView):
         password = data.get('password', '')
         phone = data.get('phone', '')
         email = data.get('email', '')
-        mg_state = data.get('mg_state', '')
+        mg_state = data.get('mg_state', 1)
         if not username:
             return JsonResponse(res, safe=False)
         if mg_state == 3:
@@ -175,10 +175,18 @@ class Users(APIView):
         data = json.loads(str(request.body, encoding='utf8'))
         User = auth.get_user_model()
         uid = data.get('id', 0)
+        username = data.get('username')
         password = data.get('password')
         phone = data.get('phone')
         email = data.get('email')
         user = User.objects.get(pk=uid)
+        if username:
+            if models.MyUserInfo.objects.filter(username=username).exists():
+                res['meta']['code'] = 500
+                res['meta']['message'] = '用户名已被使用'
+                return JsonResponse(res, safe=False)
+            else:
+                user.username = username
         if password:
             user.set_password(password)
         if phone:
@@ -201,13 +209,18 @@ class Users(APIView):
             }}
         data = json.loads(str(request.body, encoding='utf8'))
         User = auth.get_user_model()
-        uid = data.get('id', 0)
+        uid = int(data.get('id', 0))
         role = data.get('role', 0)
 
         if uid and role:
             user = User.objects.get(pk=uid)
             if role == 1:
-                user.is_staff, user.is_superuser = 0, 0
+                if models.Merchant.objects.filter(admin=uid).exists():
+                    res['meta']['code'] = 500
+                    res['meta']['message'] = '请先删除此用户下绑定的商铺'
+                    return JsonResponse(res, safe=False)
+                else:
+                    user.is_staff, user.is_superuser = 0, 0
             elif role == 2:
                 user.is_staff, user.is_superuser = 1, 0
             elif role == 3:
@@ -644,7 +657,9 @@ class Goods(APIView):
         merchant_pk = int(data.get('merchant'))
         merchant = models.Merchant.objects.filter(admin=merchant_pk).first()
         unit = data.get('unit')
-        introduce = data.get('introduce', None)
+        introduce = data.get('introduce')
+        introduce = '此商品未填写介绍' if not introduce else introduce
+        print(introduce)
         pics = data.get('pics', [])
         # 添加商品条目
         new_item = models.GoodsInfo(itemName=itemName,
@@ -760,13 +775,24 @@ class Orders(APIView):
         return_list = list()
         for order in order_list:
             order_dict = dict()
+            detail_list = list()
             order_dict['order_number'] = order.pk
             order_dict['pay_status'] = order.pay_status
             order_dict['send_status'] = order.send_status
             order_dict['delivery_status'] = order.delivery_status
             create_time = str(order.create_date).replace('T', ' ')
             order_dict['create_time'] = create_time
-            total_prices = 1
+            total_prices = 0
+            for item_obj in order.orderdetail_set.all():
+                item_dict = dict()
+                item_dict['itemID'] = item_obj.item.pk
+                item_dict['itemName'] = item_obj.item.itemName
+                item_dict['price'] = item_obj.item.price
+                item_dict['number'] = item_obj.number
+                detail_list.append(item_dict)
+                total_prices += item_obj.item.price * item_obj.number
+
+            order_dict['detailList'] = detail_list
             order_dict['order_price'] = total_prices
 
             return_list.append(order_dict)
@@ -826,11 +852,26 @@ class Delivery(APIView):
             }}
 
         search_dict = dict()
+        args = tuple()
         query = request.GET.get('query')
-        args = (Q(recipient__icontains=query) |
-                Q(phone__icontains=query) |
-                Q(address__icontains=query) |
-                Q(user__username__icontains=query))
+        select = request.GET.get('select')
+        if select == 'recipient':
+            args = (Q(recipient__icontains=query))
+            # search_dict['recipient__icontains'] = query
+        elif select == 'phone':
+            args = (Q(phone__icontains=query))
+            # search_dict['phone__icontains'] = query
+        elif select == 'username':
+            args = (Q(user__username__icontains=query))
+            # search_dict['user__username__icontains'] = query
+        elif select == 'address':
+            args = (Q(address__icontains=query))
+            # search_dict['address__icontains'] = query
+        else:
+            args = (Q(recipient__icontains=query) |
+                    Q(phone__icontains=query) |
+                    Q(address__icontains=query) |
+                    Q(user__username__icontains=query))
         province = request.GET.getlist('province[]')
 
         if province:
@@ -936,7 +977,7 @@ class Delivery(APIView):
 # 商家相关
 class Merchant(APIView):
     @staticmethod
-    def get_merchant_list(merchantID):
+    def get_merchant_list(merchantID, *page):
         if merchantID:
             merchant = dict()
             merchant_obj = models.Merchant.objects.filter(pk=merchantID).first()
@@ -944,25 +985,27 @@ class Merchant(APIView):
                 merchant['id'] = merchant_obj.pk
                 merchant['name'] = merchant_obj.merchantName
                 merchant['admin'] = merchant_obj.admin.pk
+                merchant['introduce'] = merchant_obj.introduce
                 success = True
                 total = 1
             else:
                 success = False
                 total = 0
         elif not merchantID:
+            query, head, tail = page
             merchant = list()
-            merchant_list = models.Merchant.objects.all()
+            merchant_list = models.Merchant.objects.filter(merchantName__icontains=query)[head:tail]
+            total = models.Merchant.objects.filter(merchantName__icontains=query).count()
             for m in merchant_list:
                 merchant_obj = dict()
                 merchant_obj['id'] = m.pk
                 merchant_obj['name'] = m.merchantName
                 merchant_obj['admin'] = m.admin.pk
                 merchant_obj['admin_name'] = m.admin.username
+                merchant_obj['introduce'] = m.introduce
                 merchant.append(merchant_obj)
 
-            if merchant:
-                success = True
-                total = models.Merchant.objects.all().count()
+            success = True if merchant else False
 
         else:
             success = False
@@ -977,8 +1020,13 @@ class Merchant(APIView):
                 'message': '获取商铺失败',
                 'code': 400
             }}
+        query = request.GET.get('query', '')
+        pagenum = int(request.GET.get('pagenum', 0))
+        pagesize = int(request.GET.get('pagesize', 0))
+        head: int = (pagenum - 1) * pagesize
+        tail: int = pagenum * pagesize
         merchantID = int(request.GET.get('id', 0))
-        success, merchant, total = self.get_merchant_list(merchantID)
+        success, merchant, total = self.get_merchant_list(merchantID, query, head, tail)
         if success:
             res.update({'data': {}})
             res['data'].update({'merchant': merchant})
@@ -991,30 +1039,234 @@ class Merchant(APIView):
     def post(self, request):
         res = {
             'meta': {
-                'message': '新增商铺失败',
+                'message': '新增商家信息失败',
                 'code': 400
             }}
         data = json.loads(str(request.body, encoding='utf8'))
         name = data.get('name')
-        admin = int(data.get('admin'))
-        admin = models.MyUserInfo.get(pk=admin)
-        new_merchant = models.Merchant.objects.create(merchantName=name, admin=admin)
+        introduce = data.get('introduce')
+        admin = models.MyUserInfo.objects.get(pk=int(data.get('admin')))
+        new_merchant = models.Merchant.objects.create(merchantName=name, admin=admin, introduce=introduce)
         if new_merchant:
             res.update({'data': {}})
             res['data'].update({
                 'id': new_merchant.pk,
                 'name': new_merchant.merchantName,
-                'admin': new_merchant.admin.pk
+                'admin': new_merchant.admin.pk,
+                'introduce': new_merchant.introduce
             })
+            res['meta']['code'] = 200
+            res['meta']['message'] = '新增商铺成功'
+        return JsonResponse(res, safe=False)
+
+    def put(self, request):
+        res = {
+            'meta': {
+                'message': '更改商家信息失败',
+                'code': 400
+            }}
+        data = json.loads(str(request.body, encoding='utf8'))
+        uid = data.get('id')
+        name = data.get('name')
+        adminID = data.get('admin')
+        introduce = data.get('introduce')
+        merchant_obj = models.Merchant.objects.filter(pk=uid).first()
+        if name:
+            merchant_obj.name = name
+        if adminID:
+            merchant_obj.admin = models.MyUserInfo.objects.filter(pk=adminID).first()
+        if introduce:
+            merchant_obj.introduce = introduce
+        merchant_obj.save()
+        if merchant_obj:
+            res['meta']['code'] = 200
+            res['meta']['message'] = '更改商家信息成功'
+
+        return JsonResponse(res, safe=False)
+
+    def delete(self, request):
+        res = {
+            'meta': {
+                'message': '删除商铺失败',
+                'code': 400
+            }}
+
+        data = json.loads(str(request.body, encoding='utf8'))
+        uid = data.get('id')
+        item = models.Merchant.objects.get(pk=uid)
+        if item:
+            item.delete()
+            res['meta']['message'] = '删除商铺成功'
+            res['meta']['code'] = 200
+        return JsonResponse(res, safe=False)
 
 
+# 菜谱相关
+class CookBook(APIView):
+    @staticmethod
+    def get_cookbook_list(query, head, tail):
+        cookbook_list = list()
+        cookbook_list_obj = models.CookBooks.objects.filter(title__icontains=query)[head:tail]
+        total = models.CookBooks.objects.filter(title__icontains=query).count()
+        for book in cookbook_list_obj:
+            book_obj = dict()
+            book_obj['id'] = book.pk
+            book_obj['author'] = book.author.username
+            book_obj['authorID'] = book.author.pk
+            book_obj['title'] = book.title
+            book_obj['content'] = book.content
+            book_obj['create_time'] = str(book.create_time).replace('T', ' ')
+            book_obj['modify_time'] = str(book.modify_time).replace('T', ' ')
+            cookbook_list.append(book_obj)
+
+        success = True
+
+        return success, cookbook_list, total
+
+    @staticmethod
+    def get_one_cookbook(essayID):
+        essay = dict()
+        essay_obj = models.CookBooks.objects.filter(pk=essayID).first()
+        if essay_obj:
+            essay['id'] = essay_obj.pk
+            essay['author'] = essay_obj.author.username
+            essay['authorID'] = essay_obj.author.pk
+            essay['title'] = essay_obj.title
+            essay['content'] = essay_obj.content
+            essay['create_time'] = str(essay_obj.create_time).replace('T', ' ')
+            essay['modify_time'] = str(essay_obj.modify_time).replace('T', ' ')
+            success = True
+        else:
+            success = False
+        return success, essay
+
+    # 获取菜谱列表或特定文章
+    def get(self, request):
+        res = {
+            'meta': {
+                'message': '获取菜谱失败',
+                'code': 400
+            }}
+        query = request.GET.get('query', '')
+        pagenum = int(request.GET.get('pagenum', 0))
+        pagesize = int(request.GET.get('pagesize', 0))
+        head: int = (pagenum - 1) * pagesize
+        tail: int = pagenum * pagesize
+        essayID = int(request.GET.get('id', 0))
+
+        if not essayID:
+            success, essay_list, total = self.get_cookbook_list(query, head, tail)
+            if success:
+                res.update({'data': {}})
+                res['data']['cookbookList'] = essay_list
+                res['data']['total'] = total
+                res['meta']['code'] = 200
+                res['meta']['message'] = '获取菜谱成功'
+
+        elif essayID:
+            success, essay = self.get_one_cookbook(essayID)
+            if success:
+                res.update({'data': {}})
+                res['data'].update({'cookbook': essay})
+                res['meta']['code'] = 200
+                res['meta']['message'] = '获取菜谱成功'
+
+        return JsonResponse(res, safe=False)
+
+    # 添加菜谱
+    def post(self, request):
+        res = {
+            'meta': {
+                'message': '添加菜谱失败',
+                'code': 400
+            }}
+        data = json.loads(str(request.body, encoding='utf8'))
+        title = data.get('title', '')
+        author = data.get('author', 0)
+        content = data.get('content', '')
+        if title and author and content:
+            new_book = models.CookBooks.objects.create(title=title,
+                                                       author=models.MyUserInfo.objects.filter(pk=author).first(),
+                                                       content=content)
+            if new_book:
+                res['meta']['code'] = 200
+                res['meta']['message'] = '添加菜谱成功'
+
+        return JsonResponse(res, safe=False)
+
+    # 修改菜谱
+    def put(self, request):
+        res = {
+            'meta': {
+                'message': '修改菜谱失败',
+                'code': 400
+            }}
+        data = json.loads(str(request.body, encoding='utf8'))
+        essayID = data.get('essayID', 0)
+        title = data.get('title', '')
+        author = data.get('author', 0)
+        content = data.get('content', '')
+        essay = models.CookBooks.objects.filter(pk=essayID).first()
+        if title:
+            essay.title = title
+        if author:
+            essay.author = models.MyUserInfo.objects.filter(pk=author).first()
+        if content:
+            essay.content = content
+        if essay:
+            res['meta']['code'] = 200
+            res['meta']['message'] = '修改菜谱成功'
+            essay.save()
+
+        return JsonResponse(res, safe=False)
+
+    # 删除菜谱
+    def delete(self, request):
+        res = {
+            'meta': {
+                'message': '删除菜谱失败',
+                'code': 400
+            }}
+        data = json.loads(str(request.body, encoding='utf8'))
+        uid = data.get('id')
+        item = models.CookBooks.objects.get(pk=uid)
+        if item:
+            item.delete()
+            res['meta']['message'] = '删除文章成功'
+            res['meta']['code'] = 200
+        return JsonResponse(res, safe=False)
+
+
+def get_merchant_admin(request):
+    res = {
+        'meta': {
+            'message': '获取未指派的商铺管理员列表失败',
+            'code': 400
+        }}
+    user_list = models.MyUserInfo.objects.filter(is_staff=True, is_superuser=False) \
+        .exclude(pk__in=models.Merchant.objects.all().values_list('admin'))
+    admin_list = list()
+    if user_list:
+        for user in user_list:
+            user_obj = dict()
+            user_obj['admin_name'] = user.username
+            user_obj['admin'] = user.pk
+            admin_list.append(user_obj)
+        res.update({'data': {
+            'admin_list': admin_list
+        }})
+        res['meta']['code'] = 200
+        res['meta']['message'] = '获取成功'
+
+    return JsonResponse(res, safe=False)
+
+
+@need_login
 def test(request):
     res = {
         'meta': {
             'message': '删除地址信息失败',
             'code': 400
         }}
-    user_list = models.MyUserInfo.objects.filter(is_staff=True, is_superuser=False) \
-        .exclude(pk__in=models.Merchant.objects.all().values_list('admin'))
-    print(user_list)
+
     return JsonResponse(res, safe=False)

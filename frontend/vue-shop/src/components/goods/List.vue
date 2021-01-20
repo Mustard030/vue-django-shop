@@ -48,12 +48,13 @@
         <el-table-column type="expand">
           <template slot-scope="props">
             <el-form label-position="left" inline class="demo-table-expand">
-              <el-form-item label="商品介绍">
-                <div>
-                  <p v-html="props.row.introduce"></p>
-                </div> 
-              </el-form-item>
-              
+              <div>
+                <el-form-item label="商品介绍">
+                  <div>
+                    <p v-html="props.row.introduce"></p>
+                  </div>
+                </el-form-item>
+              </div>
             </el-form>
           </template>
         </el-table-column>
@@ -227,8 +228,7 @@ export default {
 .demo-table-expand {
   font-size: 0;
 }
-.el-form-item label{
-  
+.el-form-item label {
 }
 .demo-table-expand .el-form-item {
   margin-right: 0;

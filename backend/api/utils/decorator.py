@@ -1,12 +1,16 @@
 import json
+import re
+from django.db import models
 from django.http import JsonResponse
 
 
 def need_login(func):
     def wrapper(*args, **kwargs):
-        _, request = args
-        logined = request.headers.get('Authorization', None)
-        if logined:
+        request = args[0]
+        print(request.path_info)
+        token = request.headers.get('Authorization', None)
+        # usergroup = models.UserGroup
+        if token:
             return func(*args, **kwargs)
         else:
             res = {

@@ -27,29 +27,12 @@
       <el-table :data="orderList" border stripe>
         <el-table-column type="expand" label="详情">
           <template slot-scope="props">
-            <el-form label-position="left" inline>
-              <el-form-item label="商品名称">
-                <span>{{ props.row.name }}</span>
-              </el-form-item>
-              <el-form-item label="所属店铺">
-                <span>{{ props.row.shop }}</span>
-              </el-form-item>
-              <el-form-item label="商品 ID">
-                <span>{{ props.row.id }}</span>
-              </el-form-item>
-              <el-form-item label="店铺 ID">
-                <span>{{ props.row.shopId }}</span>
-              </el-form-item>
-              <el-form-item label="商品分类">
-                <span>{{ props.row.category }}</span>
-              </el-form-item>
-              <el-form-item label="店铺地址">
-                <span>{{ props.row.address }}</span>
-              </el-form-item>
-              <el-form-item label="商品描述">
-                <span>{{ props.row.desc }}</span>
-              </el-form-item>
-            </el-form>
+            <el-table :data="props.row.detailList" class="inline-table">
+              <el-table-column label="商品ID" prop="itemID"></el-table-column>
+              <el-table-column label="商品名称" prop="itemName"></el-table-column>
+              <el-table-column label="单价" prop="price"></el-table-column>
+              <el-table-column label="数量" prop="number"></el-table-column>
+            </el-table>
           </template>
         </el-table-column>
         <el-table-column label="订单编号" prop="order_number"></el-table-column>
@@ -86,6 +69,7 @@
               icon="el-icon-location"
               size="mini"
               @click="showProgressBox(scope.row.order_number)"
+              v-if="scope.row.send_status"
             ></el-button>
           </template>
         </el-table-column>
@@ -203,4 +187,8 @@ export default {
 };
 </script>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.inline-table{
+  margin-top:0;
+}
+</style>

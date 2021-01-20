@@ -84,10 +84,10 @@
           label-width="70px"
         >
           <el-form-item label="用户名">
-            <el-input v-model="editForm.username" disabled></el-input>
+            <el-input v-model="editForm.username"></el-input>
           </el-form-item>
           <el-form-item label="密码" prop="password">
-            <el-input v-model="editForm.password"></el-input>
+            <el-input v-model="editForm.password" show-password></el-input>
           </el-form-item>
           <el-form-item label="手机号" prop="phone">
             <el-input v-model="editForm.phone"></el-input>
@@ -364,7 +364,6 @@ export default {
       if (res.meta.code !== 200) return this.$message.error("获取用户列表失败！");
       this.userlist = res.data.userlist;
       this.total = res.data.total;
-      // console.log(this.userlist)
     },
     // 监听pagesize改变的事件
     handleSizeChange(newSize) {
@@ -414,7 +413,7 @@ export default {
         this.getUserList();
       });
     },
-    // 修改用户密码
+    // 修改用户信息
     updateUser() {
       this.$refs.editFormRef.validate(async (valid) => {
         if (!valid) return;

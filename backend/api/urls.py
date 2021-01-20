@@ -52,6 +52,10 @@ urlpatterns = [
     path('delivery/', views.Delivery.as_view()),
     # 获取商家列表
     path('merchant/', views.Merchant.as_view()),
+    # 菜谱相关
+    path('cookbooks/', views.CookBook.as_view()),
+    # 获取未被选择的店铺管理员
+    path('merchantAdmin/', views.get_merchant_admin),
     # 测试接口
     path('test/', views.test),
 

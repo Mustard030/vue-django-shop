@@ -137,6 +137,7 @@ export default {
             [{ align: [] }],
 
             ["clean"], // remove formatting button
+            ["image"]
           ],
           // 调整图片大小
           imageResize: {
@@ -148,6 +149,12 @@ export default {
             modules: ["Resize", "DisplaySize", "Toolbar"],
           },
         },
+      },
+      // 查询对象
+      queryInfo:{
+        query:"",
+        pagenum: 1,
+        pagesize: 1000000,
       },
       // 标签页激活Name
       activeName: "0",
@@ -191,6 +198,7 @@ export default {
         ],
         itemClass: [{ required: true, message: "请选择商品分类", trigger: "blur" }],
         unit: [{ required: true, message: "请填写商品单位", trigger: "blur" }],
+        merchant:[{required: true, message:"请选择所属商家",trigger:"blur"}]
       },
       // 文件上传的请求头
       headersObj: {
@@ -219,7 +227,7 @@ export default {
     },
     // 获取商家列表
     async getMerchantList() {
-      const { data: res } = await this.$http.get("merchant/");
+      const { data: res } = await this.$http.get("merchant/",{ params: this.queryInfo });
       if (res.meta.code !== 200) {
         return this.$message.error(res.meta.message);
       }
@@ -228,7 +236,11 @@ export default {
     // 获取此条目商品信息
     async getItemData(id) {
       const { data: res } = await this.$http.get("goods/", { params: { id: id } });
-      //   console.log(res)
+      if(res.meta.code!==200){
+        this.$message.error(res.meta.message);
+        this.$router.push("/goods");
+        return;
+        }
       this.editItemForm.itemName = res.data.name;
       this.editItemForm.price = res.data.price;
       this.editItemForm.reserve = res.data.reserve;
@@ -300,8 +312,5 @@ export default {
 }
 .addBtn {
   margin-top: 20px;
-}
-.el-tabs {
-  margin-top: 25px;
 }
 </style>

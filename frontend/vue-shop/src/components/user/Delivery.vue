@@ -18,6 +18,18 @@
             clearable
             @change="getDeliveryList"
           >
+            <el-select
+              v-model="queryInfo.select"
+              slot="prepend"
+              placeholder="请选择"
+              class="search-select"
+              clearable
+            >
+              <el-option label="收件人" value="recipient"></el-option>
+              <el-option label="地址" value="address"></el-option>
+              <el-option label="用户电话" value="phone"></el-option>
+              <el-option label="用户名" value="username"></el-option>
+            </el-select>
             <el-button
               slot="append"
               icon="el-icon-search"
@@ -88,6 +100,17 @@
           </template>
         </el-table-column>
       </el-table>
+      <!-- 分页区域 -->
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="queryInfo.pagenum"
+        :page-sizes="[10, 20, 50]"
+        :page-size="queryInfo.pagesize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total"
+      >
+      </el-pagination>
     </el-card>
 
     <!-- 修改地址的对话框 -->
@@ -199,18 +222,6 @@
         <el-button type="primary" @click="addDelivery">确 定</el-button>
       </span>
     </el-dialog>
-
-    <!-- 分页区域 -->
-    <el-pagination
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
-      :current-page="queryInfo.pagenum"
-      :page-sizes="[10, 20, 50]"
-      :page-size="queryInfo.pagesize"
-      layout="total, sizes, prev, pager, next, jumper"
-      :total="total"
-    >
-    </el-pagination>
   </div>
 </template>
 
@@ -226,6 +237,7 @@ export default {
       // 获取收货地址列表对象
       queryInfo: {
         query: "",
+        select: "",
         province: [],
         pagenum: 1,
         pagesize: 10,
@@ -321,11 +333,11 @@ export default {
       });
       if (res.meta.code !== 200) return this.$message.error("获取用户列表失败！");
       this.userList = res.data.userlist;
-    //   console.log(this.userList)
+      //   console.log(this.userList)
     },
     //显示修改对话框
     showEditDialog(row) {
-        // console.log(row)
+      // console.log(row)
       this.editForm.id = row.id;
       this.editForm.recipient = row.recipient;
       this.editForm.phone = row.phone;
@@ -423,5 +435,12 @@ export default {
 }
 .el-select {
   width: 100%;
+}
+.search-select {
+  width: 130px;
+
+  .input-with-select .el-input-group__prepend {
+    background-color: #fff;
+  }
 }
 </style>

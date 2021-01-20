@@ -27,3 +27,6 @@ html,body,#app{
 .el-cascader-menu {
     height: 250px;
 }
+.el-tabs {
+    margin-top: 25px;
+  }

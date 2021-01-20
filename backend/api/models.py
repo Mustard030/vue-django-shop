@@ -11,9 +11,20 @@ import os
 class MyUserInfo(AbstractUser):
     phone = models.CharField(max_length=11, blank=True, null=True)
     userImage = models.ImageField(upload_to=changeUserName, default=os.path.join('default', 'defaultUser.png'))
+    roles = models.ForeignKey(verbose_name='权限组', to='Role', on_delete=models.DO_NOTHING, blank=True, null=True)
 
     class Meta:
         ordering = ['-is_active', '-is_superuser', '-is_staff']
+
+
+class Role(models.Model):
+    title = models.CharField(verbose_name='权限组名', max_length=32)
+    permissions = models.ManyToManyField(verbose_name='拥有的权限', to='Permission', blank=True)
+
+
+class Permission(models.Model):
+    title = models.CharField(verbose_name='标题', max_length=32)
+    url = models.CharField(verbose_name='url', max_length=128)
 
 
 class Token(models.Model):
@@ -84,7 +95,7 @@ class Orders(models.Model):
 class OrderDetail(models.Model):
     order = models.ForeignKey(verbose_name='归属订单', to='Orders', on_delete=models.CASCADE)
     number = models.IntegerField(verbose_name='物品数量', default=1)
-    item = models.ForeignKey(verbose_name='物品数量', to='GoodsInfo', on_delete=models.DO_NOTHING)
+    item = models.ForeignKey(verbose_name='物品', to='GoodsInfo', on_delete=models.DO_NOTHING)
 
 
 # 快递信息
@@ -96,7 +107,8 @@ class ProgressInfo(models.Model):
 
 # 菜谱
 class CookBooks(models.Model):
-    time = models.DateTimeField(verbose_name='创建时间', default=timezone.now)
+    create_time = models.DateTimeField(verbose_name='创建时间', auto_now_add=True)
+    modify_time = models.DateTimeField(verbose_name='修改时间', auto_now=True)
     title = models.CharField(verbose_name='标题', max_length=128)
     author = models.ForeignKey(verbose_name='作者', to='MyUserInfo', on_delete=models.CASCADE)
     content = models.TextField(verbose_name='正文', blank=True, null=True)
