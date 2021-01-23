@@ -26,9 +26,6 @@
                     <el-submenu :index="item.id + ''" v-for="item in menulist" :key="item.id">
                         <!-- 一级菜单模板区 -->
                         <template slot="title">
-                            <!-- 图标 -->
-                            <!-- <i class="el-icon-location"></i> -->
-                            <!-- 文本 -->
                             <span>{{item.authname}}</span>
                         </template>
                         <!-- 二级菜单 -->
@@ -41,10 +38,6 @@
                                 <span>{{subItem.authname}}</span>
                             </template>
                         </el-menu-item>
-                        <!-- <el-submenu index="1-4">
-                            <template slot="title">选项4</template>
-                            <el-menu-item index="1-4-1">选项1</el-menu-item>
-                        </el-submenu> -->
                     </el-submenu>
 
                 </el-menu>
@@ -85,7 +78,7 @@ export default {
     logout() {
       window.sessionStorage.clear()
       window.localStorage.clear()
-      this.$router.push('/login')
+      this.$router.push('/adminlogin')
     },
     // 获取侧边栏数据
     async getMenuList() {

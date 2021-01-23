@@ -1,5 +1,5 @@
 from django.db import models
-from .utils.changeName import changeName, item_directory_path, changeTempName, changeUserName
+from .utils.changeName import *
 from django.contrib.auth.models import AbstractUser
 import django.utils.timezone as timezone
 import os
@@ -112,3 +112,10 @@ class CookBooks(models.Model):
     title = models.CharField(verbose_name='标题', max_length=128)
     author = models.ForeignKey(verbose_name='作者', to='MyUserInfo', on_delete=models.CASCADE)
     content = models.TextField(verbose_name='正文', blank=True, null=True)
+
+
+# 首页轮播图
+class CarouselPics(models.Model):
+    image = models.ImageField(verbose_name='图片', upload_to=changeCarouselPics)
+    name = models.CharField(verbose_name='图片名', max_length=255)
+    # item = models.CharField(verbose_name='商品id', max_length=32)

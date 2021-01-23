@@ -24,7 +24,10 @@ export default new Vuex.Store({
       state.userInfo.username = userObj.username
       state.userInfo.token = userObj.token
       state.userInfo.is_superuser = userObj.is_superuser
-    }
+    },
+    clearLocalStorage(state){
+      state.userInfo={};
+    },
   },
   actions: {},
   modules: {},

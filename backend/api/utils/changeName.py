@@ -23,7 +23,12 @@ def changeName(instance, filename):
         file_rename = getMD5(instance.name + split[0]) + '.' + split[-1]  # 对文件名进行重编码，并规定文件读写路径
         # itemID = str(instance.itemID.pk)
         pic_write_path = os.path.join('itemPics', file_rename)
+        return pic_write_path
 
+
+def changeCarouselPics(instance, filename):
+    if isinstance(filename, str):
+        pic_write_path = os.path.join('carouselPics', filename)
         return pic_write_path
 
 
@@ -57,9 +62,8 @@ def changeUserName(instance, filename):
 
         return pic_write_path
 
-
-def item_directory_path(instance, filename):
-    # print(dir(instance), dir(filename))
-    # ext = filename.split('.').pop()
-    # filename = '{0}.{1}'.format(instance.name, ext)
-    return instance.name  # 系统路径分隔符差异，增强代码重用性
+# def item_directory_path(instance, filename):
+#     # print(dir(instance), dir(filename))
+#     # ext = filename.split('.').pop()
+#     # filename = '{0}.{1}'.format(instance.name, ext)
+#     return instance.name  # 系统路径分隔符差异，增强代码重用性

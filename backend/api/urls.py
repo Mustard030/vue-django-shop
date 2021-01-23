@@ -22,8 +22,12 @@ app_name = 'api'
 urlpatterns = [
     # 管理员登陆
     path('adminLogin/', views.LoginView.as_view()),
+    # 用户登录
+    path('userLogin/', views.UserLoginView.as_view()),
     # 获取左边栏菜单
     path('menus/', views.Menus.as_view()),
+    # 获取每日推荐轮换图
+    path('carouselPics/', views.CarouselPics.as_view()),
     # 修改用户可用状态
     path('users/<int:uid>/state/<int:state>', views.ChangeActive.as_view()),
     # 商品分类增删改查
@@ -41,9 +45,9 @@ urlpatterns = [
     # 图片上传接口
     path('itemPics/', views.ItemPics.as_view()),
     # 临时图片接口
-    # path('tempImage/', views.TempImage.as_view()),
-    # 根据商品ID获得图片接口
-    # path('getImgById/', views.get_img_by_id),
+    path('recommendList/', views.recommendList.as_view()),
+    # 获取全部商品页面信息
+    path('getAllGood/', views.getAllGoodBreif),
     # 获取订单列表
     path('orders/', views.Orders.as_view()),
     # 获取物流信息

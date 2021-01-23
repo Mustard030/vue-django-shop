@@ -286,7 +286,6 @@ export default {
         }
       });
       // 执行修改
-      //   console.log(this.editItemForm)
       const { data: res } = await this.$http.put("goods/", this.editItemForm);
       if (res.meta.code !== 200) {
         return this.$message.error(res.meta.message);

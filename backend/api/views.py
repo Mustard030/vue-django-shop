@@ -14,7 +14,7 @@ from django.db.utils import IntegrityError
 from .utils.token import get_token_code
 from django.core.files import File
 from django.db.models import Q
-from .utils.decorator import need_login
+from .utils.decorator import need_admin
 
 
 # Create your views here.
@@ -31,29 +31,65 @@ class LoginView(APIView):
         data = json.loads(str(request.body, encoding='utf8'))
         username = data.get('username')
         password = data.get('password')
-        # user = auth.get_user_model()
         user_obj = auth.authenticate(username=username, password=password)
-        login_success = user_obj.is_superuser  # or user_obj.is_staff
+        if user_obj:
+            login_success = user_obj.is_superuser  # or user_obj.is_staff
 
-        if login_success:
-            token = get_token_code(user_obj.username)
-            token_obj = models.Token.objects.filter(user_id=user_obj.id).first()
-            if token_obj:
-                token_obj.token = token
-                token_obj.save()
-            else:
-                models.Token.objects.create(user_id=user_obj.id, token=token)
+            if login_success:
+                token = get_token_code(user_obj.username)
+                token_obj = models.Token.objects.filter(user_id=user_obj.id).first()
+                if token_obj:
+                    token_obj.token = token
+                    token_obj.save()
+                else:
+                    models.Token.objects.create(user_id=user_obj.id, token=token)
 
-            res.update({'data': {
-                'id': user_obj.id,
-                'username': user_obj.username,
-                'token': token,
-                'avatar': user_obj.userImage.url,
-                'is_superuser': True if user_obj.is_superuser else False
-            }
-            })
-            res['meta']['message'] = '登陆成功'
-            res['meta']['code'] = 200
+                res.update({'data': {
+                    'id': user_obj.id,
+                    'username': user_obj.username,
+                    'token': token,
+                    'avatar': user_obj.userImage.url,
+                    'is_superuser': True if user_obj.is_superuser else False
+                }
+                })
+                res['meta']['message'] = '登陆成功'
+                res['meta']['code'] = 200
+
+        return JsonResponse(res, safe=False)
+
+
+class UserLoginView(APIView):
+    def post(self, request):
+        res = {
+            'meta': {
+                'message': '登陆失败',
+                'code': 400
+            }}
+        data = json.loads(str(request.body, encoding='utf8'))
+        username = data.get('username')
+        password = data.get('password')
+        user_obj = auth.authenticate(username=username, password=password)
+        if user_obj:
+            login_success = True if not (user_obj.is_superuser and user_obj.is_staff) else False
+            if login_success:
+                token = get_token_code(user_obj.username)
+                token_obj = models.Token.objects.filter(user_id=user_obj.id).first()
+                if token_obj:
+                    token_obj.token = token
+                    token_obj.save()
+                else:
+                    models.Token.objects.create(user_id=user_obj.id, token=token)
+
+                res.update({'data': {
+                    'id': user_obj.id,
+                    'username': user_obj.username,
+                    'token': token,
+                    'avatar': user_obj.userImage.url,
+                    'is_superuser': True if user_obj.is_superuser else False
+                }
+                })
+                res['meta']['message'] = '登陆成功'
+                res['meta']['code'] = 200
 
         return JsonResponse(res, safe=False)
 
@@ -659,7 +695,7 @@ class Goods(APIView):
         unit = data.get('unit')
         introduce = data.get('introduce')
         introduce = '此商品未填写介绍' if not introduce else introduce
-        print(introduce)
+
         pics = data.get('pics', [])
         # 添加商品条目
         new_item = models.GoodsInfo(itemName=itemName,
@@ -675,6 +711,11 @@ class Goods(APIView):
                 pic_obj = models.GoodsImage.objects.filter(pk=pic['id']).first()
                 pic_obj.itemID = new_item
                 pic_obj.save()
+        else:
+            # print(os.path.join(settings.BASE_DIR, 'media', 'default', 'defaultItem.jpg'))
+            with open(os.path.join(settings.BASE_DIR, 'media', 'default', 'defaultItem.jpg'), 'rb') as pic:
+
+                models.GoodsImage.objects.create(image=File(pic), name='defaultItem.jpg', itemID=new_item)
 
         if new_item:
             res['data']['newItemID'] = new_item.pk
@@ -707,11 +748,7 @@ class Goods(APIView):
                 'code': 500
             }}
         data = json.loads(str(request.body, encoding='utf8'))
-        # print(data)
-        # {'id': '2', 'itemName': '新鲜白菜 无农药残留', 'price': '3.00', 'reserve': 100, 'itemClass': [3, 31], 'unit': '斤',
-        #  'merchant': 8, 'introduce': '<p>新鲜大白菜啊！快来买啊！！真的很好吃</p>', 'pics': [
-        #     {'id': 44, 'url': 'http://localhost:80/media/itemPics/4b9df4d4a2dd8ab69a61db029b6bf480.jpg',
-        #      'uid': 1610373347237, 'status': 'success'}]}
+
         pk = int(data.get('id'))
         itemName = data.get('itemName')
         price = data.get('price')
@@ -742,6 +779,50 @@ class Goods(APIView):
             res['meta']['message'] = '修改商品成功'
 
         return JsonResponse(res, safe=False)
+
+
+def getAllGoodBreif(request):
+    res = {
+        'meta': {
+            'message': '获取数据失败',
+            'code': 400
+        }}
+
+    data_list = list()
+    categories_list = models.GoodsKind.objects.filter(parent=None)
+    for cate in categories_list:
+        cate_obj = dict()
+        children = list()
+        cate_obj['id'] = cate.pk
+        cate_obj['name'] = cate.name
+        children_list = models.GoodsKind.objects.filter(parent=cate.pk)
+        for child_cate in children_list:
+            children_dict = dict()
+            item_list = list()
+            children_dict['id'] = child_cate.pk
+            children_dict['name'] = child_cate.name
+
+            for item in models.GoodsInfo.objects.filter(itemClass=child_cate):
+                item_obj = dict()
+                item_obj['id'] = item.pk
+                item_obj['name'] = item.itemName
+                item_obj['pic'] = settings.RUNNING_HOST + item.goodsimage_set.all().first().image.url
+                item_obj['price'] = item.price
+                item_obj['reserve'] = item.reserve
+                item_list.append(item_obj)
+
+            children_dict['itemList'] = item_list
+            children.append(children_dict)
+
+        cate_obj['children'] = children
+        data_list.append(cate_obj)
+
+    if data_list:
+        res.update({'data': data_list})
+        res['meta']['code'] = 200
+        res['meta']['message'] = '获取数据成功'
+
+    return JsonResponse(res, safe=False)
 
 
 # 订单相关接口
@@ -1261,12 +1342,97 @@ def get_merchant_admin(request):
     return JsonResponse(res, safe=False)
 
 
-@need_login
+class CarouselPics(APIView):
+    def get(self, request):
+        res = {
+            'meta': {
+                'message': '获取首页轮换图失败',
+                'code': 400
+            }}
+        # picList = [settings.RUNNING_HOST + pic.image.url for pic in models.CarouselPics.objects.all()]
+        picList = list()
+        for pic in models.CarouselPics.objects.all():
+            pic_obj = dict()
+            pic_obj['url'] = settings.RUNNING_HOST + pic.image.url
+            pic_obj['id'] = pic.pk
+            picList.append(pic_obj)
+
+        if picList:
+            res.update({'data': picList})
+            res['meta']['code'] = 200
+            res['meta']['message'] = '获取首页轮换图成功'
+
+        return JsonResponse(res, safe=False)
+
+    def post(self, request):
+        res = {
+            'data': {},
+            'meta': {
+                'message': '添加首页轮换图失败',
+                'code': 400
+            }}
+        new_img = models.CarouselPics(
+            image=request.FILES.get('file'),
+            name=request.FILES.get('file').name,
+        )
+        new_img.save()
+        if new_img.image.url:
+            res['data']['id'] = new_img.pk
+            res['data']['url'] = settings.RUNNING_HOST + new_img.image.url
+            res['data']['name'] = new_img.name
+            res['meta']['code'] = 200
+            res['meta']['message'] = '图片上传成功'
+        return JsonResponse(res, safe=False)
+
+    def delete(self, request):
+        res = {
+            'data': {},
+            'meta': {
+                'message': '删除首页轮换图失败',
+                'code': 400
+            }}
+        data = json.loads(str(request.body, encoding='utf8'))
+        del_pk = int(data.get('id'))
+        itemPic = models.CarouselPics.objects.filter(pk=del_pk).first()
+
+        res['data']['itemPicID'] = int(itemPic.pk)
+        res['meta']['code'] = 200
+        res['meta']['message'] = '图片删除成功'
+
+        os.remove(itemPic.image.path)
+        itemPic.delete()
+        return JsonResponse(res, safe=False)
+
+
+class recommendList(APIView):
+    def get(self, request):
+        res = {
+            'meta': {
+                'message': '获取推荐列表失败',
+                'code': 400
+            }}
+        rList = list()
+        for item in models.GoodsInfo.objects.all().order_by('-sales')[:20]:
+            item_obj = dict()
+            item_obj['id'] = item.pk
+            item_obj['name'] = item.itemName
+            item_obj['price'] = item.price
+            item_obj['pic'] = settings.RUNNING_HOST + item.goodsimage_set.first().image.url
+            rList.append(item_obj)
+
+        if rList:
+            res.update({'data': rList})
+            res['meta']['code'] = 200
+            res['meta']['message'] = '获取推荐列表成功'
+        return JsonResponse(res, safe=False)
+
+
+@need_admin
 def test(request):
     res = {
         'meta': {
-            'message': '删除地址信息失败',
-            'code': 400
+            'message': '测试地址返回成功',
+            'code': 200
         }}
 
     return JsonResponse(res, safe=False)

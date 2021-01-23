@@ -1,21 +1,24 @@
 import json
 import re
-from django.db import models
+from .. import models
 from django.http import JsonResponse
 
 
-def need_login(func):
+def need_admin(func):
     def wrapper(*args, **kwargs):
         request = args[0]
         print(request.path_info)
         token = request.headers.get('Authorization', None)
-        # usergroup = models.UserGroup
-        if token:
+        user = models.Token.objects.filter(token=token).first()
+
+        permission = user.user.is_superuser if user else False
+        # print(permission)
+        if permission:
             return func(*args, **kwargs)
         else:
             res = {
                 'meta': {
-                    'message': '非法访问，用户未登录',
+                    'message': '非法访问，权限不足',
                     'code': 403
                 }}
             return JsonResponse(res, safe=False)

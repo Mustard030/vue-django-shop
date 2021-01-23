@@ -1,32 +1,46 @@
 /* 全局样式表 */
-html,body,#app{
+html,
+body,
+#app {
     height: 100%;
     margin: 0;
     padding: 0;
-}
+    background-color: #eaedf1;
+    
 
-.el-breadcrumb{
+}
+::-webkit-scrollbar  
+{  
+	display: none!important;
+    width: 0px;  
+    height: 0px;  
+}
+.el-breadcrumb {
     margin-bottom: 15px;
     font-size: 12px;
 }
 
-.el-card{
+.el-card {
     box-shadow: 0 1 1 rgba(0, 0, 0, 0.15) !important;
 }
 
-.el-table{
+.el-table {
     margin-top: 15px;
     font-size: 12px;
 }
-.el-pagination{
+
+.el-pagination {
     margin-top: 15px;
 }
+
 .ql-editor {
     min-height: 300px;
 }
+
 .el-cascader-menu {
     height: 250px;
 }
+
 .el-tabs {
     margin-top: 25px;
-  }
+}

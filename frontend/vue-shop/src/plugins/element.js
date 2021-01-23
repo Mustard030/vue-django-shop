@@ -48,6 +48,12 @@ import {
   DropdownMenu,
   DropdownItem,
   Badge,
+  Link,
+  Collapse,
+  Carousel,
+  CarouselItem,
+  Image,
+  CollapseItem,
 } from 'element-ui'
 
 Vue.use(Button)
@@ -96,6 +102,12 @@ Vue.use(Dropdown)
 Vue.use(DropdownMenu)
 Vue.use(DropdownItem)
 Vue.use(Badge)
+Vue.use(Link)
+Vue.use(Collapse)
+Vue.use(Carousel)
+Vue.use(CarouselItem)
+Vue.use(Image)
+Vue.use(CollapseItem)
 
 Vue.prototype.$message = Message
 Vue.prototype.$confirm = MessageBox.confirm

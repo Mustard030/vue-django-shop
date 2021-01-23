@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Login from '../components/Login'
+import AdminLogin from '../components/Login'
 import Home from '../components/Home'
 import Welcome from '../components/Welcome'
-import User from '../components/user/User'
+import Users from '../components/user/User'
 import Delivery from '../components/user/Delivery'
 import Rights from '../components/power/Rights'
 import Main from '../components/shop/Main'
@@ -16,22 +16,88 @@ import Order from '../components/order/Order'
 import Cookbook from '../components/cookbook/Cookbook'
 import CookbookEdit from '../components/cookbook/Edit'
 import CookbookAdd from '../components/cookbook/Add'
-
+import AllGoodsList from '../components/shop/GoodsList'
+import Days from '../components/shop/Days'
+import UserLogin from '../components/UserLogin'
+import Cart from '../components/shop/Cart'
+import CarouselList from '../components/CarouselPics/List'
+import Detail from '../components/shop/Detail'
+import ItemSearch from '../components/shop/ItemSearch'
+import CookbookSearch from '../components/shop/CookbookSearch'
+import Portal from '../components/shop/UserPortal'
+import Mycookbook from '../components/shop/Mycookbook'
+import MyOrder from '../components/shop/MyOrder'
+import MyAddress from '../components/shop/MyAddress'
+import User from '../components/shop/User'
 
 Vue.use(VueRouter)
 
 const router = new VueRouter({
   routes: [{
       path: '/',
-      component: Main
-    },
-    {
-      path: '/admin',
-      redirect: '/login'
+      component: Main,
+      redirect: '/days',
+      children: [{
+        path: '/days',
+        component: Days,
+      }, 
+      {
+        path: '/category/list',
+        component: AllGoodsList,
+      },
+      {
+        path: '/buy/detail',
+        component:Detail
+      },
+      {
+        path: '/search/item',
+        component:ItemSearch,
+      },
+      {
+        path: '/search/cookbook',
+        component:CookbookSearch,
+      },
+      {
+        path: '/buy/cart',
+        component: Cart,
+      },
+      {
+        path:'/user',
+        component:User,
+        redirect:'/user/portal',
+        children:[
+          {
+            path:"/user/portal",
+            component:Portal,
+          },
+          {
+            path:'/user/cookbook',
+            component:Mycookbook,
+          },
+          {
+            path:'/user/order',
+            component:MyOrder,
+          },
+          {
+            path:'/user/address',
+            component:MyAddress,
+          },
+        ]
+      },
+      
+    ]
     },
     {
       path: '/login',
-      component: Login
+      component: UserLogin,
+    },
+    {
+      path: '/admin',
+      redirect: '/adminlogin'
+    },
+    {
+      path: '/adminlogin',
+      component: AdminLogin
     },
     {
       path: '/home',
@@ -43,7 +109,7 @@ const router = new VueRouter({
         },
         {
           path: '/users',
-          component: User
+          component: Users
         },
         {
           path: '/rights',
@@ -89,6 +155,10 @@ const router = new VueRouter({
           path: '/cookbook/edit',
           component: CookbookEdit
         },
+        {
+          path: '/carouselList',
+          component: CarouselList
+        }
       ]
     }
   ]
@@ -101,10 +171,19 @@ router.beforeEach((to, from, next) => {
   // next 函数，表示放行
   //  next() 放行 next('/login') 强制跳转到login
 
-  if (to.path === '/login' || to.path === '/') {return next()}
+  if (to.path === '/adminlogin' || to.path === '/') {
+    return next()
+  }
   // 获取token
   const tokenStr = window.sessionStorage.getItem('token')
-  if (!tokenStr){ return next('/login')}
+  if ((to.path === '/categories' || to.path === '/goods' || 
+      to.path === '/users' || to.path === '/delivery' || 
+      to.path === '/merchant' || to.path === '/order' || 
+      to.path === '/cookbook' || to.path === '/welcome')
+      &&(!tokenStr || !JSON.parse(window.localStorage.getItem('vuex-along')).root.userInfo.is_superuser)
+       ) {
+    return next('/adminlogin')
+  }
   next()
 })
 
