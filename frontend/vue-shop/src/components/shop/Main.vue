@@ -119,13 +119,13 @@ export default {
       this.$router.push("/");
     },
     goLogin() {
-      this.$router.push("/login/");
+      this.$router.push("/login");
     },
     goUserPage() {
-      this.$router.push("/user/portal/");
+      this.$router.push("/user/portal");
     },
     goCartPage() {
-      this.$router.push("/buy/cart/");
+      this.$router.push("/buy/cart");
     },
     goMyCookbookPage(){
         this.$router.push("/user/cookbook");
@@ -138,6 +138,7 @@ export default {
       window.sessionStorage.setItem("activePath", activePath);
       this.activePath = activePath;
     },
+    // 切换搜索商品或菜谱的网址
     searchWithSelect() {
       this.$router.push(`/search/${this.select}?keyword=${this.keyword}`);
     },

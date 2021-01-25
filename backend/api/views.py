@@ -1427,6 +1427,61 @@ class recommendList(APIView):
         return JsonResponse(res, safe=False)
 
 
+class Cart(APIView):
+    # 获取购物车列表
+    def get(self, request):
+        res = {
+            'data': {},
+            'meta': {
+                'message': '获取用户购物车失败',
+                'code': 400
+            }}
+        uid = request.GET.get('id', 0)
+        if uid:
+            user = models.MyUserInfo.objects.filter(pk=uid).first()
+            cart_list = user.cart_set.all()
+            data_list = list()
+            for item in cart_list:
+                item_obj = dict()
+                item_obj['id'] = item.item.pk
+                item_obj['name'] = item.item.itemName
+                item_obj['price'] = item.item.price
+                item_obj['num'] = item.number
+                item_obj['pic'] = settings.RUNNING_HOST + item.item.goodsimage_set.first().image.url
+                data_list.append(item_obj)
+            res['data']['tableData'] = data_list
+            res['meta']['code'] = 200
+            res['meta']['message'] = '获取购物车列表成功'
+        return JsonResponse(res, safe=False)
+
+    # 添加商品到购物车
+    def post(self, request):
+        res = {
+            'meta': {
+                'message': '添加商品到购物车失败',
+                'code': 400
+            }}
+        return JsonResponse(res, safe=False)
+
+    # 修改购物车内商品数量
+    def put(self, request):
+        res = {
+            'meta': {
+                'message': '修改数量失败',
+                'code': 400
+            }}
+        return JsonResponse(res, safe=False)
+
+    # 删除购物车内物品
+    def delete(self, request):
+        res = {
+            'meta': {
+                'message': '删除物品失败',
+                'code': 400
+            }}
+        return JsonResponse(res, safe=False)
+
+
 @need_admin
 def test(request):
     res = {

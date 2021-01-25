@@ -54,6 +54,8 @@ import {
   CarouselItem,
   Image,
   CollapseItem,
+  Notification,
+  InputNumber,
 } from 'element-ui'
 
 Vue.use(Button)
@@ -108,7 +110,9 @@ Vue.use(Carousel)
 Vue.use(CarouselItem)
 Vue.use(Image)
 Vue.use(CollapseItem)
+Vue.use(InputNumber)
 
 Vue.prototype.$message = Message
 Vue.prototype.$confirm = MessageBox.confirm
+Vue.prototype.$notify = Notification
 // Vue.use(VueQuillEditor)

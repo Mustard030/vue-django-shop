@@ -118,4 +118,10 @@ class CookBooks(models.Model):
 class CarouselPics(models.Model):
     image = models.ImageField(verbose_name='图片', upload_to=changeCarouselPics)
     name = models.CharField(verbose_name='图片名', max_length=255)
-    # item = models.CharField(verbose_name='商品id', max_length=32)
+
+
+# 用户购物车
+class Cart(models.Model):
+    item = models.ForeignKey(verbose_name='商品', to='GoodsInfo', on_delete=models.CASCADE)
+    number = models.IntegerField(verbose_name='物品数量', default=1)
+    user = models.ForeignKey(verbose_name='所属用户', to='MyUserInfo', on_delete=models.CASCADE)

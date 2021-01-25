@@ -65,7 +65,7 @@ export default {
         return this.$message.error(res.meta.message);
       }
       this.brief = res.data;
-      console.log(res);
+      // console.log(res);
     },
     goDetailPage(id){
         this.$router.push(`/buy/detail?id=${id}`)

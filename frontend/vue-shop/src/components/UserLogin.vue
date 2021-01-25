@@ -91,7 +91,8 @@ export default {
           this.$store.commit('updateUserInfo',res.data.data)
 
           this.$cookieStore.setCookie('username', this.loginForm.username, 86400);
-          this.$router.push('/')
+          let p = window.sessionStorage.getItem('frompath') ? window.sessionStorage.getItem('frompath') : '/';
+          this.$router.push(p)
         }).catch(err => {
           console.log(err)
           return this.$message.error('连接服务器失败')

@@ -38,54 +38,53 @@ const router = new VueRouter({
       component: Main,
       redirect: '/days',
       children: [{
-        path: '/days',
-        component: Days,
-      }, 
-      {
-        path: '/category/list',
-        component: AllGoodsList,
-      },
-      {
-        path: '/buy/detail',
-        component:Detail
-      },
-      {
-        path: '/search/item',
-        component:ItemSearch,
-      },
-      {
-        path: '/search/cookbook',
-        component:CookbookSearch,
-      },
-      {
-        path: '/buy/cart',
-        component: Cart,
-      },
-      {
-        path:'/user',
-        component:User,
-        redirect:'/user/portal',
-        children:[
-          {
-            path:"/user/portal",
-            component:Portal,
-          },
-          {
-            path:'/user/cookbook',
-            component:Mycookbook,
-          },
-          {
-            path:'/user/order',
-            component:MyOrder,
-          },
-          {
-            path:'/user/address',
-            component:MyAddress,
-          },
-        ]
-      },
-      
-    ]
+          path: '/days',
+          component: Days,
+        },
+        {
+          path: '/category/list',
+          component: AllGoodsList,
+        },
+        {
+          path: '/buy/detail',
+          component: Detail
+        },
+        {
+          path: '/search/item',
+          component: ItemSearch,
+        },
+        {
+          path: '/search/cookbook',
+          component: CookbookSearch,
+        },
+        {
+          path: '/buy/cart',
+          component: Cart,
+        },
+        {
+          path: '/user',
+          component: User,
+          redirect: '/user/portal',
+          children: [{
+              path: "/user/portal",
+              component: Portal,
+            },
+            {
+              path: '/user/cookbook',
+              component: Mycookbook,
+            },
+            {
+              path: '/user/order',
+              component: MyOrder,
+            },
+            {
+              path: '/user/address',
+              component: MyAddress,
+            },
+          ]
+        },
+
+      ]
     },
     {
       path: '/login',
@@ -163,6 +162,9 @@ const router = new VueRouter({
     }
   ]
 })
+import {
+  Notification
+} from 'element-ui'
 
 // 挂载路由导航守卫
 router.beforeEach((to, from, next) => {
@@ -175,14 +177,28 @@ router.beforeEach((to, from, next) => {
     return next()
   }
   // 获取token
+  const requireAdmin = ['/categories', '/goods', '/users', '/delivery',
+    '/merchant', '/order', '/cookbook', '/welcome',
+    '/carouselList'
+  ]
+  const requireLogin = ['/user/portal', '/user', '/user/cookbook',
+    '/user/address', '/user/order', '/buy/detail', '/cookbook/detail'
+  ]
   const tokenStr = window.sessionStorage.getItem('token')
-  if ((to.path === '/categories' || to.path === '/goods' || 
-      to.path === '/users' || to.path === '/delivery' || 
-      to.path === '/merchant' || to.path === '/order' || 
-      to.path === '/cookbook' || to.path === '/welcome')
-      &&(!tokenStr || !JSON.parse(window.localStorage.getItem('vuex-along')).root.userInfo.is_superuser)
-       ) {
+  // 管理员页面登陆验证
+  if (requireAdmin.indexOf(to.path) !== -1 &&
+    (!tokenStr || !JSON.parse(window.localStorage.getItem('vuex-along')).root.userInfo.is_superuser)
+  ) {
     return next('/adminlogin')
+  }
+  // 商品界面登陆验证并跳转
+  if (requireLogin.indexOf(to.path) !== -1 && !tokenStr) {
+    window.sessionStorage.setItem('frompath',from.path)
+    Notification.error({
+      title: '错误',
+      message: '请先登录'
+    });
+    return next('/login')
   }
   next()
 })

@@ -60,6 +60,8 @@ urlpatterns = [
     path('cookbooks/', views.CookBook.as_view()),
     # 获取未被选择的店铺管理员
     path('merchantAdmin/', views.get_merchant_admin),
+    # 购物车
+    path('cart/', views.Cart.as_view()),
     # 测试接口
     path('test/', views.test),
 
