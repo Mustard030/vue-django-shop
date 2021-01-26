@@ -101,7 +101,8 @@
             :options="editorOption"
           ></quill-editor>
           <el-button type="primary" class="addBtn" @click="submitForm"
-            >添加商品</el-button>
+            >添加商品</el-button
+          >
         </el-tab-pane>
 
         <!-- 图片预览 -->
@@ -138,7 +139,7 @@ export default {
             [{ align: [] }],
 
             ["clean"], // remove formatting button
-            ["image"]
+            ["image"],
           ],
           // 调整图片大小
           imageResize: {

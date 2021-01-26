@@ -1,5 +1,6 @@
 import json
 import os
+import uuid
 import datetime as dt
 from datetime import datetime
 from django.contrib import auth
@@ -885,6 +886,18 @@ class Orders(APIView):
 
         return JsonResponse(res, safe=False)
 
+    # 添加订单
+    def post(self, request):
+        res = {
+            'data': {},
+            'meta': {
+                'message': '获取数据失败',
+                'code': 400
+            }}
+        data = json.loads(str(request.body, encoding='utf8'))
+        print(data)
+        return JsonResponse(res, safe=False)
+
 
 # 快递接口
 class Kuaidi(APIView):
@@ -1054,6 +1067,16 @@ class Delivery(APIView):
             res['meta']['code'] = 200
         return JsonResponse(res, safe=False)
 
+# 用户收货地址信息（用户级）
+class UserDelivery(APIView):
+    def get(self,request):
+        pass
+    def post(self,request):
+        pass
+    def put(self,request):
+        pass
+    def delete(self,request):
+        pass
 
 # 商家相关
 class Merchant(APIView):
@@ -1461,6 +1484,7 @@ class Cart(APIView):
                 'message': '添加商品到购物车失败',
                 'code': 400
             }}
+        data = json.loads(str(request.body, encoding='utf8'))
         return JsonResponse(res, safe=False)
 
     # 修改购物车内商品数量
@@ -1470,6 +1494,18 @@ class Cart(APIView):
                 'message': '修改数量失败',
                 'code': 400
             }}
+        data = json.loads(str(request.body, encoding='utf8'))
+        itemID = int(data.get('itemid', 0))
+        userID = int(data.get('userId', 0))
+        number = int(data.get('number', 0))
+        item = models.GoodsInfo.objects.get(pk=itemID)
+        user = models.MyUserInfo.objects.get(pk=userID)
+        mod_item = models.Cart.objects.filter(item=item, user=user).first()
+        if mod_item:
+            mod_item.number = number
+            mod_item.save()
+            res['meta']['message'] = '修改商品数量成功'
+            res['meta']['code'] = 200
         return JsonResponse(res, safe=False)
 
     # 删除购物车内物品
@@ -1479,7 +1515,23 @@ class Cart(APIView):
                 'message': '删除物品失败',
                 'code': 400
             }}
+        data = json.loads(str(request.body, encoding='utf8'))
+        itemID = int(data.get('itemid', 0))
+        userID = int(data.get('userid', 0))
+        item = models.GoodsInfo.objects.get(pk=itemID)
+        user = models.MyUserInfo.objects.get(pk=userID)
+        del_item = models.Cart.objects.filter(item=item, user=user).first()
+        # print(f'删除{userID}的{itemID}')
+        if del_item:
+            del_item.delete()
+            res['meta']['message'] = '删除购物车商品成功'
+            res['meta']['code'] = 200
+
         return JsonResponse(res, safe=False)
+
+
+def get_uuid(request):
+    return JsonResponse({'uuid': uuid.uuid4()}, safe=False)
 
 
 @need_admin

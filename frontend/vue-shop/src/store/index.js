@@ -14,7 +14,7 @@ export default new Vuex.Store({
       token:null,
       is_superuser:false,
     },
-
+    itemInCart:[],
   },
   mutations: {
     //用于变更state数据
@@ -28,6 +28,10 @@ export default new Vuex.Store({
     clearLocalStorage(state){
       state.userInfo={};
     },
+    // 更新购物车数据
+    updateCart(state,cartList){
+      state.itemInCart = cartList;
+    }
   },
   actions: {},
   modules: {},

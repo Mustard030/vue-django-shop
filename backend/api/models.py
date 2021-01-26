@@ -82,6 +82,7 @@ class DeliveryInfo(models.Model):
 
 # 订单
 class Orders(models.Model):
+    id = models.UUIDField(verbose_name='订单uuid', primary_key=True)
     user = models.ForeignKey(verbose_name='订单归属人', to='MyUserInfo', on_delete=models.DO_NOTHING)
     deliveryInfo = models.ForeignKey(verbose_name='收件信息', to='DeliveryInfo', on_delete=models.DO_NOTHING)
     pay_status = models.BooleanField(verbose_name='支付状态', default=False)

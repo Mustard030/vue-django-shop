@@ -62,6 +62,8 @@ urlpatterns = [
     path('merchantAdmin/', views.get_merchant_admin),
     # 购物车
     path('cart/', views.Cart.as_view()),
+    # 返回一个uuid
+    path('uuid/', views.get_uuid),
     # 测试接口
     path('test/', views.test),
 

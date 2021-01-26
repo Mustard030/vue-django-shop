@@ -98,7 +98,7 @@
 
     <!-- 修改商铺信息的对话框 -->
     <el-dialog title="修改店铺信息" :visible.sync="editDialogVisible" width="40%">
-      <el-form ref="editFormRef" :model="editForm" :rules="FormRules" label-width="90px">
+      <el-form ref="editFormRef" :model="editForm" :rules="FormRules" label-width="90px" label-position="left">
         <el-form-item label="店铺名称" prop="name">
           <el-input v-model="editForm.name"></el-input>
         </el-form-item>
@@ -137,7 +137,7 @@
 
     <!-- 添加商铺信息的对话框 -->
     <el-dialog title="添加店铺" :visible.sync="addDialogVisible" width="40%">
-      <el-form ref="addFormRef" :model="addForm" :rules="FormRules" label-width="90px">
+      <el-form ref="addFormRef" :model="addForm" :rules="FormRules" label-width="90px" label-position="left">
         <el-form-item label="店铺名称" prop="name">
           <el-input v-model="addForm.name"></el-input>
         </el-form-item>

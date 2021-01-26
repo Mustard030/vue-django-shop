@@ -125,6 +125,7 @@
         :model="editForm"
         :rules="editFormRules"
         label-width="80px"
+        label-position="left"
       >
         <el-form-item label="收货人" prop="recipient">
           <el-input v-model="editForm.recipient"></el-input>
@@ -177,7 +178,13 @@
       @close="addDialogClosed"
     >
       <!-- 内容主体 -->
-      <el-form ref="addFormRef" :model="addForm" :rules="addFormRules" label-width="80px">
+      <el-form
+        ref="addFormRef"
+        :model="addForm"
+        :rules="addFormRules"
+        label-width="80px"
+        label-position="left"
+      >
         <el-form-item label="收货人" prop="recipient">
           <el-input v-model="addForm.recipient"></el-input>
         </el-form-item>

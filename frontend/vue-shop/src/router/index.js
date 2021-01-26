@@ -29,6 +29,7 @@ import Mycookbook from '../components/shop/Mycookbook'
 import MyOrder from '../components/shop/MyOrder'
 import MyAddress from '../components/shop/MyAddress'
 import User from '../components/shop/User'
+import Checkout from '../components/shop/Checkout'
 
 Vue.use(VueRouter)
 
@@ -60,6 +61,10 @@ const router = new VueRouter({
         {
           path: '/buy/cart',
           component: Cart,
+        },
+        {
+          path:'/buy/checkout',
+          component:Checkout,
         },
         {
           path: '/user',
@@ -182,7 +187,8 @@ router.beforeEach((to, from, next) => {
     '/carouselList'
   ]
   const requireLogin = ['/user/portal', '/user', '/user/cookbook',
-    '/user/address', '/user/order', '/buy/detail', '/cookbook/detail'
+    '/user/address', '/user/order', '/buy/detail', '/cookbook/detail',
+    '/buy/checkout'
   ]
   const tokenStr = window.sessionStorage.getItem('token')
   // 管理员页面登陆验证

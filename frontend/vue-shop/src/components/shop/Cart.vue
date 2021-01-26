@@ -35,6 +35,7 @@
                 :min="1"
                 :max="10"
                 size="small"
+                @change="changeItemNum(scope.row.id, scope.row.num)"
               ></el-input-number>
             </template>
           </el-table-column>
@@ -56,7 +57,13 @@
         </el-table>
         <div style="margin-top: 20px">
           <el-button @click="toggleSelection()">取消选择</el-button>
-          <el-button @click="goCount" class="count" type="danger" :disabled="this.multipleSelection.length===0">立即结算</el-button>
+          <el-button
+            @click="goCount"
+            class="count"
+            type="danger"
+            :disabled="this.multipleSelection.length === 0"
+            >立即结算</el-button
+          >
           <span class="price-count">合计: {{ this.getPriceCount | priceFilter }}元</span>
         </div>
       </el-card>
@@ -85,6 +92,7 @@ export default {
     },
   },
   methods: {
+    // 获得购物车数据
     async getCart() {
       const { data: res } = await this.$http.get(
         `cart/?id=${this.$store.state.userInfo.userId}`
@@ -95,6 +103,7 @@ export default {
       this.tableData = res.data.tableData;
       // console.log(this.tableData);
     },
+    // 多选框选择触发器
     toggleSelection(rows) {
       if (rows) {
         rows.forEach((row) => {
@@ -104,13 +113,57 @@ export default {
         this.$refs.multipleTable.clearSelection();
       }
     },
+    // 处理选择器改变事件
     handleSelectionChange(val) {
       this.multipleSelection = val;
-      console.log(this.multipleSelection);
+      // console.log(this.multipleSelection);
     },
     // 去结算
-    goCount() {
-      console.log(this.multipleSelection)
+    async goCount() {
+      // console.log(this.tableData);
+      // console.log(this.multipleSelection);
+
+      this.$router.push(`/buy/checkout`)
+    },
+    // 删除商品
+    async deleteItem(id) {
+      const confirmResult = await this.$confirm("是否从购物车中删除此商品?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      }).catch((res) => res);
+
+      if (confirmResult !== "confirm") {
+        return this.$message.info("已取消删除");
+      }
+      const { data: res } = await this.$http.delete("cart/", {
+        data: { itemid: id, userid: this.$store.state.userInfo.userId },
+      });
+      if (res.meta.code !== 200) {
+        return this.$message.error(res.meta.message);
+      }
+      const i = this.tableData.findIndex((x) => x.id === id);
+      if (i !== -1) {
+        this.tableData.splice(i, 1);
+      }
+      const j = this.multipleSelection.findIndex((x) => x.id === id);
+      if (j !== -1) {
+        this.multipleSelection.splice(j, 1);
+      }
+      // console.log(this.tableData);
+      // console.log(this.multipleSelection);
+    },
+    // 购物车中物品数量改变
+    async changeItemNum(item, num) {
+      const { data: res } = await this.$http.put("cart/", {
+        userId: this.$store.state.userInfo.userId,
+        itemid: item,
+        number: num,
+      });
+      if (res.meta.code !== 200) {
+        this.$message.error(res.meta.message);
+        this.getCart();
+      }
     },
   },
   computed: {
@@ -146,8 +199,8 @@ export default {
   color: #ff6700;
   float: right;
   margin-top: 0px;
-  line-height:40px;
-  size:39px;
+  line-height: 40px;
+  size: 39px;
   margin-right: 10px;
 }
 </style>

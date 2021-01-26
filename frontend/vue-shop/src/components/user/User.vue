@@ -46,6 +46,7 @@
           :model="addForm"
           :rules="addFormRules"
           label-width="70px"
+          label-position="left"
         >
           <el-form-item label="用户名" prop="username">
             <el-input v-model="addForm.username"></el-input>
@@ -82,6 +83,7 @@
           :model="editForm"
           :rules="editFormRules"
           label-width="70px"
+          label-position="left"
         >
           <el-form-item label="用户名">
             <el-input v-model="editForm.username"></el-input>
