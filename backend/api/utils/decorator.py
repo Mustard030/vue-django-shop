@@ -7,7 +7,7 @@ from django.http import JsonResponse
 def need_admin(func):
     def wrapper(*args, **kwargs):
         request = args[0]
-        print(request.path_info)
+        # print(request.path_info)
         token = request.headers.get('Authorization', None)
         user = models.Token.objects.filter(token=token).first()
 

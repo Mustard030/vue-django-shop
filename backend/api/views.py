@@ -1067,16 +1067,94 @@ class Delivery(APIView):
             res['meta']['code'] = 200
         return JsonResponse(res, safe=False)
 
+
 # 用户收货地址信息（用户级）
 class UserDelivery(APIView):
-    def get(self,request):
-        pass
-    def post(self,request):
-        pass
-    def put(self,request):
-        pass
-    def delete(self,request):
-        pass
+    def get(self, request):
+        res = {
+            'data': {},
+            'meta': {
+                'message': '获取地址信息失败',
+                'code': 400
+            }}
+        token = request.headers.get('Authorization', None)
+        user = models.Token.objects.filter(token=token).first().user
+        add_list = list()
+        for add in user.deliveryinfo_set.all():
+            add_obj = dict()
+            add_obj['id'] = add.pk
+            add_obj['recipient'] = add.recipient
+            add_obj['phone'] = add.phone
+            add_obj['province'] = add.province
+            add_obj['address'] = add.address
+            add_list.append(add_obj)
+        res['data']['addressList'] = add_list
+        res['meta']['code'] = 200
+        res['meta']['message'] = '获取收货地址列表成功'
+
+        return JsonResponse(res, safe=False)
+
+    def post(self, request):
+        res = {
+            'data': {},
+            'meta': {
+                'message': '添加地址信息失败',
+                'code': 400
+            }}
+        data = json.loads(str(request.body, encoding='utf8'))
+        token = request.headers.get('Authorization', None)
+        user = models.Token.objects.filter(token=token).first().user
+        recipient = data.get('recipient')
+        phone = data.get('phone')
+        province = '/'.join(data.get('province'))
+        address = data.get('address')
+        new_delivery = models.DeliveryInfo.objects.create(recipient=recipient,
+                                                          phone=phone,
+                                                          province=province,
+                                                          address=address,
+                                                          user=user)
+        if new_delivery:
+            res['meta']['message'] = '添加地址信息成功'
+            res['meta']['code'] = 200
+        return JsonResponse(res, safe=False)
+
+    def put(self, request):
+        res = {
+            'data': {},
+            'meta': {
+                'message': '修改地址信息失败',
+                'code': 400
+            }}
+        data = json.loads(str(request.body, encoding='utf8'))
+        # token = request.headers.get('Authorization', None)
+        # user = models.Token.objects.filter(token=token).first().user
+        add_id = data.get('id')
+        delivery_obj = models.DeliveryInfo.objects.get(pk=add_id)
+        recipient = data.get('recipient')
+        phone = data.get('phone')
+        province = '/'.join(data.get('province'))
+        address = data.get('address')
+        if delivery_obj:
+            delivery_obj.recipient = recipient
+            delivery_obj.phone = phone
+            delivery_obj.province = province
+            delivery_obj.address = address
+            delivery_obj.save()
+            res['meta']['message'] = '修改地址信息成功'
+            res['meta']['code'] = 200
+        return JsonResponse(res, safe=False)
+
+    def delete(self, request):
+        res = {
+            'data': {},
+            'meta': {
+                'message': '删除地址信息失败',
+                'code': 400
+            }}
+        data = json.loads(str(request.body, encoding='utf8'))
+
+        return JsonResponse(res, safe=False)
+
 
 # 商家相关
 class Merchant(APIView):

@@ -54,6 +54,8 @@ urlpatterns = [
     path('kuaidi/', views.Kuaidi.as_view()),
     # 用户收货地址相关
     path('delivery/', views.Delivery.as_view()),
+    # 用户收货地址（用户级）
+    path('userDelivery/', views.UserDelivery.as_view()),
     # 获取商家列表
     path('merchant/', views.Merchant.as_view()),
     # 菜谱相关

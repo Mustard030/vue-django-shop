@@ -399,7 +399,7 @@ export default {
     },
     //修改地址
     async updateDelivery() {
-      console.log(this.editForm);
+      // console.log(this.editForm);
       this.$refs.editFormRef.validate(async (valid) => {
         if (!valid) return;
         const { data: res } = await this.$http.put("delivery/", this.editForm);
