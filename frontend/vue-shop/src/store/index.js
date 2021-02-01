@@ -23,6 +23,8 @@ export default new Vuex.Store({
       state.userInfo.avatar = userObj.avatar
       state.userInfo.username = userObj.username
       state.userInfo.token = userObj.token
+      state.userInfo.phone = userObj.phone
+      state.userInfo.email = userObj.email
       state.userInfo.is_superuser = userObj.is_superuser
     },
     clearLocalStorage(state){
@@ -31,6 +33,9 @@ export default new Vuex.Store({
     // 更新购物车数据
     updateCart(state,cartList){
       state.itemInCart = cartList;
+    },
+    updateUserAvatar(state,avatarUrl){
+      state.userInfo.avatar = avatarUrl;
     }
   },
   actions: {},

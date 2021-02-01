@@ -2,7 +2,7 @@
   <div>
     <el-card>
       <div slot="header">
-        <span>我的菜谱</span>
+        <span style="font-size:20px;">我的菜谱</span>
       </div>
       <div v-for="o in 4" :key="o" class="text item">
         {{ "列表内容 " + o }}

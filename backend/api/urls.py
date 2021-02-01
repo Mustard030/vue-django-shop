@@ -24,6 +24,8 @@ urlpatterns = [
     path('adminLogin/', views.LoginView.as_view()),
     # 用户登录
     path('userLogin/', views.UserLoginView.as_view()),
+    # 用户头像
+    path('userAvatar/', views.UserAvatar.as_view()),
     # 获取左边栏菜单
     path('menus/', views.Menus.as_view()),
     # 获取每日推荐轮换图
@@ -42,6 +44,8 @@ urlpatterns = [
     path('checkCateNameUsable/<str:check_cate_name>', views.check_cate_name_useable),
     # 商品增删改查
     path('goods/', views.Goods.as_view()),
+    # 查询商品
+    path('good/', views.Good.as_view()),
     # 图片上传接口
     path('itemPics/', views.ItemPics.as_view()),
     # 临时图片接口
@@ -50,6 +54,10 @@ urlpatterns = [
     path('getAllGood/', views.getAllGoodBreif),
     # 获取订单列表
     path('orders/', views.Orders.as_view()),
+    # 获取订单列表(用户级)
+    path('userOrder/', views.UserOrders.as_view()),
+    # 支付接口
+    path('payment/', views.Pay.as_view()),
     # 获取物流信息
     path('kuaidi/', views.Kuaidi.as_view()),
     # 用户收货地址相关

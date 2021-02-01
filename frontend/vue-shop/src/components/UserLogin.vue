@@ -87,6 +87,8 @@ export default {
           this.$message.success('登陆成功！')
           window.sessionStorage.setItem('token', res.data.data.token)
           window.sessionStorage.setItem('user', res.data.data.username)
+          window.sessionStorage.setItem('phone', res.data.data.phone)
+          window.sessionStorage.setItem('email', res.data.data.email)
 
           this.$store.commit('updateUserInfo',res.data.data)
 

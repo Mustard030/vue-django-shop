@@ -4,14 +4,11 @@ import uuid
 import datetime as dt
 from datetime import datetime
 from django.contrib import auth
-from django.contrib.auth.models import Group
-# from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password, check_password
 from django.http import JsonResponse
 from rest_framework.views import APIView
 from . import models
 from django.conf import settings
-from django.db.utils import IntegrityError
 from .utils.token import get_token_code
 from django.core.files import File
 from django.db.models import Q
@@ -19,6 +16,10 @@ from .utils.decorator import need_admin
 
 
 # Create your views here.
+
+def getUserByToken(request):
+    token = request.headers.get('Authorization', None)
+    return models.Token.objects.filter(token=token).first().user
 
 
 class LoginView(APIView):
@@ -60,6 +61,7 @@ class LoginView(APIView):
 
 
 class UserLoginView(APIView):
+    # 登陆
     def post(self, request):
         res = {
             'meta': {
@@ -85,12 +87,60 @@ class UserLoginView(APIView):
                     'id': user_obj.id,
                     'username': user_obj.username,
                     'token': token,
+                    'phone': user_obj.phone,
+                    'email': user_obj.email,
                     'avatar': user_obj.userImage.url,
                     'is_superuser': True if user_obj.is_superuser else False
                 }
                 })
                 res['meta']['message'] = '登陆成功'
                 res['meta']['code'] = 200
+
+        return JsonResponse(res, safe=False)
+
+    # 刷新用户数据
+    def get(self, request):
+        res = {
+            'meta': {
+                'message': '登陆失败',
+                'code': 400
+            }}
+        token = request.headers.get('Authorization', None)
+        user_obj = models.Token.objects.filter(token=token).first().user
+        res.update({'data': {
+            'id': user_obj.id,
+            'username': user_obj.username,
+            'token': token,
+            'phone': user_obj.phone,
+            'email': user_obj.email,
+            'avatar': user_obj.userImage.url,
+            'is_superuser': True if user_obj.is_superuser else False
+        }
+        })
+        res['meta']['message'] = '登陆成功'
+        res['meta']['code'] = 200
+
+        return JsonResponse(res, safe=False)
+
+
+class UserAvatar(APIView):
+    # 更改用户头像
+    def post(self, request):
+        res = {
+            'meta': {
+                'message': '修改头像失败',
+                'code': 400
+            }}
+        image = request.FILES.get('file')
+        token = request.headers.get('Authorization', None)
+        user = models.Token.objects.filter(token=token).first().user
+        user.userImage = image
+        user.save()
+        res.update({'data': {
+            'url': user.userImage.url
+        }})
+        res['meta']['code'] = 200
+        res['meta']['message'] = '修改头像成功'
 
         return JsonResponse(res, safe=False)
 
@@ -232,6 +282,15 @@ class Users(APIView):
             user.email = email
         user.save()
         if user:
+            res.update({'data': {
+                'token': user.token.token,
+                'avatar': user.userImage.url,
+                'is_superuser': True if user.is_superuser else False,
+                'id': user.pk,
+                'username': user.username,
+                'phone': user.phone,
+                'email': user.email
+            }})
             res['meta']['message'] = '修改信息成功'
             res['meta']['code'] = 201
 
@@ -303,22 +362,6 @@ class Menus(APIView):
 
         return JsonResponse(res, safe=False)
 
-
-# def item_manage(request):
-#     res = {
-#         'meta': {
-#             'message': '获取数据失败',
-#             'code': 400
-#         }}
-#     item_class_list = list()
-#     item_class = models.GoodsInfo.objects.values('itemClass').distinct().order_by()
-#     for item in item_class:
-#         item_class_list.append(item)
-#     res.update({'data': item_class_list})
-
-# res['meta']['message'] = '获取数据成功'
-# res['meta']['code'] = 200
-# return JsonResponse(res, safe=False)
 
 # 检查用户名是否可用
 def check_useable(request, check_username):
@@ -782,6 +825,35 @@ class Goods(APIView):
         return JsonResponse(res, safe=False)
 
 
+# 商品详情
+class Good(APIView):
+    # 获取单个商品信息
+    def get(self, request):
+        res = {
+            'data': {},
+            'meta': {
+                'message': '获取数据失败',
+                'code': 400
+            }}
+        item = models.GoodsInfo.objects.filter(pk=request.GET.get('id')).first()
+        pic_list = [pic.image.url for pic in item.goodsimage_set.all()[:5]]
+        # for pic in item.goodsimage_set.all()[:5]:
+        #     pic_list.append()
+        res['data'].update({
+            'id': item.pk,
+            'price': item.price,
+            'itemName': item.itemName,
+            'sales': item.sales,
+            'reserve': item.reserve,
+            'unit': item.unit,
+            'introduce': item.introduce,
+            'pics': pic_list
+        })
+        res['meta']['code'] = 200
+        res['meta']['message'] = '获取数据成功'
+        return JsonResponse(res, safe=False)
+
+
 def getAllGoodBreif(request):
     res = {
         'meta': {
@@ -838,7 +910,7 @@ class Orders(APIView):
             }}
         data = request.GET
         query = data.get('query')
-        # print(query)
+
         if query == '':
             start = datetime(dt.MINYEAR, 1, 1, 0, 0, 0, 0)
             end = datetime(dt.MAXYEAR, 1, 1, 0, 0, 0, 0)
@@ -895,7 +967,134 @@ class Orders(APIView):
                 'code': 400
             }}
         data = json.loads(str(request.body, encoding='utf8'))
-        print(data)
+        token = request.headers.get('Authorization', None)
+        user = models.Token.objects.filter(token=token).first().user
+        cart_list = data.get('cartList', [])
+        delivery = int(data.get('delivery', 0))
+        delivery_obj = models.DeliveryInfo.objects.filter(pk=delivery).first()
+        uuid = data.get('uuid')
+        if models.Orders.objects.filter(pk=uuid).first():
+            res['meta']['code'] = 400
+            res['meta']['message'] = '订单已存在，请先完成支付'
+            return JsonResponse(res, safe=False)
+        if uuid and user and cart_list and delivery_obj:
+            new_order = models.Orders.objects.create(id=uuid, user=user, deliveryInfo=delivery_obj)
+            for item in cart_list:
+                i = models.GoodsInfo.objects.filter(pk=item['id']).first()
+                models.OrderDetail.objects.create(item=i, number=item['num'], order=new_order)
+                # print(i,user)
+                del_item = models.Cart.objects.filter(item=i, user=user).first()
+                # print(del_item)
+                del_item.delete()
+            res['meta']['code'] = 200
+            res['meta']['message'] = '提交订单成功'
+
+        return JsonResponse(res, safe=False)
+
+
+# 用户订单
+class UserOrders(APIView):
+    def get(self, request):
+        res = {
+            'meta': {
+                'message': '获取数据失败',
+                'code': 400
+            }}
+        user = getUserByToken(request)
+        order_list = models.Orders.objects.filter(user=user).order_by('-create_date')
+        data_list = list()
+        for order in order_list:
+            order_dict = dict()
+            order_dict['id'] = order.pk
+            order_dict['deliveryInfo'] = {'id': order.deliveryInfo.pk,
+                                          'recipient': order.deliveryInfo.recipient,
+                                          'phone': order.deliveryInfo.phone,
+                                          'province': order.deliveryInfo.province,
+                                          'address': order.deliveryInfo.address}
+            order_dict['pay_status'] = order.pay_status
+            order_dict['send_status'] = order.send_status
+            order_dict['delivery_status'] = order.delivery_status
+            order_dict['create_date'] = str(order.create_date).replace('T', ' ')
+            item_list = list()
+            total_price = 0
+            for item in order.orderdetail_set.all():
+                item_dict = dict()
+                item_dict['itemID'] = item.item.pk
+                item_dict['number'] = item.number
+                item_dict['itemName'] = item.item.itemName
+                item_dict['price'] = item.item.price
+                item_dict['pic'] = item.item.goodsimage_set.first().image.url
+                total_price += item.item.price * item.number
+                item_list.append(item_dict)
+            order_dict['order_detail'] = item_list
+            order_dict['total_price'] = total_price
+
+            data_list.append(order_dict)
+        res.update({'data': data_list})
+        res['meta']['code'] = 200
+        res['meta']['message'] = '获取订单成功'
+
+        return JsonResponse(res, safe=False)
+
+    def post(self, request):
+        res = {
+            'data': {},
+            'meta': {
+                'message': '获取数据失败',
+                'code': 400
+            }}
+        return JsonResponse(res, safe=False)
+
+    def put(self, request):
+        res = {
+            'data': {},
+            'meta': {
+                'message': '获取数据失败',
+                'code': 400
+            }}
+        return JsonResponse(res, safe=False)
+
+    def delete(self, request):
+        res = {
+            'meta': {
+                'message': '删除订单成功',
+                'code': 400
+            }}
+        data = json.loads(str(request.body, encoding='utf8'))
+        uid = data.get('id', 0)
+        user = getUserByToken(request)
+        del_order = models.Orders.objects.filter(id=uid, user=user).first()
+        if del_order:
+            del_order.delete()
+            res['meta']['code'] = 200
+            res['meta']['message'] = '删除订单成功'
+
+        return JsonResponse(res, safe=False)
+
+
+# 支付接口
+class Pay(APIView):
+    def post(self, request):
+        res = {
+            'data': {},
+            'meta': {
+                'message': '支付失败',
+                'code': 400
+            }}
+        data = json.loads(str(request.body, encoding='utf8'))
+        orderID = data.get('orderId', None)
+        if orderID:
+            order = models.Orders.objects.filter(pk=orderID).first()
+
+            if not order.pay_status:
+                order.pay_status = True
+                order.save()
+                res['meta']['code'] = 200
+                res['meta']['message'] = '支付成功'
+            elif order.pay_status:
+                res['meta']['code'] = 201
+                res['meta']['message'] = '订单已经支付过了'
+
         return JsonResponse(res, safe=False)
 
 
@@ -951,16 +1150,12 @@ class Delivery(APIView):
         select = request.GET.get('select')
         if select == 'recipient':
             args = (Q(recipient__icontains=query))
-            # search_dict['recipient__icontains'] = query
         elif select == 'phone':
             args = (Q(phone__icontains=query))
-            # search_dict['phone__icontains'] = query
         elif select == 'username':
             args = (Q(user__username__icontains=query))
-            # search_dict['user__username__icontains'] = query
         elif select == 'address':
             args = (Q(address__icontains=query))
-            # search_dict['address__icontains'] = query
         else:
             args = (Q(recipient__icontains=query) |
                     Q(phone__icontains=query) |
@@ -971,7 +1166,7 @@ class Delivery(APIView):
         if province:
             province = '/'.join(province)
             search_dict['province'] = province
-
+        search_dict['usable'] = True
         pagenum = int(request.GET.get('pagenum', ''))
         pagesize = int(request.GET.get('pagesize', ''))
         head: int = (pagenum - 1) * pagesize
@@ -1062,7 +1257,8 @@ class Delivery(APIView):
         uid = data.get('id')
         item = models.DeliveryInfo.objects.get(pk=uid)
         if item:
-            item.delete()
+            item.usable = False
+            item.save()
             res['meta']['message'] = '删除地址成功'
             res['meta']['code'] = 200
         return JsonResponse(res, safe=False)
@@ -1080,7 +1276,7 @@ class UserDelivery(APIView):
         token = request.headers.get('Authorization', None)
         user = models.Token.objects.filter(token=token).first().user
         add_list = list()
-        for add in user.deliveryinfo_set.all():
+        for add in user.deliveryinfo_set.filter(usable=True):
             add_obj = dict()
             add_obj['id'] = add.pk
             add_obj['recipient'] = add.recipient
@@ -1152,7 +1348,15 @@ class UserDelivery(APIView):
                 'code': 400
             }}
         data = json.loads(str(request.body, encoding='utf8'))
-
+        token = request.headers.get('Authorization', None)
+        user = models.Token.objects.filter(token=token).first().user
+        uid = data.get('id')
+        item = models.DeliveryInfo.objects.get(pk=uid, user=user)
+        if item:
+            item.usable = False
+            item.save()
+            res['meta']['message'] = '删除地址成功'
+            res['meta']['code'] = 200
         return JsonResponse(res, safe=False)
 
 

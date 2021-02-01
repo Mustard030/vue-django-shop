@@ -56,7 +56,7 @@ def changeUserName(instance, filename):
         """
     if isinstance(filename, str):  # 判断name是否是str类型的一个实例
         split = filename.split('.')
-        file_rename = getMD5(instance.pk + split[0]) + '.' + split[-1]  # 对文件名进行重编码，并规定文件读写路径
+        file_rename = getMD5(str(instance.pk) + split[0]) + '.' + split[-1]  # 对文件名进行重编码，并规定文件读写路径
         ID = str(instance.pk)
         pic_write_path = os.path.join('UserAvatar', ID, file_rename)
 

@@ -30,6 +30,7 @@ import MyOrder from '../components/shop/MyOrder'
 import MyAddress from '../components/shop/MyAddress'
 import User from '../components/shop/User'
 import Checkout from '../components/shop/Checkout'
+import Pay from '../components/shop/Pay'
 
 Vue.use(VueRouter)
 
@@ -65,6 +66,10 @@ const router = new VueRouter({
         {
           path:'/buy/checkout',
           component:Checkout,
+        },
+        {
+          path:'/order/payment',
+          component:Pay,
         },
         {
           path: '/user',

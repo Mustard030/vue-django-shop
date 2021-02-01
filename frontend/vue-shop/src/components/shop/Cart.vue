@@ -122,7 +122,7 @@ export default {
     async goCount() {
       // console.log(this.tableData);
       // console.log(this.multipleSelection);
-
+      this.$store.commit('updateCart',this.multipleSelection)
       this.$router.push(`/buy/checkout`)
     },
     // 删除商品

@@ -94,6 +94,8 @@ export default {
 
 .el-image {
   // float: bottom;
+  width: 210px;
+  height:210px;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -58%);
@@ -104,10 +106,11 @@ export default {
 .username {
   text-align: center;
   position: relative;
-  margin-top: 60px;
+  margin-top: 30px;
   font-size: 18px;
   line-height: 48px;
   font-weight: 700;
   color: #666;
 }
+
 </style>

@@ -10,13 +10,18 @@
         </div>
         <!-- 地址标签区 -->
         <div class="address">
+          <p class="title">收货地址</p>
           <el-row :gutter="15">
-            <el-col :span="6" v-for="(item, index) in addressList" :key="index" ref="addRef" @click="getAdd(item.id,$event)">
-              <div class="addObj">
+            <el-col :span="6" v-for="(item, index) in addressList" :key="index">
+              <div
+                class="addObj"
+                @click="getAdd(item, index)"
+                :class="{ active: index == isSelect }"
+              >
                 <p class="recipient">{{ item.recipient }}</p>
-                <p>{{ item.phone }}</p>
-                <p>{{ item.province }}</p>
-                <p>{{ item.address }}</p>
+                <p class="info">{{ item.phone }}</p>
+                <p class="info">{{ item.province }}</p>
+                <p class="info">{{ item.address }}</p>
                 <el-link
                   icon="el-icon-edit"
                   :underline="false"
@@ -26,12 +31,50 @@
               </div>
             </el-col>
             <el-col :span="6">
-              <div class="addObj" @click="addDialogVisible=true">
+              <div class="addObj" @click="addDialogVisible = true">
                 <i class="el-icon-circle-plus" id="addAddressIocn"></i>
                 <p id="addText">添加新地址</p>
               </div>
             </el-col>
           </el-row>
+          <el-divider></el-divider>
+          <p class="title">商品</p>
+          <el-table
+            ref="multipleTable"
+            :data="orderForm.cartList"
+            tooltip-effect="dark"
+            style="width: 100%"
+            :show-header="false"
+          >
+            <el-table-column width="120">
+              <template slot-scope="scope">
+                <el-image :src="scope.row.pic"></el-image>
+              </template>
+            </el-table-column>
+            <el-table-column prop="name" show-overflow-tooltip></el-table-column>
+            <el-table-column>
+              <template slot-scope="scope"
+                >¥{{ scope.row.price | priceFilter }}&nbsp;x&nbsp;{{
+                  scope.row.num
+                }}</template
+              >
+            </el-table-column>
+            <el-table-column>
+              <template slot-scope="scope"
+                >¥{{ (scope.row.price * scope.row.num) | priceFilter }}</template
+              >
+            </el-table-column>
+          </el-table>
+        </div>
+
+        <p class="price-count">
+          合计:<span style="font-size: 35px"> {{ this.getPriceCount | priceFilter }}</span
+          >元
+        </p>
+
+        <el-divider></el-divider>
+        <div class="btn">
+          <el-button @click="payOrder" class="count" type="danger">立即支付</el-button>
         </div>
       </el-card>
     </div>
@@ -121,6 +164,7 @@
 
 <script>
 import cityOptions from "../../assets/js/citydata";
+import Vue from "vue";
 export default {
   data() {
     return {
@@ -145,17 +189,17 @@ export default {
       },
       // 地址列表
       addressList: [],
-      orderForm:{
-        delivery:0,
-        uuid:"",
+      orderForm: {
+        delivery: 0,
+        uuid: "",
         cartList: [],
       },
-      // 订单uuid
-      // uuid: "",
+      // 地址选中index
+      isSelect: null,
       // 修改对话框可视
       editDialogVisible: false,
       // 添加对话框可视
-      addDialogVisible:false,
+      addDialogVisible: false,
       //修改表单规则
       editFormRules: {
         recipient: [{ required: true, message: "请输入收件人姓名", trigger: "blur" }],
@@ -169,17 +213,32 @@ export default {
           { required: true, message: "请选择省/市", trigger: "change" },
         ],
         address: [{ required: true, message: "请输入详细地址", trigger: "blur" }],
-        // user: [
-        //   { required: true, message: "请选择归属用户", trigger: "blur" },
-        //   { required: true, message: "请选择归属用户", trigger: "change" },
-        // ],
       },
     };
   },
+  filters: {
+    priceFilter: function (price) {
+      if (!price) {
+        return 0;
+      }
+      let newVal = parseFloat(price).toFixed(2);
+      return newVal;
+    },
+  },
   created() {
-    this.cartList = this.$store.state.cartList;
+    this.orderForm.cartList = this.$store.state.itemInCart;
+    // console.log(this.orderForm);
     this.getDeliveryList();
     this.getUUID();
+  },
+  computed: {
+    getPriceCount: function () {
+      let sum = 0;
+      this.orderForm.cartList.forEach((x) => {
+        sum += +x.price * x.num;
+      });
+      return sum;
+    },
   },
   methods: {
     // 获取用户收货列表
@@ -189,7 +248,7 @@ export default {
         return this.$message.error(res.meta.message);
       }
       this.addressList = res.data.addressList;
-      console.log(this.addressList);
+      // console.log(this.addressList);
     },
     // 获取订单编号UUID
     async getUUID() {
@@ -209,7 +268,7 @@ export default {
     },
     // 发送收货地址更改请求
     async updateDelivery() {
-      console.log(this.editForm);
+      // console.log(this.editForm);
       this.$refs.editFormRef.validate(async (valid) => {
         if (!valid) return;
         const { data: res } = await this.$http.put("userDelivery/", this.editForm);
@@ -249,7 +308,21 @@ export default {
       this.$refs.addFormRef.resetFields();
     },
     // 获取选择的收货地址
-    getAdd(){},
+    getAdd(item, index) {
+      this.orderForm.delivery = item.id;
+      this.isSelect = index;
+    },
+    async payOrder() {
+      if (this.orderForm.delivery === 0) {
+        return this.$message.error("请先选择送货地址");
+      }
+      const { data: res } = await this.$http.post("orders/", this.orderForm);
+      if (res.meta.code !== 200) {
+        return this.$message.error(res.meta.message);
+      }
+      this.$router.push(`/order/payment?orderId=${this.orderForm.uuid}`);
+      
+    },
   },
 };
 </script>
@@ -264,7 +337,7 @@ export default {
 .addObj {
   padding: 10px 20px 25px 20px;
   height: 160px;
-  border: 1px solid gray;
+  border: 1.5px dashed rgb(176, 176, 176);
   border-radius: 10px;
   margin-bottom: 13px;
   cursor: pointer;
@@ -274,11 +347,25 @@ export default {
     opacity: 1;
   }
 }
+.addObj.active {
+  // border-color: rgb(255, 103, 0);
+  border: 1.5px solid rgb(255, 103, 0);
+}
 .recipient {
   line-height: 20px;
   font-size: 19px;
   font-weight: bold;
   // color: red;
+}
+.info {
+  font-size: 14px;
+  color: rgb(112, 112, 112);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.title {
+  font-size: 20px;
 }
 .el-link {
   float: right;
@@ -300,7 +387,18 @@ export default {
   font-size: 17px;
   transform: translate(-50%, -50%);
 }
-// .el-link:hover{
-//   opacity:1;
-// }
+.itemcount {
+  color: red;
+}
+.price-count {
+  font-size: 20px;
+  color: #f56c6c;
+  text-align: right;
+}
+.btn {
+  float: right;
+  // right: 10px;
+  margin-right: 10px;
+  margin-bottom: 20px;
+}
 </style>

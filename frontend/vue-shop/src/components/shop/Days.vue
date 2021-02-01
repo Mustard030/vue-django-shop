@@ -86,7 +86,7 @@ export default {
 }
 .carousel {
   width: 1000px;
-  position: absolute;
+  position: relative;
   left: 50%;
   transform: translateX(-50%);
 }

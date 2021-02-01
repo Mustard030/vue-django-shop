@@ -77,6 +77,7 @@ class DeliveryInfo(models.Model):
     phone = models.CharField(verbose_name='手机号', max_length=11)
     province = models.CharField(verbose_name='省市', max_length=30)
     address = models.CharField(verbose_name='详细地址', max_length=128, default='')
+    usable = models.BooleanField(verbose_name='地址可用', default=True)
     user = models.ForeignKey(verbose_name='归属用户', to='MyUserInfo', on_delete=models.CASCADE)
 
 
