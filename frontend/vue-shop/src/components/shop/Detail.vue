@@ -35,11 +35,13 @@
           </div>
           <br />
           <div>
-            <el-button type="primary" round>添加到购物车</el-button>
+            <el-button type="primary" round @click="addToCart(itemDetail.id)">添加到购物车</el-button>
           </div>
         </div>
       </div>
-      <div class="item-introduce">123</div>
+       <el-divider>商品介绍</el-divider>
+      <div class="item-introduce"><p v-html="itemDetail.introduce"></p></div>
+      
     </div>
   </div>
 </template>
@@ -61,7 +63,6 @@ export default {
   },
   created() {
     this.getItemDetail(this.$route.query.id);
-    //   console.log(this.$route.query.id);
   },
   filters: {
     priceFilter: function (price) {
@@ -82,6 +83,11 @@ export default {
 
       console.log(this.itemDetail);
     },
+    async addToCart(id){
+      const {data:res} = await this.$http.post('cart/',{id:id,number:this.num})
+      if(res.meta.code!==200){return this.$message.error(res.meta.message)}
+      return this.$message.success(res.meta.message)
+    },
   },
 };
 </script>
@@ -100,7 +106,8 @@ export default {
   left: 50%;
   transform: translateX(-50%);
   width: 1270px;
-  height: 360px;
+  margin-bottom: 90px;
+  // height: 360px;
   // border: 1px solid green;
   display: flex;
   .info-pics {
@@ -124,10 +131,12 @@ export default {
 }
 .item-introduce {
   width: 1270px;
-  height: 100px;
+  // height: 100px;
+  // box-sizing: border-box;
   left: 50%;
   transform: translateX(23.9%);
   margin-top:50px;
-  border: 1px solid blue;
+  padding-bottom: 100px;
+  // border: 1px solid blue;
 }
 </style>

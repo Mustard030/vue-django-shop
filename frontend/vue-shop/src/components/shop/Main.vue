@@ -78,11 +78,13 @@
               </div></el-col
             >
             <el-col :span="12" style="margin-top: 10px">
-              <el-button
-                icon="el-icon-shopping-cart-2"
-                circle
-                @click="goCartPage"
-              ></el-button>
+              <el-badge :value="this.cartValue" :max="10" hidden>
+                <el-button
+                  icon="el-icon-shopping-cart-2"
+                  circle
+                  @click="goCartPage"
+                ></el-button
+              ></el-badge>
             </el-col>
           </el-row>
         </div>
@@ -111,7 +113,7 @@ export default {
   },
   methods: {
     handleSelect(key, keyPath) {
-      console.log(key, keyPath);
+      // console.log(key, keyPath);
     },
     clearLocalStorage() {
       window.sessionStorage.clear();
@@ -127,11 +129,11 @@ export default {
     goCartPage() {
       this.$router.push("/buy/cart");
     },
-    goMyCookbookPage(){
-        this.$router.push("/user/cookbook");
+    goMyCookbookPage() {
+      this.$router.push("/user/cookbook");
     },
-    goMyOrderPage(){
-        this.$router.push("/user/order");
+    goMyOrderPage() {
+      this.$router.push("/user/order");
     },
     // 保存链接的激活状态
     saveNavState(activePath) {
@@ -139,13 +141,32 @@ export default {
       this.activePath = activePath;
     },
     // 切换搜索商品或菜谱的网址
-    searchWithSelect() {
+    async searchWithSelect() {
+      var href = "";
+      if(this.select==='item'){
+        href = "searchItem/"
+      }else if(this.select === "cookbook"){
+        href = "searchCookbook/"
+      }
+      const {data:res} = await this.$http.get(href,{params:{keyword:this.keyword}})
+      if (res.meta.code!==200){return this.$message.error(res.meta.message)}
+      this.$store.commit('updateSearchResult',res.data)
       this.$router.push(`/search/${this.select}?keyword=${this.keyword}`);
     },
   },
   computed: {
     loginedUser() {
       return this.$store.state.userInfo;
+    },
+    cartValue() {
+      var num = 0;
+      this.$http.get(`cart/?id=${this.$store.state.userInfo.userId}`).then((res)=>{
+        // console.log(res.data.data.tableData)
+        for(var i=0;i<res.data.data.tableData.length;i++){
+          num+=res.data.data.tableData[i].num
+        }
+      });
+      return num;
     },
   },
 };

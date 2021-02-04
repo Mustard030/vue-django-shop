@@ -14,6 +14,9 @@
         </div>
 
         <div class="orderInfo">
+          <div>
+            <p v-if="orderList.length < 1" style="text-align:center;font-size:14px;color:#909399;">还没有订单信息哦~</p>
+          </div>
           <ul>
             <li v-for="(order, index) in orderList" :key="index">
               <div class="oneOrder">

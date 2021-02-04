@@ -11,7 +11,7 @@ from . import models
 from django.conf import settings
 from .utils.token import get_token_code
 from django.core.files import File
-from django.db.models import Q
+from django.db.models import Q, F
 from .utils.decorator import need_admin
 
 
@@ -50,6 +50,8 @@ class LoginView(APIView):
                     'id': user_obj.id,
                     'username': user_obj.username,
                     'token': token,
+                    'phone': user_obj.phone,
+                    'email': user_obj.email,
                     'avatar': user_obj.userImage.url,
                     'is_superuser': True if user_obj.is_superuser else False
                 }
@@ -854,6 +856,57 @@ class Good(APIView):
         return JsonResponse(res, safe=False)
 
 
+# 搜索商品
+class SearchItem(APIView):
+    def get(self, request):
+        res = {
+            'meta': {
+                'message': '获取数据失败',
+                'code': 400
+            }}
+        keyword = request.GET.get('keyword', '')
+        result_set = list()
+        for item in models.GoodsInfo.objects.filter(itemName__icontains=keyword):
+            item_obj = dict()
+            item_obj['id'] = item.pk
+            item_obj['name'] = item.itemName
+            item_obj['price'] = item.price
+            item_obj['pic'] = settings.RUNNING_HOST + item.goodsimage_set.first().image.url
+            result_set.append(item_obj)
+        res.update({'data': result_set})
+        res['meta']['code'] = 200
+        res['meta']['message'] = '获取数据成功'
+
+        return JsonResponse(res, safe=False)
+
+
+# 搜索菜谱
+class SearchCookbook(APIView):
+    def get(self, request):
+        res = {
+            'meta': {
+                'message': '获取数据失败',
+                'code': 400
+            }}
+        keyword = request.GET.get('keyword', '')
+        result_set = list()
+        for item in models.CookBooks.objects.filter(title__icontains=keyword):
+            item_obj = dict()
+            item_obj['id'] = item.pk
+            temp = str(item.create_time).replace('T', ' ')
+            item_obj['create_time'] = temp[:temp.rfind(".")]
+            temp = str(item.modify_time).replace('T', ' ')
+            item_obj['modify_time'] = temp[:temp.rfind(".")]
+            item_obj['author'] = item.author.username
+            item_obj['content'] = item.content
+            item_obj['title'] = item.title
+            result_set.append(item_obj)
+        res.update({'data': result_set})
+        res['meta']['code'] = 200
+        res['meta']['message'] = '获取数据成功'
+        return JsonResponse(res, safe=False)
+
+
 def getAllGoodBreif(request):
     res = {
         'meta': {
@@ -1001,7 +1054,7 @@ class UserOrders(APIView):
                 'code': 400
             }}
         user = getUserByToken(request)
-        order_list = models.Orders.objects.filter(user=user).order_by('-create_date')
+        order_list = models.Orders.objects.filter(user=user).order_by('pay_status', '-create_date')
         data_list = list()
         for order in order_list:
             order_dict = dict()
@@ -1767,6 +1820,18 @@ class Cart(APIView):
                 'code': 400
             }}
         data = json.loads(str(request.body, encoding='utf8'))
+        number = data.get('number', 0)
+        item = models.GoodsInfo.objects.filter(pk=data.get('id', 0)).first()
+        user = getUserByToken(request)
+        if item and number and user:
+            if new := models.Cart.objects.filter(item=item, user=user).first():
+                new.number = F('number') + number
+                new.save()
+            else:
+                new = models.Cart.objects.create(item=item, number=number, user=user)
+            if new:
+                res['meta']['code'] = 200
+                res['meta']['message'] = '添加到购物车成功'
         return JsonResponse(res, safe=False)
 
     # 修改购物车内商品数量

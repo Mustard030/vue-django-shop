@@ -56,6 +56,10 @@ urlpatterns = [
     path('orders/', views.Orders.as_view()),
     # 获取订单列表(用户级)
     path('userOrder/', views.UserOrders.as_view()),
+    # 搜索商品
+    path('searchItem/', views.SearchItem.as_view()),
+    # 搜索菜谱
+    path('searchCookbook/', views.SearchCookbook.as_view()),
     # 支付接口
     path('payment/', views.Pay.as_view()),
     # 获取物流信息

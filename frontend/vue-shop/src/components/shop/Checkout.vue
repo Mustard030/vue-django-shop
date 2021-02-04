@@ -227,7 +227,6 @@ export default {
   },
   created() {
     this.orderForm.cartList = this.$store.state.itemInCart;
-    // console.log(this.orderForm);
     this.getDeliveryList();
     this.getUUID();
   },
@@ -312,6 +311,7 @@ export default {
       this.orderForm.delivery = item.id;
       this.isSelect = index;
     },
+    // 付款
     async payOrder() {
       if (this.orderForm.delivery === 0) {
         return this.$message.error("请先选择送货地址");

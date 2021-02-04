@@ -101,7 +101,6 @@ export default {
         return this.$message.error(res.meta.message);
       }
       this.tableData = res.data.tableData;
-      // console.log(this.tableData);
     },
     // 多选框选择触发器
     toggleSelection(rows) {
@@ -116,12 +115,9 @@ export default {
     // 处理选择器改变事件
     handleSelectionChange(val) {
       this.multipleSelection = val;
-      // console.log(this.multipleSelection);
     },
     // 去结算
     async goCount() {
-      // console.log(this.tableData);
-      // console.log(this.multipleSelection);
       this.$store.commit('updateCart',this.multipleSelection)
       this.$router.push(`/buy/checkout`)
     },

@@ -15,6 +15,7 @@ export default new Vuex.Store({
       is_superuser:false,
     },
     itemInCart:[],
+    searchResult:[],
   },
   mutations: {
     //用于变更state数据
@@ -34,8 +35,13 @@ export default new Vuex.Store({
     updateCart(state,cartList){
       state.itemInCart = cartList;
     },
+    // 更新用户头像
     updateUserAvatar(state,avatarUrl){
       state.userInfo.avatar = avatarUrl;
+    },
+    // 更新搜索数据
+    updateSearchResult(state,results){
+      state.searchResult = results;
     }
   },
   actions: {},

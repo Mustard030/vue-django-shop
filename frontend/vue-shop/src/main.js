@@ -42,7 +42,9 @@ axios.defaults.baseURL = 'http://localhost:80/api/private/'
 // 在request拦截器中展示进度条
 axios.interceptors.request.use(config => {
   NProgress.start()
-  config.headers.Authorization = window.sessionStorage.getItem('token')
+  // config.headers.Authorization = window.sessionStorage.getItem('token')
+  config.headers.Authorization = JSON.parse(window.localStorage.getItem('vuex-along')).root.userInfo.token
+  // console.log(config.headers.Authorization)
   return config
 })
 // 在response拦截器中隐藏进度条

@@ -29,11 +29,8 @@
       <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/UserLogin.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/UserLogin.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Cart.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Cart.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Checkout.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Checkout.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/MyAddress.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/MyAddress.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Detail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Detail.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/MyOrder.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/MyOrder.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Mycookbook.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Mycookbook.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/User.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/User.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/UserPortal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/UserPortal.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/router/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/store/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/store/index.js" afterDir="false" />
     </list>

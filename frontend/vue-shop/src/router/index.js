@@ -186,7 +186,7 @@ router.beforeEach((to, from, next) => {
   if (to.path === '/adminlogin' || to.path === '/') {
     return next()
   }
-  // 获取token
+  
   const requireAdmin = ['/categories', '/goods', '/users', '/delivery',
     '/merchant', '/order', '/cookbook', '/welcome',
     '/carouselList'
@@ -195,7 +195,9 @@ router.beforeEach((to, from, next) => {
     '/user/address', '/user/order', '/buy/detail', '/cookbook/detail',
     '/buy/checkout'
   ]
-  const tokenStr = window.sessionStorage.getItem('token')
+  // 获取token
+  // const tokenStr = window.sessionStorage.getItem('token')
+  var tokenStr = JSON.parse(window.localStorage.getItem('vuex-along')).root.userInfo.token
   // 管理员页面登陆验证
   if (requireAdmin.indexOf(to.path) !== -1 &&
     (!tokenStr || !JSON.parse(window.localStorage.getItem('vuex-along')).root.userInfo.is_superuser)
