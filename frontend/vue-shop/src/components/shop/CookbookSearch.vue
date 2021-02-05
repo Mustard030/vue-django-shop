@@ -4,9 +4,9 @@
       <el-card>
         <el-row v-for="(item, index) in this.$store.state.searchResult" :key="index">
           <el-col :span="24">
-            <el-card class="onebook">
+            <el-card class="onebook" @click.native="goCookbookDetail(item.id)">
               <h2>{{ item.title }}</h2>
-              <p style="font-size: 14px; color: #997979">
+              <p style="font-size: 14px; color: #909399">
                 <span>{{ item.author }}</span>
                 <el-divider direction="vertical"></el-divider>
                 <span>最后编辑于: {{ item.modify_time }}</span>
@@ -28,7 +28,11 @@ export default {
   created() {
     //   console.log(this.$store.state.asd)
   },
-  methods: {},
+  methods: {
+      goCookbookDetail(id){
+          this.$router.push(`/cookbook/detail?bookid=${id}`)
+      },
+  },
 };
 </script>
 

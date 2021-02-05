@@ -17,6 +17,7 @@
         </el-form-item>
         <!-- 按钮 -->
         <el-form-item class="btns">
+          <el-button @click="register">注册</el-button>
           <el-button type="primary" @click="login">登陆</el-button>
           <el-button type="info" @click="clearForm">清空</el-button>
         </el-form-item>
@@ -100,6 +101,9 @@ export default {
           return this.$message.error('连接服务器失败')
         })
       })
+    },
+    register:function(){
+      this.$router.push('/register')
     }
   }
 }
@@ -107,7 +111,8 @@ export default {
 
 <style lang="less" scoped>
   .login_container {
-    background-color: #2b4b6b;
+    // background-color: #2b4b6b;
+    background:url('http://localhost:80/media/resources/bg.png');
     height: 100%;
   }
 

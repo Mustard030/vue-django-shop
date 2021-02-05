@@ -1,13 +1,5 @@
 <template>
   <div>
-    <!-- 面包屑导航栏 -->
-    <el-breadcrumb separator-class="el-icon-arrow-right">
-      <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>菜谱管理</el-breadcrumb-item>
-      <el-breadcrumb-item>菜谱列表</el-breadcrumb-item>
-      <el-breadcrumb-item>修改文章</el-breadcrumb-item>
-    </el-breadcrumb>
-
     <!-- 卡片视图区域 -->
     <el-card>
       <!-- 修改文章提示信息 -->
@@ -29,21 +21,6 @@
       >
         <el-form-item label="菜谱标题" prop="title">
           <el-input v-model="editEssayForm.title" width="300px"></el-input>
-        </el-form-item>
-        <el-form-item label="作者" prop="author">
-          <el-select
-            v-model="editEssayForm.author"
-            filterable
-            clearable
-            placeholder="请选择"
-          >
-            <el-option
-              v-for="user in userList"
-              :key="user.id"
-              :label="user.username"
-              :value="user.id"
-            ></el-option>
-          </el-select>
         </el-form-item>
         <el-form-item label="正文" prop="content">
           <!-- 富文本编辑器组件 -->
@@ -103,11 +80,9 @@ export default {
       editEssayForm: {
         essayID: null,
         title: "",
-        author: null,
+        author: this.$store.state.userInfo.userId,
         content: "",
       },
-      // 作者选项
-      userList: [],
       // 表单规则
       editEssayRules: {
         title: [{ required: true, message: "请输入标题", trigger: "blur" }],
@@ -117,8 +92,7 @@ export default {
     };
   },
   created() {
-    this.getUserList();
-    this.getThisEssay(window.sessionStorage.getItem("essayID"));
+    this.getThisEssay(this.$route.query.bookid);
   },
   methods: {
     // 获取该文章数据
@@ -126,7 +100,7 @@ export default {
       // 如果文章id不存在
       if (!id) {
         this.$message.error("文章获取失败！");
-        this.$router.push("/cookbook");
+        this.$router.push("/user/cookbook");
       } else {
         const {data:res} = await this.$http.get('cookbooks/',{params:{id:id}});
         this.editEssayForm.essayID = res.data.cookbook.id;
@@ -134,19 +108,6 @@ export default {
         this.editEssayForm.title = res.data.cookbook.title;
         this.editEssayForm.content = res.data.cookbook.content;
       }
-    },
-    // 获取用户列表
-    async getUserList() {
-      const { data: res } = await this.$http.get("users/", {
-        params: {
-          query: "",
-          pagenum: 1,
-          pagesize: 1000000,
-        },
-      });
-      if (res.meta.code !== 200) return this.$message.error("获取用户列表失败！");
-      this.userList = res.data.userlist;
-      //   console.log(this.userList);
     },
     // 修改文章
     async submitForm() {
@@ -161,7 +122,7 @@ export default {
             return this.$message.error(res.meta.message);
           }
           this.$message.success(res.meta.message);
-          this.$router.push("/cookbook");
+          this.$router.push("/user/cookbook");
         }
       });
     },

@@ -22,6 +22,7 @@ import UserLogin from '../components/UserLogin'
 import Cart from '../components/shop/Cart'
 import CarouselList from '../components/CarouselPics/List'
 import Detail from '../components/shop/Detail'
+import CookbookDetail from '../components/shop/CookbookDetail'
 import ItemSearch from '../components/shop/ItemSearch'
 import CookbookSearch from '../components/shop/CookbookSearch'
 import Portal from '../components/shop/UserPortal'
@@ -31,6 +32,9 @@ import MyAddress from '../components/shop/MyAddress'
 import User from '../components/shop/User'
 import Checkout from '../components/shop/Checkout'
 import Pay from '../components/shop/Pay'
+import Register from '@/components/Register'
+import AddCookBook from '@/components/shop/AddCookBook'
+import EditCookBook from '@/components/shop/EditCookBook'
 
 Vue.use(VueRouter)
 
@@ -50,6 +54,18 @@ const router = new VueRouter({
         {
           path: '/buy/detail',
           component: Detail
+        },
+        {
+          path: '/cookbook/detail',
+          component: CookbookDetail
+        },
+        {
+          path: '/cookbook/Add',
+          component: AddCookBook
+        },
+        {
+          path: '/cookbook/Edit',
+          component: EditCookBook
         },
         {
           path: '/search/item',
@@ -99,6 +115,10 @@ const router = new VueRouter({
     {
       path: '/login',
       component: UserLogin,
+    },
+    {
+      path: '/register',
+      component: Register,
     },
     {
       path: '/admin',
@@ -193,7 +213,7 @@ router.beforeEach((to, from, next) => {
   ]
   const requireLogin = ['/user/portal', '/user', '/user/cookbook',
     '/user/address', '/user/order', '/buy/detail', '/cookbook/detail',
-    '/buy/checkout'
+    '/buy/checkout','/buy/cart'
   ]
   // 获取token
   // const tokenStr = window.sessionStorage.getItem('token')

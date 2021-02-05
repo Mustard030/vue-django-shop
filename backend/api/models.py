@@ -114,6 +114,7 @@ class CookBooks(models.Model):
     title = models.CharField(verbose_name='标题', max_length=128)
     author = models.ForeignKey(verbose_name='作者', to='MyUserInfo', on_delete=models.CASCADE)
     content = models.TextField(verbose_name='正文', blank=True, null=True)
+    # favourite = models.ManyToManyField(verbose_name="收藏", to='MyUserInfo')
 
 
 # 首页轮播图

@@ -64,7 +64,7 @@ export default {
 
     async pay() {
       const { data: res } = await this.$http.post("payment/", { orderId: this.orderId });
-      console.log(res.meta.code)
+      // console.log(res.meta.code)
       if (res.meta.code === 200) {
         this.$notify({
           title: "成功",

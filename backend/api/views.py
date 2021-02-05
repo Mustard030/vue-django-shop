@@ -174,6 +174,22 @@ class Users(APIView):
             user = User.objects.create_user(username=username, password=password, phone=phone, email=email)
         user.save()
         if user:
+            token = get_token_code(user.username)
+            token_obj = models.Token.objects.filter(user_id=user.id).first()
+            if token_obj:
+                token_obj.token = token
+                token_obj.save()
+            else:
+                models.Token.objects.create(user_id=user.id, token=token)
+            res.update({'data': {
+                'id': user.id,
+                'username': user.username,
+                'token': token,
+                'phone': user.phone,
+                'email': user.email,
+                'avatar': user.userImage.url,
+                'is_superuser': True if user.is_superuser else False
+            }})
             res['meta']['message'] = '添加用户成功'
             res['meta']['code'] = 201
         return JsonResponse(res, safe=False)
@@ -890,7 +906,7 @@ class SearchCookbook(APIView):
             }}
         keyword = request.GET.get('keyword', '')
         result_set = list()
-        for item in models.CookBooks.objects.filter(title__icontains=keyword):
+        for item in models.CookBooks.objects.filter(Q(title__icontains=keyword) | Q(content__icontains=keyword)):
             item_obj = dict()
             item_obj['id'] = item.pk
             temp = str(item.create_time).replace('T', ' ')
@@ -1572,8 +1588,10 @@ class CookBook(APIView):
             essay['authorID'] = essay_obj.author.pk
             essay['title'] = essay_obj.title
             essay['content'] = essay_obj.content
-            essay['create_time'] = str(essay_obj.create_time).replace('T', ' ')
-            essay['modify_time'] = str(essay_obj.modify_time).replace('T', ' ')
+            temp = str(essay_obj.create_time).replace('T', ' ')
+            essay['create_time'] = temp[:temp.rfind(".")]
+            temp = str(essay_obj.modify_time).replace('T', ' ')
+            essay['modify_time'] = temp[:temp.rfind(".")]
             success = True
         else:
             success = False
@@ -1673,6 +1691,36 @@ class CookBook(APIView):
             item.delete()
             res['meta']['message'] = '删除文章成功'
             res['meta']['code'] = 200
+        return JsonResponse(res, safe=False)
+
+
+# 我的菜谱
+class MyBook(APIView):
+    def get(self, request):
+        res = {
+            'meta': {
+                'message': '获取菜谱失败',
+                'code': 400
+            }}
+        user = getUserByToken(request)
+        book_list = list()
+        for book in models.CookBooks.objects.filter(author=user):
+            book_obj = dict()
+            book_obj['id'] = book.id
+            temp = str(book.create_time).replace('T', ' ')
+            book_obj['create_time'] = temp[:temp.rfind(".")]
+            temp = str(book.modify_time).replace('T', ' ')
+            book_obj['modify_time'] = temp[:temp.rfind(".")]
+            book_obj['title'] = book.title
+            book_obj['author'] = book.author.username
+            book_obj['content'] = book.content
+
+            book_list.append(book_obj)
+
+        if user:
+            res.update({'data': book_list})
+            res['meta']['code'] = 200
+            res['meta']['message'] = '获取菜谱成功'
         return JsonResponse(res, safe=False)
 
 

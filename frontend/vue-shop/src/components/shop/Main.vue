@@ -78,13 +78,13 @@
               </div></el-col
             >
             <el-col :span="12" style="margin-top: 10px">
-              <el-badge :value="this.cartValue" :max="10" hidden>
+              
                 <el-button
                   icon="el-icon-shopping-cart-2"
                   circle
                   @click="goCartPage"
                 ></el-button
-              ></el-badge>
+              >
             </el-col>
           </el-row>
         </div>
@@ -158,16 +158,16 @@ export default {
     loginedUser() {
       return this.$store.state.userInfo;
     },
-    cartValue() {
-      var num = 0;
-      this.$http.get(`cart/?id=${this.$store.state.userInfo.userId}`).then((res)=>{
-        // console.log(res.data.data.tableData)
-        for(var i=0;i<res.data.data.tableData.length;i++){
-          num+=res.data.data.tableData[i].num
-        }
-      });
-      return num;
-    },
+    // cartValue() {
+    //   var num = 0;
+    //   this.$http.get(`cart/?id=${this.$store.state.userInfo.userId}`).then((res)=>{
+    //     // console.log(res.data.data.tableData)
+    //     for(var i=0;i<res.data.data.tableData.length;i++){
+    //       num+=res.data.data.tableData[i].num
+    //     }
+    //   });
+    //   return num;
+    // },
   },
 };
 </script>

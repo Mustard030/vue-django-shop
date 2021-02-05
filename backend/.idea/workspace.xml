@@ -27,12 +27,9 @@
   <component name="ChangeListManager">
     <list default="true" id="582da8aa-470c-4504-aef3-f6f4ca6bdbcd" name="Default Changelist" comment="staticfiles">
       <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/UserLogin.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/UserLogin.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Cart.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Cart.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Checkout.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Checkout.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Detail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Detail.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/MyOrder.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/MyOrder.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Mycookbook.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Mycookbook.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Pay.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Pay.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/router/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/store/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/store/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,20 +69,21 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="add_unversioned_files" value="true" />
     <property name="ignore_missing_gitignore" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../workspace/测试" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/media/resources" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\coding\vue-django-supermarket\backend\media\resources" />
+      <recent name="D:\coding\vue-django-supermarket\backend\api" />
+      <recent name="D:\coding\sm\static" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\coding\vue-django-supermarket\backend\apps" />
       <recent name="D:\coding\sm\test01\templates" />
       <recent name="D:\coding\sm\templates\test01" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\coding\vue-django-supermarket\backend\api" />
-      <recent name="D:\coding\sm\static" />
     </key>
   </component>
   <component name="RunManager">
