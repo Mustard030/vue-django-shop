@@ -91,10 +91,10 @@ export default {
           // window.sessionStorage.setItem('phone', res.data.data.phone)
           // window.sessionStorage.setItem('email', res.data.data.email)
 
-          this.$store.commit('updateUserInfo',res.data.data)
+          this.$store.commit('updateUserInfo', res.data.data)
 
-          this.$cookieStore.setCookie('username', this.loginForm.username, 86400);
-          let p = window.sessionStorage.getItem('frompath') ? window.sessionStorage.getItem('frompath') : '/';
+          this.$cookieStore.setCookie('username', this.loginForm.username, 86400)
+          const p = window.sessionStorage.getItem('frompath') ? window.sessionStorage.getItem('frompath') : '/'
           this.$router.push(p)
         }).catch(err => {
           console.log(err)
@@ -102,7 +102,7 @@ export default {
         })
       })
     },
-    register:function(){
+    register: function() {
       this.$router.push('/register')
     }
   }
@@ -112,7 +112,7 @@ export default {
 <style lang="less" scoped>
   .login_container {
     // background-color: #2b4b6b;
-    background:url('http://localhost:80/media/resources/bg.png');
+    background:url('http://0.0.0.0:80/media/resources/bg.png');
     height: 100%;
   }
 

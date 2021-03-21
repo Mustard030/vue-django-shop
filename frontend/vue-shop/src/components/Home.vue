@@ -58,21 +58,20 @@ export default {
       menulist: [],
       // 激活的地址
       activePath: '',
-      userInfo:{
-          avatar: '',
-          token: '',
-          userId: '',
-          userName: ''
+      userInfo: {
+        avatar: '',
+        token: '',
+        userId: '',
+        userName: ''
       },
-      userava:'',
+      userava: ''
     }
   },
   created() {
     this.getMenuList()
     this.activePath = window.sessionStorage.getItem('activePath')
-    this.userInfo=this.$store.state.userInfo
-    this.userava = this.$store.state.BACKEND_URL+this.userInfo.avatar
-    
+    this.userInfo = this.$store.state.userInfo
+    this.userava = this.$store.state.BACKEND_URL + this.userInfo.avatar
   },
   methods: {
     logout() {

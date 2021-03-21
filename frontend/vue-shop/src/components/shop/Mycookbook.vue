@@ -8,6 +8,7 @@
         ></el-button>
       </div>
       <div>
+        <p v-if="MyBookList.length < 1" style="text-align:center;font-size:14px;color:#909399;">还没有菜谱信息哦~</p>
         <el-row v-for="(item, index) in MyBookList" :key="index">
           <el-col :span="24">
             <el-card class="onebook">
@@ -35,58 +36,58 @@ export default {
   data() {
     return {
       // 我发布的菜谱列表
-      MyBookList: [],
-    };
+      MyBookList: []
+    }
   },
   created() {
-    this.getMyBook();
+    this.getMyBook()
   },
   methods: {
     // 获得我发布的菜谱
     async getMyBook() {
-      var id = this.$store.state.userInfo.userId;
-      const { data: res } = await this.$http.get("myBook/", { params: { id: id } });
+      var id = this.$store.state.userInfo.userId
+      const { data: res } = await this.$http.get('myBook/', { params: { id: id } })
       if (res.meta.code !== 200) {
-        return this.$message.error(res.meta.message);
+        return this.$message.error(res.meta.message)
       }
-      this.MyBookList = res.data;
+      this.MyBookList = res.data
       // console.log(this.MyBookList);
     },
     goCookbookDetail(id) {
-      this.$router.push(`/cookbook/detail?bookid=${id}`);
+      this.$router.push(`/cookbook/detail?bookid=${id}`)
     },
     // 删除文章
     async deleteItem(id) {
       const confirmResult = await this.$confirm(
-        "此操作将永久删除该菜谱, 是否继续?",
-        "提示",
+        '此操作将永久删除该菜谱, 是否继续?',
+        '提示',
         {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning",
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
         }
-      ).catch((res) => res);
+      ).catch((res) => res)
 
-      if (confirmResult !== "confirm") {
-        return this.$message.info("已取消删除");
+      if (confirmResult !== 'confirm') {
+        return this.$message.info('已取消删除')
       }
-      const { data: res } = await this.$http.delete("cookbooks/", { data: { id: id } });
+      const { data: res } = await this.$http.delete('cookbooks/', { data: { id: id } })
       if (res.meta.code !== 200) {
-        return this.$message.error(res.meta.message);
+        return this.$message.error(res.meta.message)
       }
-      this.$message.success(res.meta.message);
-      this.getMyBook();
+      this.$message.success(res.meta.message)
+      this.getMyBook()
     },
     // 新建菜谱
-    newBook(){
+    newBook() {
       this.$router.push('/cookbook/Add')
     },
     // 编辑菜谱
-    editBook(id){
+    editBook(id) {
       this.$router.push(`/cookbook/Edit?bookid=${id}`)
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style lang="less" scoped>

@@ -88,9 +88,9 @@ export default {
           window.sessionStorage.setItem('token', res.data.data.token)
           window.sessionStorage.setItem('user', res.data.data.username)
 
-          this.$store.commit('updateUserInfo',res.data.data)
+          this.$store.commit('updateUserInfo', res.data.data)
 
-          this.$cookieStore.setCookie('username', this.loginForm.username, 86400);
+          this.$cookieStore.setCookie('username', this.loginForm.username, 86400)
           this.$router.push('/home')
         }).catch(err => {
           console.log(err)

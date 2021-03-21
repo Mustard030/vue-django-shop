@@ -64,11 +64,11 @@ MIDDLEWARE = [
 CORS_ALLOW_CREDENTIALS = True  # 允许携带cookie
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = (
-    'http://127.0.0.1:8080',
+    'http://0.0.0.0:8080',
     'http://localhost:8080',
-    'http://127.0.0.1:80',
+    'http://0.0.0.0:80',
     'http://localhost:80',
-    'http://127.0.0.1:8081',
+    'http://0.0.0.0:8081',
     'http://localhost:8081',
 )
 CORS_ALLOW_METHODS = (

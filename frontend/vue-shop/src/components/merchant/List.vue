@@ -182,27 +182,27 @@ export default {
     return {
       // 查询对象
       queryInfo: {
-        query: "",
+        query: '',
         pagenum: 1,
-        pagesize: 10,
+        pagesize: 10
       },
       // 编辑表单
       editForm: {
         id: 0,
-        name: "",
+        name: '',
         admin: 0,
-        introduce: "",
+        introduce: ''
       },
       // 新增表单
       addForm: {
-        name: "",
+        name: '',
         admin: null,
-        introduce: "",
+        introduce: ''
       },
       // 编辑表单规则
       FormRules: {
-        name: [{ required: true, message: "请输入店铺名", trigger: "blur" }],
-        admin: [{ required: true, message: "请选择管理员", trigger: "blur" }],
+        name: [{ required: true, message: '请输入店铺名', trigger: 'blur' }],
+        admin: [{ required: true, message: '请选择管理员', trigger: 'blur' }]
       },
       // 返回商铺数据集
       merchantList: [],
@@ -213,104 +213,104 @@ export default {
       // 修改对话框显示
       editDialogVisible: false,
       // 添加对话框显示
-      addDialogVisible: false,
-    };
+      addDialogVisible: false
+    }
   },
   created() {
-    this.getMerchantList();
+    this.getMerchantList()
   },
   methods: {
     // 获取商家列表
     async getMerchantList() {
-      const { data: res } = await this.$http.get("merchant/", { params: this.queryInfo });
+      const { data: res } = await this.$http.get('merchant/', { params: this.queryInfo })
       if (res.meta.code !== 200) {
-        return this.$message.error(res.meta.message);
+        return this.$message.error(res.meta.message)
       }
-      this.merchantList = res.data.merchant;
-      this.total = res.data.total;
+      this.merchantList = res.data.merchant
+      this.total = res.data.total
     },
-    //显示修改对话框
+    // 显示修改对话框
     showEditDialog(row) {
-      this.editForm.id = row.id;
-      this.editForm.name = row.name;
-      this.editForm.admin = row.admin;
-      this.editForm.introduce = row.introduce;
-      this.getMerchantAdmin();
-      this.editDialogVisible = true;
+      this.editForm.id = row.id
+      this.editForm.name = row.name
+      this.editForm.admin = row.admin
+      this.editForm.introduce = row.introduce
+      this.getMerchantAdmin()
+      this.editDialogVisible = true
     },
     // 更新商铺信息
     async updateMerchant() {
       this.$refs.editFormRef.validate(async (valid) => {
-        if (!valid) return;
-        const { data: res } = await this.$http.put("merchant/", this.editForm);
+        if (!valid) return
+        const { data: res } = await this.$http.put('merchant/', this.editForm)
         if (res.meta.code !== 200) {
-          return this.$message.error(res.meta.message);
+          return this.$message.error(res.meta.message)
         }
-        this.$message.success(res.meta.message);
-        this.editDialogVisible = false;
-        this.getMerchantList();
-      });
+        this.$message.success(res.meta.message)
+        this.editDialogVisible = false
+        this.getMerchantList()
+      })
     },
     // 获得管理员选择器内容
     async getMerchantAdmin() {
-      const { data: res } = await this.$http.get("merchantAdmin/");
+      const { data: res } = await this.$http.get('merchantAdmin/')
       if (res.meta.code !== 200) {
-        return this.$message.error(res.meta.message);
+        return this.$message.error(res.meta.message)
       }
-      this.admin_select = res.data.admin_list;
+      this.admin_select = res.data.admin_list
     },
     // 打开添加对话框
     openAddDialog() {
-      this.getMerchantAdmin();
-      this.addDialogVisible = true;
+      this.getMerchantAdmin()
+      this.addDialogVisible = true
     },
     // 添加商铺
     async addMerchant() {
       this.$refs.addFormRef.validate(async (valid) => {
-        if (!valid) return;
-        const { data: res } = await this.$http.post("merchant/", this.addForm);
+        if (!valid) return
+        const { data: res } = await this.$http.post('merchant/', this.addForm)
         if (res.meta.code !== 200) {
-          return this.$message.error(res.meta.message);
+          return this.$message.error(res.meta.message)
         }
-        this.$message.success(res.meta.message);
-        this.addDialogVisible = false;
-        this.getMerchantList();
-      });
+        this.$message.success(res.meta.message)
+        this.addDialogVisible = false
+        this.getMerchantList()
+      })
     },
-    //删除地址对话框
+    // 删除地址对话框
     async deleteMerchant(id) {
       const confirmResult = await this.$confirm(
-        "此操作将永久删除该商铺以及该商品下的所有商品, 是否继续?",
-        "提示",
+        '此操作将永久删除该商铺以及该商品下的所有商品, 是否继续?',
+        '提示',
         {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning",
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
         }
-      ).catch((res) => res);
+      ).catch((res) => res)
 
-      if (confirmResult !== "confirm") {
-        return this.$message.info("已取消删除");
+      if (confirmResult !== 'confirm') {
+        return this.$message.info('已取消删除')
       }
-      const { data: res } = await this.$http.delete("merchant/", { data: { id: id } });
+      const { data: res } = await this.$http.delete('merchant/', { data: { id: id } })
       if (res.meta.code !== 200) {
-        return this.$message.error(res.meta.message);
+        return this.$message.error(res.meta.message)
       }
-      this.$message.success(res.meta.message);
-      this.getMerchantList();
+      this.$message.success(res.meta.message)
+      this.getMerchantList()
     },
     // 监听pagesize改变的事件
     handleSizeChange(newSize) {
-      this.queryInfo.pagesize = newSize;
-      this.getMerchantList();
+      this.queryInfo.pagesize = newSize
+      this.getMerchantList()
     },
     // 监听页码值改变的事件
     handleCurrentChange(newPage) {
-      this.queryInfo.pagenum = newPage;
-      this.getMerchantList();
-    },
-  },
-};
+      this.queryInfo.pagenum = newPage
+      this.getMerchantList()
+    }
+  }
+}
 </script>
 
 <style lang="less" scoped></style>

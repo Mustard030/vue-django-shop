@@ -117,185 +117,185 @@ export default {
   data() {
     return {
       editorOption: {
-        placeholder: "开始编辑吧",
+        placeholder: '开始编辑吧',
         modules: {
           toolbar: [
-            ["bold", "italic", "underline", "strike"], // toggled buttons
-            ["blockquote", "code-block"],
+            ['bold', 'italic', 'underline', 'strike'], // toggled buttons
+            ['blockquote', 'code-block'],
 
             [{ header: 1 }, { header: 2 }], // custom button values
-            [{ list: "ordered" }, { list: "bullet" }],
-            [{ script: "sub" }, { script: "super" }], // superscript/subscript
-            [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
-            [{ direction: "rtl" }], // text direction
+            [{ list: 'ordered' }, { list: 'bullet' }],
+            [{ script: 'sub' }, { script: 'super' }], // superscript/subscript
+            [{ indent: '-1' }, { indent: '+1' }], // outdent/indent
+            [{ direction: 'rtl' }], // text direction
 
-            [{ size: ["small", false, "large", "huge"] }], // custom dropdown
+            [{ size: ['small', false, 'large', 'huge'] }], // custom dropdown
             [{ header: [1, 2, 3, 4, 5, 6, false] }],
 
             [{ color: [] }, { background: [] }], // dropdown with defaults from theme
             [{ font: [] }],
             [{ align: [] }],
 
-            ["clean"], // remove formatting button
-            ["image"]
+            ['clean'], // remove formatting button
+            ['link', 'image', 'video']
           ],
           // 调整图片大小
           imageResize: {
             displayStyles: {
-              backgroundColor: "black",
-              border: "none",
-              color: "white",
+              backgroundColor: 'black',
+              border: 'none',
+              color: 'white'
             },
-            modules: ["Resize", "DisplaySize", "Toolbar"],
-          },
-        },
+            modules: ['Resize', 'DisplaySize', 'Toolbar']
+          }
+        }
       },
       // 查询对象
-      queryInfo:{
-        query:"",
+      queryInfo: {
+        query: '',
         pagenum: 1,
-        pagesize: 1000000,
+        pagesize: 1000000
       },
       // 标签页激活Name
-      activeName: "0",
+      activeName: '0',
       // 级联选择器选中项
       category: [],
       // 级联选择框配置对象
       cateProps: {
-        value: "cat_id",
-        label: "cat_name",
-        children: "children",
-        expandTrigger: "hover",
+        value: 'cat_id',
+        label: 'cat_name',
+        children: 'children',
+        expandTrigger: 'hover'
       },
       // 商品分类列表
       categoryList: [],
       // 添加商品的表单数据对象
       editItemForm: {
-        id: window.sessionStorage.getItem("editItem"),
-        itemName: "",
+        id: window.sessionStorage.getItem('editItem'),
+        itemName: '',
         price: 0,
         reserve: 0,
         itemClass: [],
-        unit: "",
+        unit: '',
         merchant: 0,
-        introduce: "",
-        pics: [],
+        introduce: '',
+        pics: []
       },
       // 新增的商品的返回商品id
       //   newItemID: null,
       // 图片上传地址
-      uploadUrl: "http://localhost:80/api/private/itemPics/",
+      uploadUrl: 'http://localhost:80/api/private/itemPics/',
       // 添加商品的表单验证项
       editItemRules: {
-        itemName: [{ required: true, message: "请输入商品名称", trigger: "blur" }],
+        itemName: [{ required: true, message: '请输入商品名称', trigger: 'blur' }],
         price: [
-          { required: true, message: "请输入商品价格", trigger: "blur" },
+          { required: true, message: '请输入商品价格', trigger: 'blur' }
           //   { min: 0, max: 9999.99, message: "请输入0~9999.99以内的价格", trigger: "blur" },
         ],
         reserve: [
-          { required: true, message: "请输入商品库存量:", trigger: "blur" },
+          { required: true, message: '请输入商品库存量:', trigger: 'blur' }
           //   { min: 0, max: 3, message: "请输入0~999以内的数字", trigger: "blur" },
         ],
-        itemClass: [{ required: true, message: "请选择商品分类", trigger: "blur" }],
-        unit: [{ required: true, message: "请填写商品单位", trigger: "blur" }],
-        merchant:[{required: true, message:"请选择所属商家",trigger:"blur"}]
+        itemClass: [{ required: true, message: '请选择商品分类', trigger: 'blur' }],
+        unit: [{ required: true, message: '请填写商品单位', trigger: 'blur' }],
+        merchant: [{ required: true, message: '请选择所属商家', trigger: 'blur' }]
       },
       // 文件上传的请求头
       headersObj: {
-        Authorization: window.sessionStorage.getItem("token"),
+        Authorization: window.sessionStorage.getItem('token')
       },
       // 预览图片地址
-      previewUrl: "",
+      previewUrl: '',
       // 图片预览对话框显示
       previewVisible: false,
-      //商家列表
-      merchantList: [],
-    };
+      // 商家列表
+      merchantList: []
+    }
   },
   created() {
-    this.getCateList();
-    this.getMerchantList();
-    this.getItemData(window.sessionStorage.getItem("editItem"));
+    this.getCateList()
+    this.getMerchantList()
+    this.getItemData(window.sessionStorage.getItem('editItem'))
   },
   methods: {
     // 获取商品分类
     async getCateList() {
-      const { data: res } = await this.$http.get("categories/", { params: { type: 2 } });
-      if (res.meta.code !== 200) return this.$message.error(res.meta.message);
+      const { data: res } = await this.$http.get('categories/', { params: { type: 2 } })
+      if (res.meta.code !== 200) return this.$message.error(res.meta.message)
 
-      this.categoryList = res.data;
+      this.categoryList = res.data
     },
     // 获取商家列表
     async getMerchantList() {
-      const { data: res } = await this.$http.get("merchant/",{ params: this.queryInfo });
+      const { data: res } = await this.$http.get('merchant/', { params: this.queryInfo })
       if (res.meta.code !== 200) {
-        return this.$message.error(res.meta.message);
+        return this.$message.error(res.meta.message)
       }
-      this.merchantList = res.data.merchant;
+      this.merchantList = res.data.merchant
     },
     // 获取此条目商品信息
     async getItemData(id) {
-      const { data: res } = await this.$http.get("goods/", { params: { id: id } });
-      if(res.meta.code!==200){
-        this.$message.error(res.meta.message);
-        this.$router.push("/goods");
-        return;
-        }
-      this.editItemForm.itemName = res.data.name;
-      this.editItemForm.price = res.data.price;
-      this.editItemForm.reserve = res.data.reserve;
-      this.editItemForm.itemClass = res.data.itemClass;
-      this.editItemForm.unit = res.data.unit;
-      this.editItemForm.introduce = res.data.introduce;
-      this.editItemForm.merchant = res.data.merchant;
-      this.editItemForm.pics = res.data.pics;
+      const { data: res } = await this.$http.get('goods/', { params: { id: id } })
+      if (res.meta.code !== 200) {
+        this.$message.error(res.meta.message)
+        this.$router.push('/goods')
+        return
+      }
+      this.editItemForm.itemName = res.data.name
+      this.editItemForm.price = res.data.price
+      this.editItemForm.reserve = res.data.reserve
+      this.editItemForm.itemClass = res.data.itemClass
+      this.editItemForm.unit = res.data.unit
+      this.editItemForm.introduce = res.data.introduce
+      this.editItemForm.merchant = res.data.merchant
+      this.editItemForm.pics = res.data.pics
     },
     // 处理图片预览效果
     handlePreview(file) {
-      this.previewUrl = file.url;
-      this.previewVisible = true;
+      this.previewUrl = file.url
+      this.previewVisible = true
     },
     // 处理图片删除
     async handleRemove(file, fileList) {
-      var removePicID = file.id;
-      const { data: res } = await this.$http.delete("itemPics/", {
-        data: { id: removePicID },
-      });
+      var removePicID = file.id
+      const { data: res } = await this.$http.delete('itemPics/', {
+        data: { id: removePicID }
+      })
       if (res.meta.code !== 200) {
-        this.$message.error(res.meta.message);
-        reject(false);
+        this.$message.error(res.meta.message)
+        reject(false)
       } else {
-        const i = this.editItemForm.pics.findIndex((x) => x.id === removePicID);
-        this.editItemForm.pics.splice(i, 1);
+        const i = this.editItemForm.pics.findIndex((x) => x.id === removePicID)
+        this.editItemForm.pics.splice(i, 1)
       }
     },
     // 监听图片上传成功
     handleSuccess(response) {
-      const newPicID = response.data.id;
+      const newPicID = response.data.id
       this.editItemForm.pics.push({
         id: newPicID,
         url: response.data.url,
-        name: response.data.name,
-      });
+        name: response.data.name
+      })
     },
     // 提交商品表单
     async submitForm() {
       this.$refs.editItemFormRef.validate((valid) => {
         if (!valid) {
-          return this.$message.error("请填写必要的表单项");
+          return this.$message.error('请填写必要的表单项')
         }
-      });
+      })
       // 执行修改
-      const { data: res } = await this.$http.put("goods/", this.editItemForm);
+      const { data: res } = await this.$http.put('goods/', this.editItemForm)
       if (res.meta.code !== 200) {
-        return this.$message.error(res.meta.message);
+        return this.$message.error(res.meta.message)
       }
-      this.$message.success(res.meta.message);
-      this.$router.push("/goods");
-    },
+      this.$message.success(res.meta.message)
+      this.$router.push('/goods')
+    }
   },
-  computed: {},
-};
+  computed: {}
+}
 </script>
 
 <style lang="less" scoped>

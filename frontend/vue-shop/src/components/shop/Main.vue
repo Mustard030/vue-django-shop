@@ -78,7 +78,7 @@
               </div></el-col
             >
             <el-col :span="12" style="margin-top: 10px">
-              
+
                 <el-button
                   icon="el-icon-shopping-cart-2"
                   circle
@@ -103,61 +103,61 @@
 export default {
   data() {
     return {
-      keyword: "",
-      select: "item",
-      activePath: "/",
-    };
+      keyword: '',
+      select: 'item',
+      activePath: '/'
+    }
   },
   created() {
-    this.activePath = window.sessionStorage.getItem("activePath");
+    this.activePath = window.sessionStorage.getItem('activePath')
   },
   methods: {
     handleSelect(key, keyPath) {
       // console.log(key, keyPath);
     },
     clearLocalStorage() {
-      window.sessionStorage.clear();
-      this.$store.commit("clearLocalStorage");
-      this.$router.push("/");
+      window.sessionStorage.clear()
+      this.$store.commit('clearLocalStorage')
+      this.$router.push('/')
     },
     goLogin() {
-      this.$router.push("/login");
+      this.$router.push('/login')
     },
     goUserPage() {
-      this.$router.push("/user/portal");
+      this.$router.push('/user/portal')
     },
     goCartPage() {
-      this.$router.push("/buy/cart");
+      this.$router.push('/buy/cart')
     },
     goMyCookbookPage() {
-      this.$router.push("/user/cookbook");
+      this.$router.push('/user/cookbook')
     },
     goMyOrderPage() {
-      this.$router.push("/user/order");
+      this.$router.push('/user/order')
     },
     // 保存链接的激活状态
     saveNavState(activePath) {
-      window.sessionStorage.setItem("activePath", activePath);
-      this.activePath = activePath;
+      window.sessionStorage.setItem('activePath', activePath)
+      this.activePath = activePath
     },
     // 切换搜索商品或菜谱的网址
     async searchWithSelect() {
-      var href = "";
-      if(this.select==='item'){
-        href = "searchItem/"
-      }else if(this.select === "cookbook"){
-        href = "searchCookbook/"
+      var href = ''
+      if (this.select === 'item') {
+        href = 'searchItem/'
+      } else if (this.select === 'cookbook') {
+        href = 'searchCookbook/'
       }
-      const {data:res} = await this.$http.get(href,{params:{keyword:this.keyword}})
-      if (res.meta.code!==200){return this.$message.error(res.meta.message)}
-      this.$store.commit('updateSearchResult',res.data)
-      this.$router.push(`/search/${this.select}?keyword=${this.keyword}`);
-    },
+      const { data: res } = await this.$http.get(href, { params: { keyword: this.keyword } })
+      if (res.meta.code !== 200) { return this.$message.error(res.meta.message) }
+      this.$store.commit('updateSearchResult', res.data)
+      this.$router.push(`/search/${this.select}?keyword=${this.keyword}`)
+    }
   },
   computed: {
     loginedUser() {
-      return this.$store.state.userInfo;
-    },
+      return this.$store.state.userInfo
+    }
     // cartValue() {
     //   var num = 0;
     //   this.$http.get(`cart/?id=${this.$store.state.userInfo.userId}`).then((res)=>{
@@ -168,8 +168,8 @@ export default {
     //   });
     //   return num;
     // },
-  },
-};
+  }
+}
 </script>
 <style lang="less" scoped>
 .home-container {

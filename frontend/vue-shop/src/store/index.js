@@ -6,20 +6,20 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    BACKEND_URL:'http://localhost',
+    BACKEND_URL: 'http://localhost',
     userInfo: {
       userId: null,
       avatar: null,
       username: null,
-      token:null,
-      is_superuser:false,
+      token: null,
+      is_superuser: false
     },
-    itemInCart:[],
-    searchResult:[],
+    itemInCart: [],
+    searchResult: []
   },
   mutations: {
-    //用于变更state数据
-    updateUserInfo(state,userObj){
+    // 用于变更state数据
+    updateUserInfo(state, userObj) {
       state.userInfo.userId = userObj.id
       state.userInfo.avatar = userObj.avatar
       state.userInfo.username = userObj.username
@@ -28,20 +28,20 @@ export default new Vuex.Store({
       state.userInfo.email = userObj.email
       state.userInfo.is_superuser = userObj.is_superuser
     },
-    clearLocalStorage(state){
-      state.userInfo={};
+    clearLocalStorage(state) {
+      state.userInfo = {}
     },
     // 更新购物车数据
-    updateCart(state,cartList){
-      state.itemInCart = cartList;
+    updateCart(state, cartList) {
+      state.itemInCart = cartList
     },
     // 更新用户头像
-    updateUserAvatar(state,avatarUrl){
-      state.userInfo.avatar = avatarUrl;
+    updateUserAvatar(state, avatarUrl) {
+      state.userInfo.avatar = avatarUrl
     },
     // 更新搜索数据
-    updateSearchResult(state,results){
-      state.searchResult = results;
+    updateSearchResult(state, results) {
+      state.searchResult = results
     }
   },
   actions: {},

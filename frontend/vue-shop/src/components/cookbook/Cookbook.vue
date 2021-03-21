@@ -102,74 +102,75 @@ export default {
     return {
       // 查询参数对象
       queryInfo: {
-        query: "",
+        query: '',
         pagenum: 1,
-        pagesize: 10,
+        pagesize: 10
       },
       // 菜谱列表
       cookbookList: [],
       // 菜谱列表返回结果数
-      total: 0,
-    };
+      total: 0
+    }
   },
   created() {
-    this.getCookbookList();
+    this.getCookbookList()
   },
   methods: {
     // 获取菜谱列表
     async getCookbookList() {
-      const { data: res } = await this.$http.get("cookbooks/", {
-        params: this.queryInfo,
-      });
+      const { data: res } = await this.$http.get('cookbooks/', {
+        params: this.queryInfo
+      })
       if (res.meta.code !== 200) {
-        return this.$message.error(res.meta.message);
+        return this.$message.error(res.meta.message)
       }
-      this.cookbookList = res.data.cookbookList;
-      this.total = res.data.total;
+      this.cookbookList = res.data.cookbookList
+      this.total = res.data.total
     },
     // 删除文章
     async deleteItem(id) {
       const confirmResult = await this.$confirm(
-        "此操作将永久删除该菜谱, 是否继续?",
-        "提示",
+        '此操作将永久删除该菜谱, 是否继续?',
+        '提示',
         {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning",
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
         }
-      ).catch((res) => res);
+      ).catch((res) => res)
 
-      if (confirmResult !== "confirm") {
-        return this.$message.info("已取消删除");
+      if (confirmResult !== 'confirm') {
+        return this.$message.info('已取消删除')
       }
-      const { data: res } = await this.$http.delete("cookbooks/", { data: { id: id } });
+      const { data: res } = await this.$http.delete('cookbooks/', { data: { id: id } })
       if (res.meta.code !== 200) {
-        return this.$message.error(res.meta.message);
+        return this.$message.error(res.meta.message)
       }
-      this.$message.success(res.meta.message);
-      this.getCookbookList();
+      this.$message.success(res.meta.message)
+      this.getCookbookList()
     },
     // 跳转到新增页面
-    goAddPage(){
-      this.$router.push("/cookbook/add");
+    goAddPage() {
+      this.$router.push('/cookbook/adminadd')
     },
     // 跳转至修改页面
-    goEditPage(id){
-      window.sessionStorage.setItem("essayID", id);
-      this.$router.push("/cookbook/edit");
+    goEditPage(id) {
+      // window.sessionStorage.setItem("essayID", id);
+      // console.log(id);
+      this.$router.push(`/cookbook/adminedit?id=${id}`)
     },
     // 监听pagesize改变的事件
     handleSizeChange(newSize) {
-      this.queryInfo.pagesize = newSize;
-      this.getOrderList();
+      this.queryInfo.pagesize = newSize
+      this.getOrderList()
     },
     // 监听页码值改变的事件
     handleCurrentChange(newPage) {
-      this.queryInfo.pagenum = newPage;
-      this.getOrderList();
-    },
-  },
-};
+      this.queryInfo.pagenum = newPage
+      this.getOrderList()
+    }
+  }
+}
 </script>
 
 <style lang="less" scoped></style>

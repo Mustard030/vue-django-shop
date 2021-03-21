@@ -35,9 +35,8 @@ class LoginView(APIView):
         password = data.get('password')
         user_obj = auth.authenticate(username=username, password=password)
         if user_obj:
-            login_success = user_obj.is_superuser  # or user_obj.is_staff
-
-            if login_success:
+            # login_success = user_obj.is_superuser  # or user_obj.is_staff
+            if user_obj.is_superuser:
                 token = get_token_code(user_obj.username)
                 token_obj = models.Token.objects.filter(user_id=user_obj.id).first()
                 if token_obj:
@@ -493,48 +492,6 @@ class ItemPics(APIView):
 
         os.remove(itemPic.image.path)
         itemPic.delete()
-        return JsonResponse(res, safe=False)
-
-
-# 暂存图片接口
-class TempImage(APIView):
-    def post(self, request):
-        res = {
-            'data': {},
-            'meta': {
-                'message': '图片上传失败',
-                'code': 400
-            }}
-        temp_img = models.TempImage(
-            image=request.FILES.get('file'),
-            name=request.FILES.get('file').name,
-        )
-
-        temp_img.save()
-        if temp_img.image.url:
-            res['data']['id'] = temp_img.pk
-            res['data']['url'] = 'http://localhost:80' + temp_img.image.url
-            res['data']['name'] = temp_img.name
-            res['meta']['code'] = 200
-            res['meta']['message'] = '图片上传成功'
-
-        return JsonResponse(res, safe=False)
-
-    def delete(self, request):
-        res = {
-            'meta': {
-                'message': '图片删除失败',
-                'code': 400
-            }}
-        # print(request.body)
-        data = json.loads(str(request.body, encoding='utf8'))
-        pk = data.get('id')
-        del_pic = models.TempImage.objects.filter(pk=pk).first()
-        if del_pic:
-            os.remove(del_pic.image.path)
-            del_pic.delete()
-            res['meta']['code'] = 200
-            res['meta']['message'] = '删除图片成功'
         return JsonResponse(res, safe=False)
 
 

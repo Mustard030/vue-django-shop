@@ -33,62 +33,61 @@ export default {
   data() {
     return {
       // 订单ID
-      orderId: "",
-    };
+      orderId: ''
+    }
   },
   created() {
-    this.orderId = this.$route.query.orderId;
+    this.orderId = this.$route.query.orderId
   },
   methods: {
-    //3秒后进入跳转页面
+    // 3秒后进入跳转页面
     threeGo() {
-      const TIME_COUNT = 3;
+      const TIME_COUNT = 3
       if (!this.timer) {
-        this.count = TIME_COUNT;
-        this.show = false;
+        this.count = TIME_COUNT
+        this.show = false
         this.timer = setInterval(() => {
           if (this.count > 0 && this.count <= TIME_COUNT) {
-            this.count--;
+            this.count--
           } else {
-            this.show = true;
-            clearInterval(this.timer);
-            this.timer = null;
-            //跳转的页面写在此处
+            this.show = true
+            clearInterval(this.timer)
+            this.timer = null
+            // 跳转的页面写在此处
             this.$router.push({
-              path: "/user/order",
-            });
+              path: '/user/order'
+            })
           }
-        }, 1000);
+        }, 1000)
       }
     },
 
     async pay() {
-      const { data: res } = await this.$http.post("payment/", { orderId: this.orderId });
+      const { data: res } = await this.$http.post('payment/', { orderId: this.orderId })
       // console.log(res.meta.code)
       if (res.meta.code === 200) {
         this.$notify({
-          title: "成功",
-          message: "付款成功,3秒后跳转至订单页面",
-          type: "success",
-        });
-        this.threeGo();
-      }
-      else if (res.meta.code === 201) {
+          title: '成功',
+          message: '付款成功,3秒后跳转至订单页面',
+          type: 'success'
+        })
+        this.threeGo()
+      } else if (res.meta.code === 201) {
         this.$notify({
-          title: "警告",
+          title: '警告',
           message: res.meta.message,
-          type: "warning",
-        });
-        this.threeGo();
+          type: 'warning'
+        })
+        this.threeGo()
       } else {
         this.$notify.error({
-          title: "错误",
-          message: "付款失败",
-        });
+          title: '错误',
+          message: '付款失败'
+        })
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style lang="less" scoped>

@@ -41,7 +41,7 @@
       </div>
        <el-divider>商品介绍</el-divider>
       <div class="item-introduce"><p v-html="itemDetail.introduce"></p></div>
-      
+
     </div>
   </div>
 </template>
@@ -51,45 +51,45 @@ export default {
   props: {
     dataHeight: {
       type: String,
-      default: "360px",
-    },
+      default: '360px'
+    }
   },
   data() {
     return {
       itemDetail: {},
       // 购买数量
-      num: "",
-    };
+      num: ''
+    }
   },
   created() {
-    this.getItemDetail(this.$route.query.id);
+    this.getItemDetail(this.$route.query.id)
   },
   filters: {
     priceFilter: function (price) {
       if (!price) {
-        return 0;
+        return 0
       }
-      let newVal = parseFloat(price).toFixed(2);
-      return newVal;
-    },
+      const newVal = parseFloat(price).toFixed(2)
+      return newVal
+    }
   },
   methods: {
     async getItemDetail(id) {
-      const { data: res } = await this.$http.get("good/", { params: { id: id } });
+      const { data: res } = await this.$http.get('good/', { params: { id: id } })
       if (res.meta.code !== 200) {
-        return this.$message.error(res.meta.message);
+        return this.$message.error(res.meta.message)
       }
-      this.itemDetail = res.data;
+      this.itemDetail = res.data
 
-      console.log(this.itemDetail);
+      console.log(this.itemDetail)
     },
-    async addToCart(id){
-      const {data:res} = await this.$http.post('cart/',{id:id,number:this.num})
-      if(res.meta.code!==200){return this.$message.error(res.meta.message)}
+    async addToCart(id) {
+      const { data: res } = await this.$http.post('cart/', { id: id, number: this.num })
+      if (res.meta.code !== 200) { return this.$message.error(res.meta.message) }
       return this.$message.success(res.meta.message)
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style lang="less" scoped>

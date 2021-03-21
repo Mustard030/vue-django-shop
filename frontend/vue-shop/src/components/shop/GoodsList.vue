@@ -47,31 +47,31 @@ export default {
   data() {
     return {
       bodyStyle: {
-        padding: "0px",
-        height: "250px",
+        padding: '0px',
+        height: '250px'
       },
       brief: [],
       activeNames: [],
-      secActiveNames: [],
-    };
+      secActiveNames: []
+    }
   },
   created() {
-    this.getAllGood();
+    this.getAllGood()
   },
   methods: {
     async getAllGood() {
-      const { data: res } = await this.$http.get("getAllGood/");
+      const { data: res } = await this.$http.get('getAllGood/')
       if (res.meta.code !== 200) {
-        return this.$message.error(res.meta.message);
+        return this.$message.error(res.meta.message)
       }
-      this.brief = res.data;
+      this.brief = res.data
       // console.log(res);
     },
-    goDetailPage(id){
-        this.$router.push(`/buy/detail?id=${id}`)
+    goDetailPage(id) {
+      this.$router.push(`/buy/detail?id=${id}`)
     }
-  },
-};
+  }
+}
 </script>
 
 <style lang="less" scoped>

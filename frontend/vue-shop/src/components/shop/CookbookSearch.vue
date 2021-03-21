@@ -2,6 +2,7 @@
   <div>
     <div class="main-wrapper">
       <el-card>
+        <p v-if="this.$store.state.searchResult.length < 1" style="text-align:center;font-size:14px;color:#909399;">没找到你想要的菜谱~</p>
         <el-row v-for="(item, index) in this.$store.state.searchResult" :key="index">
           <el-col :span="24">
             <el-card class="onebook" @click.native="goCookbookDetail(item.id)">
@@ -23,17 +24,17 @@
 <script>
 export default {
   data() {
-    return {};
+    return {}
   },
   created() {
     //   console.log(this.$store.state.asd)
   },
   methods: {
-      goCookbookDetail(id){
-          this.$router.push(`/cookbook/detail?bookid=${id}`)
-      },
-  },
-};
+    goCookbookDetail(id) {
+      this.$router.push(`/cookbook/detail?bookid=${id}`)
+    }
+  }
+}
 </script>
 
 <style lang="less" scoped>

@@ -33,60 +33,60 @@ export default {
   data() {
     return {
       // 图片上传地址
-      uploadUrl: "http://localhost:80/api/private/carouselPics/",
+      uploadUrl: 'http://localhost:80/api/private/carouselPics/',
       // 文件上传的请求头
       headersObj: {
-        Authorization: window.sessionStorage.getItem("token"),
+        Authorization: window.sessionStorage.getItem('token')
       },
       // 预览图片地址
-      previewUrl: "",
+      previewUrl: '',
       // 图片预览对话框显示
       previewVisible: false,
       // 图片列表
-      pics: [],
-    };
+      pics: []
+    }
   },
   created() {
-      this.getCarouselPics();
+    this.getCarouselPics()
   },
   methods: {
     // 获取图片信息
-    async getCarouselPics(){
-        const {data:res} = await this.$http.get('carouselPics/')
-        this.pics = res.data
-        // console.log(res)
+    async getCarouselPics() {
+      const { data: res } = await this.$http.get('carouselPics/')
+      this.pics = res.data
+      // console.log(res)
     },
     // 处理图片预览效果
     handlePreview(file) {
-      this.previewUrl = file.url;
-      this.previewVisible = true;
+      this.previewUrl = file.url
+      this.previewVisible = true
     },
     // 处理图片删除
     async handleRemove(file, fileList) {
-      var removePicID = file.id;
-      const { data: res } = await this.$http.delete("carouselPics/", {
-        data: { id: removePicID },
-      });
+      var removePicID = file.id
+      const { data: res } = await this.$http.delete('carouselPics/', {
+        data: { id: removePicID }
+      })
       if (res.meta.code !== 200) {
-        this.$message.error(res.meta.message);
-        reject(false);
+        this.$message.error(res.meta.message)
+        reject(false)
       } else {
-        const i = this.pics.findIndex((x) => x.id === removePicID);
-        this.pics.splice(i, 1);
+        const i = this.pics.findIndex((x) => x.id === removePicID)
+        this.pics.splice(i, 1)
       }
-      this.getCarouselPics();
+      this.getCarouselPics()
     },
     // 监听图片上传成功
     handleSuccess(response) {
-      const newPicID = response.data.id;
+      const newPicID = response.data.id
       this.pics.push({
         id: newPicID,
-        url: response.data.url,
+        url: response.data.url
         // name: response.data.name,
-      });
-    },
-  },
-};
+      })
+    }
+  }
+}
 </script>
 
 <style lang="less" scoped></style>

@@ -6,15 +6,6 @@
         <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
         <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
       </path>
-      <path>
-        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
-      </path>
-      <path>
-        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
-      </path>
     </expand>
     <select>
       <path>
@@ -26,10 +17,45 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="582da8aa-470c-4504-aef3-f6f4ca6bdbcd" name="Default Changelist" comment="staticfiles">
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/assets/js/cookie.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/assets/js/cookie.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/CarouselPics/List.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/CarouselPics/List.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/Home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/Home.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/Login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/Login.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/Register.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/Register.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/UserLogin.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/UserLogin.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/Welcome.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/Welcome.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/cookbook/Add.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/cookbook/Add.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/cookbook/Cookbook.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/cookbook/Cookbook.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/cookbook/Edit.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/cookbook/Edit.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/goods/Add.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/goods/Add.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/goods/Edit.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/goods/Edit.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/goods/List.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/goods/List.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/merchant/List.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/merchant/List.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/order/Order.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/order/Order.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/AddCookBook.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/AddCookBook.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Cart.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Cart.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Checkout.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Checkout.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/CookbookDetail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/CookbookDetail.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/CookbookSearch.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/CookbookSearch.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Days.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Days.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Detail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Detail.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/EditCookBook.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/EditCookBook.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/GoodsList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/GoodsList.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/ItemSearch.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/ItemSearch.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Main.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Main.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/MyAddress.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/MyAddress.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/MyOrder.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/MyOrder.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Mycookbook.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Mycookbook.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Pay.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Pay.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/User.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/User.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/UserPortal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/UserPortal.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/user/Delivery.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/user/Delivery.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/user/User.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/user/User.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/plugins/element.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/plugins/element.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/router/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/store/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/store/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/vue.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/vue.config.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,10 +73,21 @@
       </list>
     </option>
   </component>
+  <component name="FlaskConsoleOptions" custom-start-script="import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\nApp: %s [%s]\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))">
+    <envs>
+      <env key="FLASK_APP" value="app" />
+    </envs>
+    <option name="myCustomStartScript" value="import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\nApp: %s [%s]\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))" />
+    <option name="myEnvs">
+      <map>
+        <entry key="FLASK_APP" value="app" />
+      </map>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="JupyterTrust" id="ce53bc2f-7d48-4fa1-8195-6ff710c3f001" />
+  <component name="JupyterTrust" id="a65a8a01-ae6b-47e2-9b11-83b2709e15f2" />
   <component name="ProjectId" id="1jUuQMLTIf6fZN7loT6wzM00npp" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -69,10 +106,11 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="add_unversioned_files" value="true" />
     <property name="ignore_missing_gitignore" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/media/resources" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../workspace/pixiv_proxy_download/pixiv_proxy_download" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -86,13 +124,36 @@
       <recent name="D:\coding\sm\templates\test01" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.main">
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="sm" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../../workspace/测试" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../../workspace/测试/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="sm" type="Python.DjangoServer" factoryName="Django server">
       <module name="sm" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="DJANGO_SETTINGS_MODULE" value="sm.settings" />
       </envs>
       <option name="SDK_HOME" value="D:\coding\sm\venv\Scripts\python.exe" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -110,6 +171,11 @@
       <option name="customRunCommand" value="" />
       <method v="2" />
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.main" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
@@ -165,6 +231,25 @@
       <workItem from="1608705271194" duration="4000" />
       <workItem from="1608706765778" duration="11000" />
       <workItem from="1608706794450" duration="59000" />
+      <workItem from="1613826605144" duration="149000" />
+      <workItem from="1613827095120" duration="20000" />
+      <workItem from="1613827133502" duration="166000" />
+      <workItem from="1613827321058" duration="193000" />
+      <workItem from="1613827532571" duration="32000" />
+      <workItem from="1613827583252" duration="16000" />
+      <workItem from="1613827612767" duration="45000" />
+      <workItem from="1613887475293" duration="8808000" />
+      <workItem from="1614583577391" duration="105000" />
+      <workItem from="1614583707898" duration="682000" />
+      <workItem from="1614667015992" duration="722000" />
+      <workItem from="1614760126992" duration="962000" />
+      <workItem from="1614842215104" duration="4149000" />
+      <workItem from="1614926489779" duration="638000" />
+      <workItem from="1615302466757" duration="949000" />
+      <workItem from="1615886349815" duration="961000" />
+      <workItem from="1615965974304" duration="1161000" />
+      <workItem from="1616315655342" duration="1629000" />
+      <workItem from="1616338411737" duration="1671000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1603520933070</created>
@@ -546,40 +631,44 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="696" y="359" key="#Notifications/0.0.1920.1080@0.0.1920.1080" timestamp="1608973125875" />
-    <state x="361" y="90" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1606308521225">
-      <screen x="0" y="0" width="1536" height="864" />
-    </state>
-    <state x="361" y="90" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.864@0.0.1536.864" timestamp="1606308521225" />
-    <state width="246" height="195" key="DatabaseViewActions_Filter" timestamp="1605871387447">
-      <screen x="0" y="0" width="1536" height="864" />
-    </state>
-    <state width="246" height="195" key="DatabaseViewActions_Filter/0.0.1536.864@0.0.1536.864" timestamp="1605871387447" />
-    <state x="686" y="234" key="FileChooserDialogImpl" timestamp="1611405702732">
+    <state x="705" y="328" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1613888440390">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="549" y="187" key="FileChooserDialogImpl/0.0.1536.864@0.0.1536.864" timestamp="1605951637244" />
-    <state x="686" y="234" key="FileChooserDialogImpl/0.0.1920.1080@0.0.1920.1080" timestamp="1611405702732" />
-    <state width="272" height="540" key="HiddenNamespacesPopup" timestamp="1605871306107">
-      <screen x="0" y="0" width="1536" height="864" />
-    </state>
-    <state width="272" height="540" key="HiddenNamespacesPopup/0.0.1536.864@0.0.1536.864" timestamp="1605871306107" />
-    <state x="245" y="251" key="SettingsEditor" timestamp="1611403860508">
+    <state x="705" y="328" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1080@0.0.1920.1080" timestamp="1613888440390" />
+    <state x="686" y="234" key="FileChooserDialogImpl" timestamp="1615965986149">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="195" y="64" key="SettingsEditor/0.0.1536.864@0.0.1536.864" timestamp="1606384410843" />
-    <state x="245" y="251" key="SettingsEditor/0.0.1920.1080@0.0.1920.1080" timestamp="1611403860508" />
+    <state x="686" y="234" key="FileChooserDialogImpl/0.0.1920.1080@0.0.1920.1080" timestamp="1615965986149" />
+    <state width="1875" height="286" key="GridCell.Tab.0.bottom" timestamp="1614151918325">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1875" height="286" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1614151918325" />
+    <state width="1875" height="286" key="GridCell.Tab.0.center" timestamp="1614151918324">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1875" height="286" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1614151918324" />
+    <state width="1875" height="286" key="GridCell.Tab.0.left" timestamp="1614151918324">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1875" height="286" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1614151918324" />
+    <state width="1875" height="286" key="GridCell.Tab.0.right" timestamp="1614151918324">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1875" height="286" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1614151918324" />
+    <state x="245" y="251" key="SettingsEditor" timestamp="1615302714349">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="245" y="251" key="SettingsEditor/0.0.1920.1080@0.0.1920.1080" timestamp="1615302714349" />
     <state x="715" y="362" key="SimpleOpenTaskDialog" timestamp="1608707147874">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="715" y="362" key="SimpleOpenTaskDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1608707147874" />
-    <state x="361" y="146" key="Vcs.Push.Dialog.v2" timestamp="1606330925641">
-      <screen x="0" y="0" width="1536" height="864" />
-    </state>
-    <state x="361" y="146" key="Vcs.Push.Dialog.v2/0.0.1536.864@0.0.1536.864" timestamp="1606330925641" />
     <state x="539" y="226" width="840" height="848" key="search.everywhere.popup" timestamp="1610347545207">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="431" y="181" width="672" height="678" key="search.everywhere.popup/0.0.1536.864@0.0.1536.864" timestamp="1606388832063" />
     <state x="539" y="226" width="840" height="848" key="search.everywhere.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1610347545207" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/backend$main.coverage" NAME="main Coverage Results" MODIFIED="1614080450895" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../../workspace/测试" />
   </component>
 </project>

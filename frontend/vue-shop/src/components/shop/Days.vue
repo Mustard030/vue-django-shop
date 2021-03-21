@@ -46,37 +46,37 @@ export default {
   props: {
     dataHeight: {
       type: String,
-      default: "400px",
-    },
+      default: '400px'
+    }
   },
   data() {
     return {
       bodyStyle: {
-        padding: "0px",
-        height: "250px",
+        padding: '0px',
+        height: '250px'
       },
       carouselPics: [],
-      recommendList: [],
-    };
+      recommendList: []
+    }
   },
   created() {
-    this.getCarouselPics();
-    this.getRecommendList();
+    this.getCarouselPics()
+    this.getRecommendList()
   },
   methods: {
     async getCarouselPics() {
-      const { data: res } = await this.$http.get("carouselPics/");
-      this.carouselPics = res.data;
+      const { data: res } = await this.$http.get('carouselPics/')
+      this.carouselPics = res.data
     },
     async getRecommendList() {
-      const { data: res } = await this.$http.get("recommendList/");
-      this.recommendList = res.data;
+      const { data: res } = await this.$http.get('recommendList/')
+      this.recommendList = res.data
     },
-    goDetailPage(id){
-        this.$router.push(`/buy/detail?id=${id}`)
+    goDetailPage(id) {
+      this.$router.push(`/buy/detail?id=${id}`)
     }
-  },
-};
+  }
+}
 </script>
 
 <style lang="less" scoped>

@@ -5,6 +5,7 @@
         <!-- <div slot="header" class="clearfix">
           <span>销量排行榜</span>
         </div> -->
+        <p v-if="this.$store.state.searchResult.length < 1" style="text-align:center;font-size:14px;color:#909399;">没找到你想要的商品~</p>
         <el-row :gutter="15">
           <el-col
             :span="6"
@@ -37,13 +38,13 @@
 export default {
   data() {
     return {
-        bodyStyle: {
-        padding: "0px",
-        height: "250px",
+      bodyStyle: {
+        padding: '0px',
+        height: '250px'
       },
       // 搜索结果集
-      results: [],
-    };
+      results: []
+    }
   },
   created() {
     // this.getSearchData(this.$route.query.keyword)
@@ -51,19 +52,19 @@ export default {
   methods: {
     // 获取搜索数据
     async getSearchData(keyword) {
-      const { data: res } = await this.$http.get("searchItem/", {
-        params: { keyword: keyword },
-      });
+      const { data: res } = await this.$http.get('searchItem/', {
+        params: { keyword: keyword }
+      })
       if (res.meta.code !== 200) {
-        return this.$message.error(res.meta.message);
+        return this.$message.error(res.meta.message)
       }
-      this.results = res.data;
+      this.results = res.data
     },
-    goDetailPage(id){
-        this.$router.push(`/buy/detail?id=${id}`)
+    goDetailPage(id) {
+      this.$router.push(`/buy/detail?id=${id}`)
     }
-  },
-};
+  }
+}
 </script>
 
 <style lang="less" scoped>

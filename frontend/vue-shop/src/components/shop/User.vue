@@ -4,12 +4,12 @@
       <el-aside>
         <el-menu :default-active="activePath" router>
           <div class="avatar-wrapper">
-            
+
               <el-image
                 :src="this.$store.state.BACKEND_URL + this.$store.state.userInfo.avatar"
                 fit="fill"
               ></el-image>
-            
+
             <p class="username">{{ this.$store.state.userInfo.username }}</p>
           </div>
 
@@ -40,20 +40,20 @@
 export default {
   data() {
     return {
-      activePath: "",
-    };
+      activePath: ''
+    }
   },
   created() {
-    this.activePath = window.sessionStorage.getItem("activePath");
+    this.activePath = window.sessionStorage.getItem('activePath')
   },
   methods: {
     // 保存链接的激活状态
     saveNavState(activePath) {
-      window.sessionStorage.setItem("activePath", activePath);
-      this.activePath = activePath;
-    },
-  },
-};
+      window.sessionStorage.setItem('activePath', activePath)
+      this.activePath = activePath
+    }
+  }
+}
 </script>
 
 <style lang="less" scoped>

@@ -12,9 +12,6 @@ import VueQuillEditor from 'vue-quill-editor'
 import { Quill } from 'vue-quill-editor'
 import { ImageDrop } from 'quill-image-drop-module'
 import ImageResize from 'quill-image-resize-module'
-Quill.register('modules/imageDrop', ImageDrop)
-Quill.register('modules/imageResize', ImageResize)
-
 
 // require styles 引入样式
 import 'quill/dist/quill.core.css'
@@ -25,8 +22,10 @@ import 'quill/dist/quill.bubble.css'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 
-//cookies全局方法
-import {setCookie,getCookie,delCookie} from './assets/js/cookie'
+// cookies全局方法
+import { setCookie, getCookie, delCookie } from './assets/js/cookie'
+Quill.register('modules/imageDrop', ImageDrop)
+Quill.register('modules/imageResize', ImageResize)
 Vue.prototype.$cookieStore = {
   setCookie,
   getCookie,

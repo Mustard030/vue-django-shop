@@ -163,36 +163,36 @@
 </template>
 
 <script>
-import cityOptions from "../../assets/js/citydata";
-import Vue from "vue";
+import cityOptions from '../../assets/js/citydata'
+import Vue from 'vue'
 export default {
   data() {
     return {
       cityOptions,
       cityProps: {
-        expandTrigger: "hover",
+        expandTrigger: 'hover'
       },
-      //修改表单
+      // 修改表单
       editForm: {
         id: 0,
-        recipient: "",
-        phone: "",
+        recipient: '',
+        phone: '',
         province: [],
-        address: "",
+        address: ''
       },
-      //添加表单
+      // 添加表单
       addForm: {
-        recipient: "",
-        phone: "",
+        recipient: '',
+        phone: '',
         province: [],
-        address: "",
+        address: ''
       },
       // 地址列表
       addressList: [],
       orderForm: {
         delivery: 0,
-        uuid: "",
-        cartList: [],
+        uuid: '',
+        cartList: []
       },
       // 地址选中index
       isSelect: null,
@@ -200,131 +200,130 @@ export default {
       editDialogVisible: false,
       // 添加对话框可视
       addDialogVisible: false,
-      //修改表单规则
+      // 修改表单规则
       editFormRules: {
-        recipient: [{ required: true, message: "请输入收件人姓名", trigger: "blur" }],
+        recipient: [{ required: true, message: '请输入收件人姓名', trigger: 'blur' }],
         phone: [
-          { required: true, message: "请输入联系电话", trigger: "blur" },
-          { min: 11, max: 11, message: "请输入正确格式的手机号码", trigger: "blur" },
-          { min: 11, max: 11, message: "请输入正确格式的手机号码", trigger: "change" },
+          { required: true, message: '请输入联系电话', trigger: 'blur' },
+          { min: 11, max: 11, message: '请输入正确格式的手机号码', trigger: 'blur' },
+          { min: 11, max: 11, message: '请输入正确格式的手机号码', trigger: 'change' }
         ],
         province: [
-          { required: true, message: "请选择省/市", trigger: "blur" },
-          { required: true, message: "请选择省/市", trigger: "change" },
+          { required: true, message: '请选择省/市', trigger: 'blur' },
+          { required: true, message: '请选择省/市', trigger: 'change' }
         ],
-        address: [{ required: true, message: "请输入详细地址", trigger: "blur" }],
-      },
-    };
+        address: [{ required: true, message: '请输入详细地址', trigger: 'blur' }]
+      }
+    }
   },
   filters: {
     priceFilter: function (price) {
       if (!price) {
-        return 0;
+        return 0
       }
-      let newVal = parseFloat(price).toFixed(2);
-      return newVal;
-    },
+      const newVal = parseFloat(price).toFixed(2)
+      return newVal
+    }
   },
   created() {
-    this.orderForm.cartList = this.$store.state.itemInCart;
-    this.getDeliveryList();
-    this.getUUID();
+    this.orderForm.cartList = this.$store.state.itemInCart
+    this.getDeliveryList()
+    this.getUUID()
   },
   computed: {
     getPriceCount: function () {
-      let sum = 0;
+      let sum = 0
       this.orderForm.cartList.forEach((x) => {
-        sum += +x.price * x.num;
-      });
-      return sum;
-    },
+        sum += +x.price * x.num
+      })
+      return sum
+    }
   },
   methods: {
     // 获取用户收货列表
     async getDeliveryList() {
-      const { data: res } = await this.$http.get("userDelivery/");
+      const { data: res } = await this.$http.get('userDelivery/')
       if (res.meta.code !== 200) {
-        return this.$message.error(res.meta.message);
+        return this.$message.error(res.meta.message)
       }
-      this.addressList = res.data.addressList;
+      this.addressList = res.data.addressList
       // console.log(this.addressList);
     },
     // 获取订单编号UUID
     async getUUID() {
-      const { data: res } = await this.$http.get("uuid/");
+      const { data: res } = await this.$http.get('uuid/')
       // if (res.meta.code !== 200){return this.$message.error(res.meta.message)}
-      this.orderForm.uuid = res.uuid;
+      this.orderForm.uuid = res.uuid
     },
     // 显示修改对话框
     showEditDialog(item) {
-      this.editForm.id = item.id;
-      this.editForm.recipient = item.recipient;
-      this.editForm.phone = item.phone;
-      this.editForm.address = item.address;
-      var temp = item.province.split("/");
-      this.editForm.province = temp;
-      this.editDialogVisible = true;
+      this.editForm.id = item.id
+      this.editForm.recipient = item.recipient
+      this.editForm.phone = item.phone
+      this.editForm.address = item.address
+      var temp = item.province.split('/')
+      this.editForm.province = temp
+      this.editDialogVisible = true
     },
     // 发送收货地址更改请求
     async updateDelivery() {
       // console.log(this.editForm);
       this.$refs.editFormRef.validate(async (valid) => {
-        if (!valid) return;
-        const { data: res } = await this.$http.put("userDelivery/", this.editForm);
+        if (!valid) return
+        const { data: res } = await this.$http.put('userDelivery/', this.editForm)
         // console.log(res)
         if (res.meta.code !== 200) {
-          return this.$message.error(res.meta.message);
+          return this.$message.error(res.meta.message)
         }
         // this.$message.success(res.meta.message);
         // 隐藏添加提示框
-        this.editDialogVisible = false;
+        this.editDialogVisible = false
         // 重新获取地址数据
-        this.getDeliveryList();
-      });
+        this.getDeliveryList()
+      })
     },
-    //修改地址对话框关闭事件
+    // 修改地址对话框关闭事件
     editDialogClosed() {
-      this.$refs.editFormRef.resetFields();
+      this.$refs.editFormRef.resetFields()
     },
-    //添加地址
+    // 添加地址
     async addDelivery() {
       this.$refs.addFormRef.validate(async (valid) => {
-        if (!valid) return;
-        const { data: res } = await this.$http.post("userDelivery/", this.addForm);
+        if (!valid) return
+        const { data: res } = await this.$http.post('userDelivery/', this.addForm)
         // console.log(res)
         if (res.meta.code !== 200) {
-          return this.$message.error(res.meta.message);
+          return this.$message.error(res.meta.message)
         }
         // this.$message.success(res.meta.message);
         // 隐藏添加提示框
-        this.addDialogVisible = false;
+        this.addDialogVisible = false
         // 重新获取地址数据
-        this.getDeliveryList();
-      });
+        this.getDeliveryList()
+      })
     },
-    //添加地址对话框关闭事件
+    // 添加地址对话框关闭事件
     addDialogClosed() {
-      this.$refs.addFormRef.resetFields();
+      this.$refs.addFormRef.resetFields()
     },
     // 获取选择的收货地址
     getAdd(item, index) {
-      this.orderForm.delivery = item.id;
-      this.isSelect = index;
+      this.orderForm.delivery = item.id
+      this.isSelect = index
     },
     // 付款
     async payOrder() {
       if (this.orderForm.delivery === 0) {
-        return this.$message.error("请先选择送货地址");
+        return this.$message.error('请先选择送货地址')
       }
-      const { data: res } = await this.$http.post("orders/", this.orderForm);
+      const { data: res } = await this.$http.post('orders/', this.orderForm)
       if (res.meta.code !== 200) {
-        return this.$message.error(res.meta.message);
+        return this.$message.error(res.meta.message)
       }
-      this.$router.push(`/order/payment?orderId=${this.orderForm.uuid}`);
-      
-    },
-  },
-};
+      this.$router.push(`/order/payment?orderId=${this.orderForm.uuid}`)
+    }
+  }
+}
 </script>
 
 <style lang="less" scoped>

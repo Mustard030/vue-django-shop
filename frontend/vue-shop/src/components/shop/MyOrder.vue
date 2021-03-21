@@ -159,86 +159,86 @@ export default {
       // 物流信息数组
       progressInfo: [],
       // 时间线反向
-      reverse: true,
-    };
+      reverse: true
+    }
   },
   created() {
-    this.getAllOrder();
+    this.getAllOrder()
   },
   filters: {
     priceFilter: function (price) {
       if (!price) {
-        return 0;
+        return 0
       }
-      let newVal = parseFloat(price).toFixed(2);
-      return newVal;
-    },
+      const newVal = parseFloat(price).toFixed(2)
+      return newVal
+    }
   },
   methods: {
     // 获取订单数据
     async getAllOrder() {
-      const { data: res } = await this.$http.get("userOrder/");
+      const { data: res } = await this.$http.get('userOrder/')
       if (res.meta.code !== 200) {
-        return this.$message.error(res.meta.message);
+        return this.$message.error(res.meta.message)
       }
-      this.allOrder = res.data;
-      this.orderList = this.allOrder;
+      this.allOrder = res.data
+      this.orderList = this.allOrder
       this.unpay = this.allOrder.filter(function (item, index, array) {
-        //元素值，元素的索引，原数组。
-        return !item.pay_status;
-      });
+        // 元素值，元素的索引，原数组。
+        return !item.pay_status
+      })
       this.undelivery = this.allOrder.filter(function (item, index, array) {
-        //元素值，元素的索引，原数组。
-        return item.pay_status && !item.delivery_status;
-      });
+        // 元素值，元素的索引，原数组。
+        return item.pay_status && !item.delivery_status
+      })
     },
     // 删除订单
     async deleteOrder(id) {
       const confirmResult = await this.$confirm(
-        "此操作将永久删除该订单, 是否继续?",
-        "提示",
+        '此操作将永久删除该订单, 是否继续?',
+        '提示',
         {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning",
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
         }
-      ).catch((res) => res);
+      ).catch((res) => res)
 
-      if (confirmResult !== "confirm") {
-        return this.$message.info("已取消删除");
+      if (confirmResult !== 'confirm') {
+        return this.$message.info('已取消删除')
       }
-      const { data: res } = await this.$http.delete("userOrder/", { data: { id: id } });
+      const { data: res } = await this.$http.delete('userOrder/', { data: { id: id } })
       if (res.meta.code !== 200) {
-        return this.$message.error(res.meta.message);
+        return this.$message.error(res.meta.message)
       }
-      this.$message.success(res.meta.message);
-      this.getAllOrder();
+      this.$message.success(res.meta.message)
+      this.getAllOrder()
     },
     setAct(id) {
       if (id === 1) {
-        this.orderList = this.allOrder;
+        this.orderList = this.allOrder
       } else if (id === 2) {
-        this.orderList = this.unpay;
+        this.orderList = this.unpay
       } else if (id === 3) {
-        this.orderList = this.undelivery;
+        this.orderList = this.undelivery
       }
     },
     // 去支付
     payOrder(id) {
-      this.$router.push(`/order/payment?orderId=${id}`);
+      this.$router.push(`/order/payment?orderId=${id}`)
     },
     // 显示物流进度
     async showProgressBox(id) {
-      const { data: res } = await this.$http.get("kuaidi/", { params: { id: id } });
+      const { data: res } = await this.$http.get('kuaidi/', { params: { id: id } })
       if (res.meta.code !== 200) {
-        return this.$message.error(res.meta.message);
+        return this.$message.error(res.meta.message)
       }
-      this.progressInfo = res.data;
+      this.progressInfo = res.data
 
-      this.progressDialogVisible = true;
-    },
-  },
-};
+      this.progressDialogVisible = true
+    }
+  }
+}
 </script>
 
 <style lang="less" scoped>

@@ -66,86 +66,88 @@ export default {
     return {
       // 富文本编辑器选项
       editorOption: {
-        placeholder: "开始编辑吧",
+        placeholder: '开始编辑吧',
         modules: {
           toolbar: [
-            ["bold", "italic", "underline", "strike"], // toggled buttons
-            ["blockquote", "code-block"],
+            ['bold', 'italic', 'underline', 'strike'], // toggled buttons
+            ['blockquote', 'code-block'],
 
             [{ header: 1 }, { header: 2 }], // custom button values
-            [{ list: "ordered" }, { list: "bullet" }],
-            [{ script: "sub" }, { script: "super" }], // superscript/subscript
-            [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
-            [{ direction: "rtl" }], // text direction
+            [{ list: 'ordered' }, { list: 'bullet' }],
+            [{ script: 'sub' }, { script: 'super' }], // superscript/subscript
+            [{ indent: '-1' }, { indent: '+1' }], // outdent/indent
+            [{ direction: 'rtl' }], // text direction
 
-            [{ size: ["small", false, "large", "huge"] }], // custom dropdown
+            [{ size: ['small', false, 'large', 'huge'] }], // custom dropdown
             [{ header: [1, 2, 3, 4, 5, 6, false] }],
 
             [{ color: [] }, { background: [] }], // dropdown with defaults from theme
             [{ font: [] }],
             [{ align: [] }],
 
-            ["clean"], // remove formatting button
-            ["image"]
+            ['clean'], // remove formatting button
+            ['link', 'image', 'video']
           ],
           // 调整图片大小
           imageResize: {
             displayStyles: {
-              backgroundColor: "black",
-              border: "none",
-              color: "white",
+              backgroundColor: 'black',
+              border: 'none',
+              color: 'white'
             },
-            modules: ["Resize", "DisplaySize", "Toolbar"],
-          },
-        },
+            modules: ['Resize', 'DisplaySize', 'Toolbar']
+          }
+        }
       },
       // 修改文章表单
       editEssayForm: {
         essayID: null,
-        title: "",
+        title: '',
         author: null,
-        content: "",
+        content: ''
       },
       // 作者选项
       userList: [],
       // 表单规则
       editEssayRules: {
-        title: [{ required: true, message: "请输入标题", trigger: "blur" }],
-        author: [{ required: true, message: "请选择作者", trigger: "blur" }],
-        content: [{ required: true, message: "请输入正文", trigger: "blur" }],
-      },
-    };
+        title: [{ required: true, message: '请输入标题', trigger: 'blur' }],
+        author: [{ required: true, message: '请选择作者', trigger: 'blur' }],
+        content: [{ required: true, message: '请输入正文', trigger: 'blur' }]
+      }
+    }
   },
   created() {
-    this.getUserList();
-    this.getThisEssay(window.sessionStorage.getItem("essayID"));
+    this.getUserList()
+    // console.log(this.$route.query.id)
+    this.getThisEssay(this.$route.query.id)
   },
   methods: {
     // 获取该文章数据
     async getThisEssay(id) {
       // 如果文章id不存在
+      console.log(id)
       if (!id) {
-        this.$message.error("文章获取失败！");
-        this.$router.push("/cookbook");
+        this.$message.error('文章获取失败！')
+        this.$router.push('/cookbook')
       } else {
-        const {data:res} = await this.$http.get('cookbooks/',{params:{id:id}});
-        this.editEssayForm.essayID = res.data.cookbook.id;
-        this.editEssayForm.author = res.data.cookbook.authorID;
-        this.editEssayForm.title = res.data.cookbook.title;
-        this.editEssayForm.content = res.data.cookbook.content;
+        const { data: res } = await this.$http.get('cookbooks/', { params: { id: id } })
+        this.editEssayForm.essayID = res.data.cookbook.id
+        this.editEssayForm.author = res.data.cookbook.authorID
+        this.editEssayForm.title = res.data.cookbook.title
+        this.editEssayForm.content = res.data.cookbook.content
       }
     },
     // 获取用户列表
     async getUserList() {
-      const { data: res } = await this.$http.get("users/", {
+      const { data: res } = await this.$http.get('users/', {
         params: {
-          query: "",
+          query: '',
           pagenum: 1,
-          pagesize: 1000000,
-        },
-      });
-      if (res.meta.code !== 200) return this.$message.error("获取用户列表失败！");
-      this.userList = res.data.userlist;
+          pagesize: 1000000
+        }
+      })
+      if (res.meta.code !== 200) return this.$message.error('获取用户列表失败！')
+      this.userList = res.data.userlist
       //   console.log(this.userList);
     },
     // 修改文章
@@ -153,20 +155,20 @@ export default {
       //   console.log(this.addEssayForm);
       this.$refs.editEssayFormRef.validate(async (valid) => {
         if (!valid) {
-          return this.$message.error("请填写必要的表单项");
+          return this.$message.error('请填写必要的表单项')
         } else {
           // 执行修改
-          const { data: res } = await this.$http.put("cookbooks/", this.editEssayForm);
+          const { data: res } = await this.$http.put('cookbooks/', this.editEssayForm)
           if (res.meta.code !== 200) {
-            return this.$message.error(res.meta.message);
+            return this.$message.error(res.meta.message)
           }
-          this.$message.success(res.meta.message);
-          this.$router.push("/cookbook");
+          this.$message.success(res.meta.message)
+          this.$router.push('/cookbook')
         }
-      });
-    },
-  },
-};
+      })
+    }
+  }
+}
 </script>
 
 <style lang="less" scoped>

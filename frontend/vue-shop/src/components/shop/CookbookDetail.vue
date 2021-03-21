@@ -4,7 +4,7 @@
       <el-card>
         <h1 class="title">{{ bookObj.title }}</h1>
         <p class="info">
-            发布者:{{bookObj.author}} 
+            发布者:{{bookObj.author}}
             <el-divider direction="vertical"></el-divider>
             发布时间:{{bookObj.create_time}}
             <el-divider direction="vertical"></el-divider>
@@ -23,38 +23,38 @@ export default {
     return {
       // 菜谱对象
       bookObj: {
-        essayID: "",
-        title: "",
-        author: "",
-        content: "",
-        create_time: "",
-        modify_time: "",
-      },
-    };
+        essayID: '',
+        title: '',
+        author: '',
+        content: '',
+        create_time: '',
+        modify_time: ''
+      }
+    }
   },
   created() {
-    this.getThisEssay(this.$route.query.bookid);
+    this.getThisEssay(this.$route.query.bookid)
   },
   methods: {
     // 获取该文章数据
     async getThisEssay(id) {
       // 如果文章id不存在
       if (!id) {
-        this.$message.error("文章获取失败！");
+        this.$message.error('文章获取失败！')
         // this.$router.push("/cookbook");
       } else {
-        const { data: res } = await this.$http.get("cookbooks/", { params: { id: id } });
-        this.bookObj.essayID = res.data.cookbook.id;
-        this.bookObj.author = res.data.cookbook.author;
-        this.bookObj.title = res.data.cookbook.title;
-        this.bookObj.content = res.data.cookbook.content;
-        this.bookObj.create_time = res.data.cookbook.create_time;
-        this.bookObj.modify_time = res.data.cookbook.modify_time;
+        const { data: res } = await this.$http.get('cookbooks/', { params: { id: id } })
+        this.bookObj.essayID = res.data.cookbook.id
+        this.bookObj.author = res.data.cookbook.author
+        this.bookObj.title = res.data.cookbook.title
+        this.bookObj.content = res.data.cookbook.content
+        this.bookObj.create_time = res.data.cookbook.create_time
+        this.bookObj.modify_time = res.data.cookbook.modify_time
         // console.log(this.bookObj)
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style lang="less" scoped>
