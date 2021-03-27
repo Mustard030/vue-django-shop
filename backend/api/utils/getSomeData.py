@@ -15,7 +15,7 @@ def getLastYearRegisteredUser():
     for item in userdata:
         month = str(item.get('month')) if item.get('month') > 9 else '0' + str(item.get('month'))
         userdata_list.append({
-            'date': str(item.get('year')) + '-' + month,
+            'date': str(item.get('year')) + '年' + month + '月',
             'count': item.get('count')
         })
 
@@ -78,7 +78,7 @@ def getOrderData():
     for item in order_data:
         month = str(item.get('month')) if item.get('month') > 9 else '0' + str(item.get('month'))
         order_data_list.append({
-            'date': str(item.get('year')) + '-' + month,
+            'date': str(item.get('year')) + '年' + month + '月',
             'count': item.get('count')
         })
 

@@ -190,9 +190,9 @@ export default {
         ],
         grid: {
           top: 45,
-          right: 25,
+          right: 45,
           bottom: 0,
-          left: 10,
+          left: 30,
           containLabel: true,
         },
       };
