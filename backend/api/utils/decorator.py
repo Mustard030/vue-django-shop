@@ -1,5 +1,3 @@
-import json
-import re
 from .. import models
 from django.http import JsonResponse
 

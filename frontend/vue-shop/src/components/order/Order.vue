@@ -86,6 +86,7 @@
             {{ activity.message }}
           </el-timeline-item>
         </el-timeline>
+        <p v-if="progressInfo.length===0" style="text-align:center;">暂无物流信息</p>
       </el-dialog>
 
       <!-- 分页区域 -->

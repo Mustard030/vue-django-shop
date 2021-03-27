@@ -17,45 +17,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="582da8aa-470c-4504-aef3-f6f4ca6bdbcd" name="Default Changelist" comment="staticfiles">
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/assets/js/cookie.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/assets/js/cookie.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/CarouselPics/List.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/CarouselPics/List.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/Home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/Home.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/Login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/Login.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/Register.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/Register.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/UserLogin.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/UserLogin.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/Welcome.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/Welcome.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/cookbook/Add.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/cookbook/Add.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/cookbook/Cookbook.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/cookbook/Cookbook.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/cookbook/Edit.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/cookbook/Edit.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/goods/Add.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/goods/Add.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/goods/Edit.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/goods/Edit.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/goods/List.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/goods/List.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/merchant/List.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/merchant/List.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/order/Order.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/order/Order.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/AddCookBook.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/AddCookBook.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Cart.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Cart.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Checkout.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Checkout.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/CookbookDetail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/CookbookDetail.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/CookbookSearch.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/CookbookSearch.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Days.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Days.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Detail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Detail.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/EditCookBook.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/EditCookBook.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/GoodsList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/GoodsList.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/ItemSearch.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/ItemSearch.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Main.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Main.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/MyAddress.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/MyAddress.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/MyOrder.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/MyOrder.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Mycookbook.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Mycookbook.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Pay.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Pay.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/User.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/User.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/UserPortal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/UserPortal.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/user/Delivery.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/user/Delivery.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/user/User.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/user/User.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/main.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/plugins/element.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/plugins/element.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/router/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/store/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/store/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/vue.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/vue.config.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -109,7 +74,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../workspace/pixiv_proxy_download/pixiv_proxy_download" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="editing.templates" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
@@ -124,7 +89,29 @@
       <recent name="D:\coding\sm\templates\test01" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.main">
+  <component name="RunManager" selected="Python.getSomeData">
+    <configuration name="getSomeData" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="sm" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/api/utils" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/api/utils/getSomeData.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="sm" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -139,6 +126,28 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../../workspace/测试/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="new10randomuser" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="sm" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/api/test" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/api/test/new10randomuser.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -173,6 +182,8 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.getSomeData" />
+        <item itemvalue="Python.new10randomuser" />
         <item itemvalue="Python.main" />
       </list>
     </recent_temporary>
@@ -249,7 +260,7 @@
       <workItem from="1615886349815" duration="961000" />
       <workItem from="1615965974304" duration="1161000" />
       <workItem from="1616315655342" duration="1629000" />
-      <workItem from="1616338411737" duration="1671000" />
+      <workItem from="1616338411737" duration="32221000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1603520933070</created>
@@ -639,36 +650,54 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="686" y="234" key="FileChooserDialogImpl/0.0.1920.1080@0.0.1920.1080" timestamp="1615965986149" />
-    <state width="1875" height="286" key="GridCell.Tab.0.bottom" timestamp="1614151918325">
+    <state width="1875" height="353" key="GridCell.Tab.0.bottom" timestamp="1616773871268">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1875" height="286" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1614151918325" />
-    <state width="1875" height="286" key="GridCell.Tab.0.center" timestamp="1614151918324">
+    <state width="1875" height="353" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1616773871268" />
+    <state width="1875" height="353" key="GridCell.Tab.0.center" timestamp="1616773871267">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1875" height="286" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1614151918324" />
-    <state width="1875" height="286" key="GridCell.Tab.0.left" timestamp="1614151918324">
+    <state width="1875" height="353" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1616773871267" />
+    <state width="1875" height="353" key="GridCell.Tab.0.left" timestamp="1616773871267">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1875" height="286" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1614151918324" />
-    <state width="1875" height="286" key="GridCell.Tab.0.right" timestamp="1614151918324">
+    <state width="1875" height="353" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1616773871267" />
+    <state width="1875" height="353" key="GridCell.Tab.0.right" timestamp="1616773871267">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1875" height="286" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1614151918324" />
-    <state x="245" y="251" key="SettingsEditor" timestamp="1615302714349">
+    <state width="1875" height="353" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1616773871267" />
+    <state width="1875" height="353" key="GridCell.Tab.1.bottom" timestamp="1616773871269">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="245" y="251" key="SettingsEditor/0.0.1920.1080@0.0.1920.1080" timestamp="1615302714349" />
+    <state width="1875" height="353" key="GridCell.Tab.1.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1616773871269" />
+    <state width="1875" height="353" key="GridCell.Tab.1.center" timestamp="1616773871269">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1875" height="353" key="GridCell.Tab.1.center/0.0.1920.1080@0.0.1920.1080" timestamp="1616773871269" />
+    <state width="1875" height="353" key="GridCell.Tab.1.left" timestamp="1616773871268">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1875" height="353" key="GridCell.Tab.1.left/0.0.1920.1080@0.0.1920.1080" timestamp="1616773871268" />
+    <state width="1875" height="353" key="GridCell.Tab.1.right" timestamp="1616773871269">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1875" height="353" key="GridCell.Tab.1.right/0.0.1920.1080@0.0.1920.1080" timestamp="1616773871269" />
+    <state x="245" y="251" key="SettingsEditor" timestamp="1616778731381">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="245" y="251" key="SettingsEditor/0.0.1920.1080@0.0.1920.1080" timestamp="1616778731381" />
     <state x="715" y="362" key="SimpleOpenTaskDialog" timestamp="1608707147874">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="715" y="362" key="SimpleOpenTaskDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1608707147874" />
-    <state x="539" y="226" width="840" height="848" key="search.everywhere.popup" timestamp="1610347545207">
+    <state x="539" y="226" width="840" height="848" key="search.everywhere.popup" timestamp="1616588086522">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="539" y="226" width="840" height="848" key="search.everywhere.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1610347545207" />
+    <state x="539" y="226" width="840" height="848" key="search.everywhere.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1616588086522" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/backend$main.coverage" NAME="main Coverage Results" MODIFIED="1614080450895" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../../workspace/测试" />
+    <SUITE FILE_PATH="coverage/backend$new10randomuser.coverage" NAME="new10randomuser Coverage Results" MODIFIED="1616771688594" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/api/test" />
+    <SUITE FILE_PATH="coverage/backend$getSomeData.coverage" NAME="getSomeData Coverage Results" MODIFIED="1616773860620" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/api/utils" />
   </component>
 </project>

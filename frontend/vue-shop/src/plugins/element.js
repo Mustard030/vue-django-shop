@@ -10,6 +10,7 @@ import {
   Header,
   Aside,
   Main,
+  Footer,
   Menu,
   Submenu,
   MenuItemGroup,
@@ -68,6 +69,7 @@ Vue.use(Container)
 Vue.use(Header)
 Vue.use(Aside)
 Vue.use(Main)
+Vue.use(Footer)
 Vue.use(Menu)
 Vue.use(Submenu)
 Vue.use(MenuItemGroup)

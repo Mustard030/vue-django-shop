@@ -10,7 +10,7 @@
   "dependencies": {
     "axios": "^0.21.0",
     "core-js": "^3.6.5",
-    "echarts": "^5.0.0",
+    "echarts": "^5.0.2",
     "element-ui": "^2.4.5",
     "nprogress": "^0.2.0",
     "quill-image-drop-module": "^1.0.3",

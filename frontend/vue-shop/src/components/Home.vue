@@ -2,7 +2,7 @@
     <el-container class="home-container">
         <!-- 头部区域 -->
         <el-header>
-            <div>
+            <div class="headtool" @click="toWelcomePage">
                 <img src="..\assets\logo.png" alt="" height="50px">
                 <span>电商后台管理系统</span>
             </div>
@@ -91,11 +91,18 @@ export default {
     saveNavState(activePath) {
       window.sessionStorage.setItem('activePath', activePath)
       this.activePath = activePath
+    },
+    toWelcomePage(){
+        this.$router.push('/welcome')
     }
   }
 }
 </script>
 <style lang="less" scoped>
+    .headtool{
+        cursor: pointer;
+    }
+
     .home-container {
         height: 100%;
     }

@@ -80,7 +80,10 @@ urlpatterns = [
     path('cart/', views.Cart.as_view()),
     # 返回一个uuid
     path('uuid/', views.get_uuid),
+    # 管理员欢迎页信息
+    path('sold/', views.getHomePageData),
     # 测试接口
     path('test/', views.test),
-
+    # 新增随机用户
+    path('randomuser/<int:num>', views.newRandomUser),
 ]

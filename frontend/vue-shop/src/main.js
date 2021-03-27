@@ -22,6 +22,10 @@ import 'quill/dist/quill.bubble.css'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 
+// Echarts
+import * as echarts from 'echarts';
+Vue.prototype.$echarts = echarts
+
 // cookies全局方法
 import { setCookie, getCookie, delCookie } from './assets/js/cookie'
 Quill.register('modules/imageDrop', ImageDrop)

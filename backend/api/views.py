@@ -4,15 +4,21 @@ import uuid
 import datetime as dt
 from datetime import datetime
 from django.contrib import auth
+import django.utils.timezone as timezone
+from dateutil.relativedelta import relativedelta
 from django.contrib.auth.hashers import make_password, check_password
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from rest_framework.views import APIView
 from . import models
+from .utils.getSomeData import *
 from django.conf import settings
 from .utils.token import get_token_code
 from django.core.files import File
 from django.db.models import Q, F
+from django.db.models import Count
 from .utils.decorator import need_admin
+import random
+import string
 
 
 # Create your views here.
@@ -482,7 +488,7 @@ class ItemPics(APIView):
                 'code': 400
             }}
         data = json.loads(str(request.body, encoding='utf8'))
-        # print(data)
+
         del_pk = int(data.get('id'))
         itemPic = models.GoodsImage.objects.filter(pk=del_pk).first()
 
@@ -731,7 +737,7 @@ class Goods(APIView):
                 pic_obj.itemID = new_item
                 pic_obj.save()
         else:
-            # print(os.path.join(settings.BASE_DIR, 'media', 'default', 'defaultItem.jpg'))
+
             with open(os.path.join(settings.BASE_DIR, 'media', 'default', 'defaultItem.jpg'), 'rb') as pic:
 
                 models.GoodsImage.objects.create(image=File(pic), name='defaultItem.jpg', itemID=new_item)
@@ -1008,9 +1014,7 @@ class Orders(APIView):
             for item in cart_list:
                 i = models.GoodsInfo.objects.filter(pk=item['id']).first()
                 models.OrderDetail.objects.create(item=i, number=item['num'], order=new_order)
-                # print(i,user)
                 del_item = models.Cart.objects.filter(item=i, user=user).first()
-                # print(del_item)
                 del_item.delete()
             res['meta']['code'] = 200
             res['meta']['message'] = '提交订单成功'
@@ -1146,7 +1150,6 @@ class Kuaidi(APIView):
         res.update({'data': return_list})
         res['meta']['code'] = 200
         res['meta']['message'] = '获取快递信息成功'
-
         return JsonResponse(res, safe=False)
 
     # 根据订单编号更新物流信息
@@ -1873,7 +1876,7 @@ class Cart(APIView):
         item = models.GoodsInfo.objects.get(pk=itemID)
         user = models.MyUserInfo.objects.get(pk=userID)
         del_item = models.Cart.objects.filter(item=item, user=user).first()
-        # print(f'删除{userID}的{itemID}')
+
         if del_item:
             del_item.delete()
             res['meta']['message'] = '删除购物车商品成功'
@@ -1886,6 +1889,29 @@ def get_uuid(request):
     return JsonResponse({'uuid': uuid.uuid4()}, safe=False)
 
 
+def getHomePageData(request):
+    res = {
+        'data': {},
+        'meta': {
+            'message': '获取首页数据失败',
+            'code': 400
+        }}
+
+    doneOrderNumInThisMonth, totalSales, unsendOrderNumInThisMonth, unreceOrderNumInThisMonth = get4DataOfNum()
+    userdata_list = getLastYearRegisteredUser()
+    sold_data_list = getSoldData()
+    order_data_list = getOrderData()
+    res['data'].update({'userChart': userdata_list, 'soldChart': sold_data_list, 'orderChart': order_data_list})
+
+    res['data']['doneOrderNum'] = doneOrderNumInThisMonth
+    res['data']['totalSales'] = totalSales
+    res['data']['unsendOrderNum'] = unsendOrderNumInThisMonth
+    res['data']['unreceOrderNum'] = unreceOrderNumInThisMonth
+    res['meta']['code'] = 200
+    res['meta']['message'] = '获取首页数据成功'
+    return JsonResponse(res, safe=False)
+
+
 @need_admin
 def test(request):
     res = {
@@ -1895,3 +1921,21 @@ def test(request):
         }}
 
     return JsonResponse(res, safe=False)
+
+
+def newRandomUser(request, num):
+    User = auth.get_user_model()
+    for _ in range(num):
+        username = ''.join(random.sample(string.ascii_letters + string.digits, 8))
+        password = '123456'
+        phone = '13' + ''.join(random.sample(string.digits, 9))
+        email = ''.join(random.sample(string.ascii_letters + string.digits, 6)) + '@email.com'
+        roles_id = 1
+        join_year = random.randint(2020, 2021)
+        join_month = random.randint(1, 12)
+        join_day = random.randint(1, 29)
+        date_joined = datetime(join_year, join_month, join_day)
+        newuser = User.objects.create_user(username=username, password=password, phone=phone, email=email,
+                                           date_joined=date_joined, roles_id=roles_id)
+        newuser.save()
+    return HttpResponse(f'new {num} user success')
