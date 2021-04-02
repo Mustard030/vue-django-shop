@@ -28,7 +28,7 @@
               <el-option label="收件人" value="recipient"></el-option>
               <el-option label="地址" value="address"></el-option>
               <el-option label="用户电话" value="phone"></el-option>
-              <el-option label="用户名" value="username"></el-option>
+              <el-option label="归属用户" value="username"></el-option>
             </el-select>
             <el-button
               slot="append"

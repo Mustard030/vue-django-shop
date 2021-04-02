@@ -85,5 +85,9 @@ urlpatterns = [
     # 测试接口
     path('test/', views.test),
     # 新增随机用户
-    path('randomuser/<int:num>', views.newRandomUser),
+    path('randomuser/<int:num>/', views.newRandomUser),
+    # 新增随机订单
+    path('randomorder/<int:num>/', views.newRandomOrder),
+    # 新增随机订单（指定用户）
+    path('randomorder/<int:num>/<str:user>/', views.newRandomOrderOfSb),
 ]

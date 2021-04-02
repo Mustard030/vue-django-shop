@@ -28,7 +28,7 @@
                 @click="goDetailPage(item.id)"
               ></el-image>
               <div style="padding: 14px">
-                <span>{{ item.name }}</span>
+                <span class="content">{{ item.name }}</span>
                 <div class="bottom clearfix">
                   <div class="price">¥{{ item.price }}</div>
                 </div>
@@ -130,5 +130,11 @@ export default {
 .itemCard{
     margin-bottom: 15px;
     // font-color:rgb(66,66,66);
+}
+.content {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 </style>

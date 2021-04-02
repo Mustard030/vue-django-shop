@@ -18,7 +18,12 @@
             <h2 class="itemName">{{ itemDetail.itemName }}</h2>
           </div>
           <div>
-            <p class="price">¥{{ itemDetail.price | priceFilter }}<span style="color:#997979;font-size:14px;">/{{itemDetail.unit}}</span></p>
+            <p class="price">
+              ¥{{ itemDetail.price | priceFilter
+              }}<span style="color: #997979; font-size: 14px"
+                >/{{ itemDetail.unit }}</span
+              >
+            </p>
           </div>
           <el-divider></el-divider>
           <div>
@@ -26,7 +31,10 @@
               v-model="num"
               :min="1"
               :max="itemDetail.reserve > 10 ? 10 : itemDetail.reserve"
-            ></el-input-number>&nbsp;<span style="color:#997979;font-size:15px;">{{itemDetail.unit}}</span>
+            ></el-input-number
+            >&nbsp;<span style="color: #997979; font-size: 15px">{{
+              itemDetail.unit
+            }}</span>
           </div>
           <div>
             <span style="color: #997979; font-size: 14px"
@@ -35,13 +43,16 @@
           </div>
           <br />
           <div>
-            <el-button type="primary" round @click="addToCart(itemDetail.id)">添加到购物车</el-button>
+            <el-button type="primary" round @click="addToCart(itemDetail.id)"
+              >添加到购物车</el-button
+            >
           </div>
         </div>
       </div>
-       <el-divider>商品介绍</el-divider>
-      <div class="item-introduce"><p v-html="itemDetail.introduce"></p></div>
-
+      <el-divider>商品介绍</el-divider>
+      <div class="item-introduce">
+        <p v-html="itemDetail.introduce"></p>
+      </div>
     </div>
   </div>
 </template>
@@ -51,45 +62,47 @@ export default {
   props: {
     dataHeight: {
       type: String,
-      default: '360px'
-    }
+      default: "360px",
+    },
   },
   data() {
     return {
       itemDetail: {},
       // 购买数量
-      num: ''
-    }
+      num: "",
+    };
   },
   created() {
-    this.getItemDetail(this.$route.query.id)
+    this.getItemDetail(this.$route.query.id);
   },
   filters: {
     priceFilter: function (price) {
       if (!price) {
-        return 0
+        return 0;
       }
-      const newVal = parseFloat(price).toFixed(2)
-      return newVal
-    }
+      const newVal = parseFloat(price).toFixed(2);
+      return newVal;
+    },
   },
   methods: {
     async getItemDetail(id) {
-      const { data: res } = await this.$http.get('good/', { params: { id: id } })
+      const { data: res } = await this.$http.get("good/", { params: { id: id } });
       if (res.meta.code !== 200) {
-        return this.$message.error(res.meta.message)
+        return this.$message.error(res.meta.message);
       }
-      this.itemDetail = res.data
+      this.itemDetail = res.data;
 
-      console.log(this.itemDetail)
+      console.log(this.itemDetail);
     },
     async addToCart(id) {
-      const { data: res } = await this.$http.post('cart/', { id: id, number: this.num })
-      if (res.meta.code !== 200) { return this.$message.error(res.meta.message) }
-      return this.$message.success(res.meta.message)
-    }
-  }
-}
+      const { data: res } = await this.$http.post("cart/", { id: id, number: this.num });
+      if (res.meta.code !== 200) {
+        return this.$message.error(res.meta.message);
+      }
+      return this.$message.success(res.meta.message);
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>
@@ -135,7 +148,7 @@ export default {
   // box-sizing: border-box;
   left: 50%;
   transform: translateX(23.9%);
-  margin-top:50px;
+  margin-top: 50px;
   padding-bottom: 100px;
   // border: 1px solid blue;
 }

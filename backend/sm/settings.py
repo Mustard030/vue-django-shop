@@ -207,3 +207,6 @@ AUTHENTICATION_BACKENDS = (
 AUTH_USER_MODEL = 'api.MyUserInfo'
 
 RUNNING_HOST = 'http://localhost:80'
+
+# 上传文件大小限制
+DATA_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024

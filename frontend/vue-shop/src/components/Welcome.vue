@@ -106,7 +106,7 @@ export default {
       this.orderChartInstance = this.$echarts.init(this.$refs.orderRef);
       const hotItemChartOption = {
         title: {
-          text: "热销商品分布图",
+          text: "本月热销商品分布图",
           left: "left",
         },
         tooltip: {
@@ -114,10 +114,10 @@ export default {
           formatter: "{a} <br/>{b} : <b>{c}</b> ({d}%)",
         },
         legend: [
-          {
-            x: "center",
-            y: "bottom",
-          },
+          // {
+          //   x: "center",
+          //   y: "bottom",
+          // },
         ],
         toolbox: {
           show: true,
@@ -131,11 +131,11 @@ export default {
         series: [
           {
             type: "pie",
-            radius: [13, 50],
+            radius: 50,
             center: ["25%", "50%"],
-            roseType: "radius",
+            // roseType: "radius",
             itemStyle: {
-              borderRadius: 5,
+              // borderRadius: 5,
             },
             label: {
               show: true,
@@ -148,11 +148,11 @@ export default {
           },
           {
             type: "pie",
-            radius: [13, 50],
+            radius: 50,
             center: ["75%", "50%"],
-            roseType: "radius",
+            // roseType: "radius",
             itemStyle: {
-              borderRadius: 5,
+              // borderRadius: 5,
             },
           },
         ],

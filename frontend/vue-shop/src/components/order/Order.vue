@@ -36,6 +36,7 @@
           </template>
         </el-table-column>
         <el-table-column label="订单编号" prop="order_number"></el-table-column>
+        <el-table-column label="所属用户" prop="order_user"></el-table-column>
         <el-table-column label="订单价格" prop="order_price"></el-table-column>
         <el-table-column label="付款状态" prop="pay_status">
           <template slot-scope="scope">
@@ -62,8 +63,30 @@
             {{ scope.row.create_time }}
           </template>
         </el-table-column>
-        <el-table-column label="查看物流信息">
+        <el-table-column label="操作">
           <template slot-scope="scope">
+            <el-tooltip
+              class="item"
+              effect="dark"
+              content="删除"
+              placement="top"
+              :enterable="false"
+            >
+              <el-button
+                type="danger"
+                icon="el-icon-delete"
+                size="small"
+                @click="deleteOrder(scope.row.order_number)"
+              >
+              </el-button>
+            </el-tooltip>
+            <el-tooltip
+              class="item"
+              effect="dark"
+              content="查看物流"
+              placement="top"
+              :enterable="false"
+            >
             <el-button
               type="success"
               icon="el-icon-location"
@@ -71,6 +94,7 @@
               @click="showProgressBox(scope.row.order_number)"
               v-if="scope.row.send_status"
             ></el-button>
+            </el-tooltip>
           </template>
         </el-table-column>
       </el-table>
@@ -143,7 +167,7 @@ export default {
     },
     // 监听pagesize改变的事件
     handleSizeChange(newSize) {
-      this.queryInfo.pagesize = newSize
+      this.queryInfo.pageSize = newSize
       this.getOrderList()
     },
     // 监听页码值改变的事件
@@ -183,7 +207,28 @@ export default {
       this.progressInfo = res.data
 
       this.progressDialogVisible = true
-    }
+    },
+    async deleteOrder(id){
+      const confirmResult = await this.$confirm(
+        '此操作将永久删除该订单, 是否继续?',
+        '提示',
+        {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }
+      ).catch((res) => res)
+
+      if (confirmResult !== 'confirm') {
+        return this.$message.info('已取消删除')
+      }
+      const { data: res } = await this.$http.delete('orders/', { data: { id: id } })
+      if (res.meta.code !== 200) {
+        return this.$message.error(res.meta.message)
+      }
+      this.$message.success(res.meta.message)
+      this.getOrderList()
+    },
   }
 }
 </script>

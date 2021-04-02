@@ -25,7 +25,7 @@
                       @click="goDetailPage(item.id)"
                     ></el-image>
                     <div style="padding: 14px">
-                      <span>{{ item.name }}</span>
+                      <span class="content">{{ item.name }}</span>
                       <div class="bottom clearfix">
                         <div class="price">¥{{ item.price }}</div>
                         <div style="color:gray;">库存:{{item.reserve}}</div>
@@ -118,5 +118,11 @@ export default {
 
 .clearfix:after {
   clear: both;
+}
+.content {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 </style>

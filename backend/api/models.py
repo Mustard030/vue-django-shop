@@ -56,6 +56,7 @@ class GoodsInfo(models.Model):
     reserve = models.IntegerField(verbose_name='库存', default=0)
     unit = models.CharField(verbose_name='单位', max_length=5)
     introduce = models.TextField(verbose_name='商品介绍', blank=True, null=True)
+    usable = models.BooleanField(verbose_name='商品可用', default=True)
 
 
 # 商品类型

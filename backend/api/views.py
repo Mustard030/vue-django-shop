@@ -646,11 +646,13 @@ class Goods(APIView):
             head: int = (pagenum - 1) * pagesize
             tail: int = pagenum * pagesize
             if categoryId:
-                total = models.GoodsInfo.objects.filter(itemName__icontains=query, itemClass=categoryId).count()
-                goodslist = models.GoodsInfo.objects.filter(itemName__icontains=query, itemClass=categoryId)[head:tail]
+                total = models.GoodsInfo.objects.filter(itemName__icontains=query, itemClass=categoryId,
+                                                        usable=True).count()
+                goodslist = models.GoodsInfo.objects.filter(itemName__icontains=query, itemClass=categoryId,
+                                                            usable=True)[head:tail]
             else:
-                total = models.GoodsInfo.objects.filter(itemName__icontains=query).count()
-                goodslist = models.GoodsInfo.objects.filter(itemName__icontains=query)[head:tail]
+                total = models.GoodsInfo.objects.filter(itemName__icontains=query, usable=True).count()
+                goodslist = models.GoodsInfo.objects.filter(itemName__icontains=query, usable=True)[head:tail]
 
             return_list = list()
             for subitem in goodslist:
@@ -673,7 +675,7 @@ class Goods(APIView):
             res['meta']['message'] = '获取数据成功'
             res['meta']['code'] = 200
         elif item:
-            item_obj = models.GoodsInfo.objects.filter(pk=item).first()
+            item_obj = models.GoodsInfo.objects.filter(pk=item, usable=True).first()
             if item_obj:
                 pics_list = item_obj.goodsimage_set.all()
                 pics = list()
@@ -759,7 +761,8 @@ class Goods(APIView):
         uid = data.get('id', 0)
         item = models.GoodsInfo.objects.get(pk=uid)
         if item:
-            item.delete()
+            item.usable = False
+            item.save()
             res['meta']['message'] = '删除商品成功'
             res['meta']['code'] = 200
 
@@ -816,7 +819,7 @@ class Good(APIView):
                 'message': '获取数据失败',
                 'code': 400
             }}
-        item = models.GoodsInfo.objects.filter(pk=request.GET.get('id')).first()
+        item = models.GoodsInfo.objects.filter(pk=request.GET.get('id'), usable=True).first()
         pic_list = [pic.image.url for pic in item.goodsimage_set.all()[:5]]
         # for pic in item.goodsimage_set.all()[:5]:
         #     pic_list.append()
@@ -845,7 +848,7 @@ class SearchItem(APIView):
             }}
         keyword = request.GET.get('keyword', '')
         result_set = list()
-        for item in models.GoodsInfo.objects.filter(itemName__icontains=keyword):
+        for item in models.GoodsInfo.objects.filter(itemName__icontains=keyword, usable=True):
             item_obj = dict()
             item_obj['id'] = item.pk
             item_obj['name'] = item.itemName
@@ -907,7 +910,7 @@ def getAllGoodBreif(request):
             children_dict['id'] = child_cate.pk
             children_dict['name'] = child_cate.name
 
-            for item in models.GoodsInfo.objects.filter(itemClass=child_cate):
+            for item in models.GoodsInfo.objects.filter(itemClass=child_cate, usable=True):
                 item_obj = dict()
                 item_obj['id'] = item.pk
                 item_obj['name'] = item.itemName
@@ -963,6 +966,7 @@ class Orders(APIView):
             order_dict = dict()
             detail_list = list()
             order_dict['order_number'] = order.pk
+            order_dict['order_user'] = order.user.username
             order_dict['pay_status'] = order.pay_status
             order_dict['send_status'] = order.send_status
             order_dict['delivery_status'] = order.delivery_status
@@ -1018,6 +1022,23 @@ class Orders(APIView):
                 del_item.delete()
             res['meta']['code'] = 200
             res['meta']['message'] = '提交订单成功'
+
+        return JsonResponse(res, safe=False)
+
+    # 删除订单
+    def delete(self, request):
+        res = {
+            'meta': {
+                'message': '删除订单失败',
+                'code': 500
+            }}
+        data = json.loads(str(request.body, encoding='utf8'))
+        uid = data.get('id', 0)
+        item = models.Orders.objects.get(pk=uid)
+        if item:
+            item.delete()
+            res['meta']['message'] = '删除订单成功'
+            res['meta']['code'] = 200
 
         return JsonResponse(res, safe=False)
 
@@ -1118,6 +1139,11 @@ class Pay(APIView):
 
             if not order.pay_status:
                 order.pay_status = True
+                order_detail_list = order.orderdetail_set.all()
+                for item_obj in order_detail_list:
+                    item_obj.item.sales += item_obj.number
+                    item_obj.item.reserve -= item_obj.number
+                    item_obj.item.save()
                 order.save()
                 res['meta']['code'] = 200
                 res['meta']['message'] = '支付成功'
@@ -1778,7 +1804,7 @@ class recommendList(APIView):
                 'code': 400
             }}
         rList = list()
-        for item in models.GoodsInfo.objects.all().order_by('-sales')[:20]:
+        for item in models.GoodsInfo.objects.filter(usable=True, sales__gt=0).order_by('-sales')[:20]:
             item_obj = dict()
             item_obj['id'] = item.pk
             item_obj['name'] = item.itemName
@@ -1939,3 +1965,17 @@ def newRandomUser(request, num):
                                            date_joined=date_joined, roles_id=roles_id)
         newuser.save()
     return HttpResponse(f'new {num} user success')
+
+
+def newRandomOrder(request, num):
+    if generate_fake_order(num):
+        return HttpResponse(f'new {num} order success')
+    else:
+        return HttpResponse(f'An error occurred')
+
+
+def newRandomOrderOfSb(request, num, user):
+    if generate_fake_order(num, user):
+        return HttpResponse(f'new {num} order of {user} success')
+    else:
+        return HttpResponse(f'An error occurred')
