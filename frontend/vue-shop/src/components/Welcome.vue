@@ -9,7 +9,9 @@
               ><el-card shadow="hover" class="dataitem doneOrder">
                 <div ref="doneOrderRef" class="cellbox">
                   <span class="labeltext">本月已完成订单</span>
-                  <p class="theNumber">{{ doneOrderNumInThisMonth }}<span class="suffix"> 份</span></p>
+                  <p class="theNumber">
+                    {{ doneOrderNumInThisMonth }}<span class="suffix"> 份</span>
+                  </p>
                 </div></el-card
               ></el-col
             >
@@ -33,7 +35,9 @@
               ><el-card shadow="hover" class="dataitem unsendOrder">
                 <div ref="unsendOrderRef" class="cellbox">
                   <span class="labeltext">本月未发货订单</span>
-                  <p class="theNumber">{{ unsendOrderNumInThisMonth }}<span class="suffix"> 份</span></p>
+                  <p class="theNumber">
+                    {{ unsendOrderNumInThisMonth }}<span class="suffix"> 份</span>
+                  </p>
                 </div></el-card
               ></el-col
             >
@@ -41,8 +45,9 @@
               ><el-card shadow="hover" class="dataitem unreceOrder">
                 <div ref="unreceOrderRef" class="cellbox">
                   <span class="labeltext">本月未收货订单</span>
-                  <p class="theNumber">{{ unreceOrderNumInThisMonth }}<span class="suffix"> 份</span></p>
-                  
+                  <p class="theNumber">
+                    {{ unreceOrderNumInThisMonth }}<span class="suffix"> 份</span>
+                  </p>
                 </div></el-card
               ></el-col
             >
@@ -105,10 +110,24 @@ export default {
       this.userChartInstance = this.$echarts.init(this.$refs.UserRef);
       this.orderChartInstance = this.$echarts.init(this.$refs.orderRef);
       const hotItemChartOption = {
-        title: {
-          text: "本月热销商品分布图",
-          left: "left",
-        },
+        title: [
+          {
+            text: "本月热销商品分布图",
+            left: "left",
+          },
+          {
+            subtext: '一级分类(销量前5)',
+            left: "23.5%",
+            top: "83%",
+            textAlign: "center",
+          },
+          {
+            subtext: '二级分类(销量前8)',
+            left: "73.3%",
+            top: "83%",
+            textAlign: "center",
+          }
+        ],
         tooltip: {
           trigger: "item",
           formatter: "{a} <br/>{b} : <b>{c}</b> ({d}%)",
@@ -172,7 +191,7 @@ export default {
           },
         },
         tooltip: {
-          trigger: 'axis',
+          trigger: "axis",
           formatter: "{b} <br/> <b>{c}</b> 人",
         },
         xAxis: {
@@ -366,21 +385,21 @@ export default {
 .unreceOrder {
   background-color: #409eff;
 }
-.cellbox{
-  height:200px;
+.cellbox {
+  height: 200px;
 }
 .theNumber {
   // border: 1px solid red;
-  text-align:center;
-  height:100px;
-  line-height:90px;
+  text-align: center;
+  height: 100px;
+  line-height: 90px;
   font-size: 50px;
 }
-.labeltext{
-  font-size:20px;
-  font-weight:bold;
+.labeltext {
+  font-size: 20px;
+  font-weight: bold;
 }
 .suffix {
-  font-size:16px;
+  font-size: 16px;
 }
 </style>

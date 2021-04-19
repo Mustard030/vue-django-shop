@@ -65,11 +65,15 @@ def getSoldData():
             else:
                 first_kind_dict[fk] = item_obj.number
 
-    second_kind_obj_list = [{"name": s, "value": second_kind_dict[s]} for s in second_kind_dict]
     first_kind_obj_list = [{"name": s, "value": first_kind_dict[s]} for s in first_kind_dict]
+    second_kind_obj_list = [{"name": s, "value": second_kind_dict[s]} for s in second_kind_dict]
+    first_kind_obj_list = sorted(first_kind_obj_list, key=lambda i: i['value'], reverse=True)[:5]
+    second_kind_obj_list = sorted(second_kind_obj_list, key=lambda i: i['value'], reverse=True)[:8]
+    # print(first_kind_obj_list)
+    # print(second_kind_obj_list)
 
     return [{"name": "一级分类", "data": first_kind_obj_list},
-            {"name": "二级分类", "data": second_kind_obj_list}, ]
+            {"name": "二级分类", "data": second_kind_obj_list}]
 
 
 def getOrderData():

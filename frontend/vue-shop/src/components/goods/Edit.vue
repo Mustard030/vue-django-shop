@@ -87,6 +87,7 @@
             list-type="picture-card"
             :headers="headersObj"
             :file-list="editItemForm.pics"
+            :before-upload="beforeAvatarUpload"
           >
             <i class="el-icon-plus"></i>
           </el-upload>
@@ -263,10 +264,10 @@ export default {
       })
       if (res.meta.code !== 200) {
         this.$message.error(res.meta.message)
-        reject(false)
+        return reject(false)
       } else {
         const i = this.editItemForm.pics.findIndex((x) => x.id === removePicID)
-        this.editItemForm.pics.splice(i, 1)
+        this.editItemForm.pics.splice(i, 0)
       }
     },
     // 监听图片上传成功
@@ -292,7 +293,29 @@ export default {
       }
       this.$message.success(res.meta.message)
       this.$router.push('/goods')
-    }
+    },
+    // 文件上传前检查钩子
+    beforeAvatarUpload(file) {
+      var testmsg = file.name.substring(file.name.lastIndexOf(".") + 1);
+      const extension =
+        testmsg === "jpg" ||
+        testmsg === "JPG" ||
+        testmsg === "png" ||
+        testmsg === "PNG" ||
+        testmsg === "bpm" ||
+        testmsg === "BPM";
+      const isLt5M = file.size / 1024 / 1024 < 5;
+
+      if (!extension) {
+        this.$message.error("上传头像图片只能是 JPG 或 PNG 或 BPM 格式!");
+        this.editItemForm.pics.splice(-1, 0)
+      }
+      if (!isLt5M) {
+        this.$message.error("上传头像图片大小不能超过 5MB!");
+        this.editItemForm.pics.splice(-1, 0)
+      }
+      return extension && isLt5M;
+    },
   },
   computed: {}
 }

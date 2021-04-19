@@ -17,14 +17,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="582da8aa-470c-4504-aef3-f6f4ca6bdbcd" name="Default Changelist" comment="staticfiles">
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/Home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/Home.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/Welcome.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/Welcome.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/order/Order.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/order/Order.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/goods/Add.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/goods/Add.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/goods/Edit.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/goods/Edit.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Days.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Days.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Detail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Detail.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/GoodsList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/GoodsList.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/ItemSearch.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/ItemSearch.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/user/Delivery.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/user/Delivery.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/plugins/element.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/plugins/element.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Pay.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Pay.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/UserPortal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/UserPortal.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,7 +57,7 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="JupyterTrust" id="a65a8a01-ae6b-47e2-9b11-83b2709e15f2" />
+  <component name="JupyterTrust" id="a600c43f-ea53-4d80-a176-beaebc78c023" />
   <component name="ProjectId" id="1jUuQMLTIf6fZN7loT6wzM00npp" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -78,7 +79,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../workspace/测试" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
@@ -265,6 +266,14 @@
       <workItem from="1615965974304" duration="1161000" />
       <workItem from="1616315655342" duration="1629000" />
       <workItem from="1616338411737" duration="61544000" />
+      <workItem from="1617434303604" duration="15000" />
+      <workItem from="1617540168803" duration="600000" />
+      <workItem from="1618038986573" duration="3251000" />
+      <workItem from="1618128000602" duration="3943000" />
+      <workItem from="1618328172555" duration="400000" />
+      <workItem from="1618400020172" duration="1748000" />
+      <workItem from="1618491199347" duration="3581000" />
+      <workItem from="1618835495446" duration="5757000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1603520933070</created>
@@ -642,18 +651,14 @@
     <option name="LAST_COMMIT_MESSAGE" value="staticfiles" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="696" y="359" key="#Notifications" timestamp="1608973125875">
-      <screen x="0" y="0" width="1920" height="1080" />
-    </state>
-    <state x="696" y="359" key="#Notifications/0.0.1920.1080@0.0.1920.1080" timestamp="1608973125875" />
     <state x="705" y="328" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1613888440390">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="705" y="328" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1080@0.0.1920.1080" timestamp="1613888440390" />
-    <state x="686" y="234" key="FileChooserDialogImpl" timestamp="1617005032766">
+    <state x="686" y="234" key="FileChooserDialogImpl" timestamp="1618400559578">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="686" y="234" key="FileChooserDialogImpl/0.0.1920.1080@0.0.1920.1080" timestamp="1617005032766" />
+    <state x="686" y="234" key="FileChooserDialogImpl/0.0.1920.1080@0.0.1920.1080" timestamp="1618400559578" />
     <state width="1875" height="353" key="GridCell.Tab.0.bottom" timestamp="1617369381736">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
@@ -686,14 +691,10 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state width="1875" height="353" key="GridCell.Tab.1.right/0.0.1920.1080@0.0.1920.1080" timestamp="1617369381736" />
-    <state x="84" y="258" key="SettingsEditor" timestamp="1617342035363">
+    <state x="84" y="258" key="SettingsEditor" timestamp="1618400541813">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="84" y="258" key="SettingsEditor/0.0.1920.1080@0.0.1920.1080" timestamp="1617342035363" />
-    <state x="715" y="362" key="SimpleOpenTaskDialog" timestamp="1608707147874">
-      <screen x="0" y="0" width="1920" height="1080" />
-    </state>
-    <state x="715" y="362" key="SimpleOpenTaskDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1608707147874" />
+    <state x="84" y="258" key="SettingsEditor/0.0.1920.1080@0.0.1920.1080" timestamp="1618400541813" />
     <state x="539" y="226" width="840" height="848" key="search.everywhere.popup" timestamp="1616588086522">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>

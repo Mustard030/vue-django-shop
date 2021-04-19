@@ -12,7 +12,7 @@
             v-for="(item, index) in this.$store.state.searchResult"
             :key="index"
           >
-            <el-card :body-style="bodyStyle" shadow="hover" class="itemCard">
+            <el-card :body-style="bodyStyle" shadow="hover" class="itemCard" @click.native="goDetailPage(item.id)">
               <el-image
                 :src="item.pic"
                 fit="fill"
@@ -22,7 +22,8 @@
               <div style="padding: 14px">
                 <span class="content">{{ item.name }}</span>
                 <div class="bottom clearfix">
-                  <div class="price">¥{{ item.price }}</div>
+                  <div class="price" v-if="item.reserve===0">售罄</div>
+                  <div class="price" v-else>¥{{ item.price }}</div>
                 </div>
               </div>
             </el-card>
@@ -47,7 +48,6 @@ export default {
     }
   },
   created() {
-    // this.getSearchData(this.$route.query.keyword)
   },
   methods: {
     // 获取搜索数据
@@ -72,7 +72,6 @@ export default {
   width: 1000px;
   position: absolute;
   left: 50%;
-//   top: 50%;
   transform: translateX(-50%);
   margin-top: 20px;
 }

@@ -20,7 +20,7 @@
         </div>
         <el-row :gutter="15">
           <el-col :span="6" v-for="(item, index) in recommendList" :key="index">
-            <el-card :body-style="bodyStyle" shadow="hover" class="itemCard" >
+            <el-card :body-style="bodyStyle" shadow="hover" class="itemCard" @click.native="goDetailPage(item.id)">
               <el-image
                 :src="item.pic"
                 fit="fill"
@@ -30,7 +30,8 @@
               <div style="padding: 14px">
                 <span class="content">{{ item.name }}</span>
                 <div class="bottom clearfix">
-                  <div class="price">¥{{ item.price }}</div>
+                  <div class="price" v-if="item.reserve===0">售罄</div>
+                  <div class="price" v-else>¥{{ item.price }}</div>
                 </div>
               </div>
             </el-card>

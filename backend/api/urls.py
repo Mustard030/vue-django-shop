@@ -48,7 +48,7 @@ urlpatterns = [
     path('good/', views.Good.as_view()),
     # 图片上传接口
     path('itemPics/', views.ItemPics.as_view()),
-    # 临时图片接口
+    # 推荐商品列表
     path('recommendList/', views.recommendList.as_view()),
     # 获取全部商品页面信息
     path('getAllGood/', views.getAllGoodBreif),

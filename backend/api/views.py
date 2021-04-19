@@ -16,7 +16,7 @@ from .utils.token import get_token_code
 from django.core.files import File
 from django.db.models import Q, F
 from django.db.models import Count
-from .utils.decorator import need_admin
+from .utils.decorator import need_admin, need_login
 import random
 import string
 
@@ -132,6 +132,7 @@ class UserLoginView(APIView):
 
 class UserAvatar(APIView):
     # 更改用户头像
+    @need_login
     def post(self, request):
         res = {
             'meta': {
@@ -662,7 +663,7 @@ class Goods(APIView):
                 item['sales'] = subitem.sales
                 item['price'] = subitem.price
                 item['reserve'] = subitem.reserve
-                item['itemClass'] = subitem.itemClass.name
+                item['itemClass'] = subitem.itemClass.parent.name + ' / ' + subitem.itemClass.name
                 item['merchantName'] = subitem.merchantId.merchantName
                 item['unit'] = subitem.unit
                 item['introduce'] = subitem.introduce
@@ -853,6 +854,7 @@ class SearchItem(APIView):
             item_obj['id'] = item.pk
             item_obj['name'] = item.itemName
             item_obj['price'] = item.price
+            item_obj['reserve'] = item.reserve
             item_obj['pic'] = settings.RUNNING_HOST + item.goodsimage_set.first().image.url
             result_set.append(item_obj)
         res.update({'data': result_set})
@@ -1100,9 +1102,21 @@ class UserOrders(APIView):
         res = {
             'data': {},
             'meta': {
-                'message': '获取数据失败',
+                'message': '订单不存在',
                 'code': 400
             }}
+        data = json.loads(str(request.body, encoding='utf8'))
+        orderID = data.get('orderId', 0)
+        try:
+            order = models.Orders.objects.filter(pk=orderID).first()
+            if order:
+                res['meta']['code'] = 200
+                res['meta']['message'] = '订单获取成功'
+                if order.pay_status is True:
+                    res['meta']['code'] = 201
+                    res['meta']['message'] = '订单已支付'
+        except:
+            pass
         return JsonResponse(res, safe=False)
 
     def delete(self, request):
@@ -1809,6 +1823,7 @@ class recommendList(APIView):
             item_obj['id'] = item.pk
             item_obj['name'] = item.itemName
             item_obj['price'] = item.price
+            item_obj['reserve'] = item.reserve
             item_obj['pic'] = settings.RUNNING_HOST + item.goodsimage_set.first().image.url
             rList.append(item_obj)
 
@@ -1915,6 +1930,7 @@ def get_uuid(request):
     return JsonResponse({'uuid': uuid.uuid4()}, safe=False)
 
 
+@need_admin
 def getHomePageData(request):
     res = {
         'data': {},
@@ -1938,17 +1954,19 @@ def getHomePageData(request):
     return JsonResponse(res, safe=False)
 
 
-@need_admin
+# @need_admin
 def test(request):
     res = {
         'meta': {
             'message': '测试地址返回成功',
             'code': 200
         }}
-
+    # print(request.get_full_path())  # 打印出全路径（路径和参数）
+    # print(request.path_info)  # 取当前请求的路径
     return JsonResponse(res, safe=False)
 
 
+@need_admin
 def newRandomUser(request, num):
     User = auth.get_user_model()
     for _ in range(num):
@@ -1967,6 +1985,7 @@ def newRandomUser(request, num):
     return HttpResponse(f'new {num} user success')
 
 
+@need_admin
 def newRandomOrder(request, num):
     if generate_fake_order(num):
         return HttpResponse(f'new {num} order success')
@@ -1974,6 +1993,7 @@ def newRandomOrder(request, num):
         return HttpResponse(f'An error occurred')
 
 
+@need_admin
 def newRandomOrderOfSb(request, num, user):
     if generate_fake_order(num, user):
         return HttpResponse(f'new {num} order of {user} success')

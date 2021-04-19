@@ -23,6 +23,7 @@
               }}<span style="color: #997979; font-size: 14px"
                 >/{{ itemDetail.unit }}</span
               >
+              <span style="margin-left: 30px" v-if="itemDetail.reserve === 0">售罄</span>
             </p>
           </div>
           <el-divider></el-divider>
@@ -31,6 +32,7 @@
               v-model="num"
               :min="1"
               :max="itemDetail.reserve > 10 ? 10 : itemDetail.reserve"
+              :disabled="itemDetail.reserve === 0"
             ></el-input-number
             >&nbsp;<span style="color: #997979; font-size: 15px">{{
               itemDetail.unit
@@ -43,7 +45,11 @@
           </div>
           <br />
           <div>
-            <el-button type="primary" round @click="addToCart(itemDetail.id)"
+            <el-button
+              type="primary"
+              round
+              @click="addToCart(itemDetail.id)"
+              :disabled="itemDetail.reserve === 0"
               >添加到购物车</el-button
             >
           </div>
@@ -105,7 +111,7 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="less" >
 .main-wrapper {
   width: 100%;
   background: #fff;
@@ -151,5 +157,12 @@ export default {
   margin-top: 50px;
   padding-bottom: 100px;
   // border: 1px solid blue;
+  p {
+    p {
+      img {
+        width: 1270px;
+      }
+    }
+  }
 }
 </style>

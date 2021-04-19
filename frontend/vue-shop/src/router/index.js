@@ -43,156 +43,156 @@ Vue.use(VueRouter)
 
 const router = new VueRouter({
   routes: [{
-    path: '/',
-    component: Main,
-    redirect: '/days',
-    children: [{
-      path: '/days',
-      component: Days
-    },
-    {
-      path: '/category/list',
-      component: AllGoodsList
-    },
-    {
-      path: '/buy/detail',
-      component: Detail
-    },
-    {
-      path: '/cookbook/detail',
-      component: CookbookDetail
-    },
-    {
-      path: '/cookbook/Add',
-      component: AddCookBook
-    },
-    {
-      path: '/cookbook/Edit',
-      component: EditCookBook
-    },
-    {
-      path: '/search/item',
-      component: ItemSearch
-    },
-    {
-      path: '/search/cookbook',
-      component: CookbookSearch
-    },
-    {
-      path: '/buy/cart',
-      component: Cart
-    },
-    {
-      path: '/buy/checkout',
-      component: Checkout
-    },
-    {
-      path: '/order/payment',
-      component: Pay
-    },
-    {
-      path: '/user',
-      component: User,
-      redirect: '/user/portal',
+      path: '/',
+      component: Main,
+      redirect: '/days',
       children: [{
-        path: '/user/portal',
-        component: Portal
-      },
-      {
-        path: '/user/cookbook',
-        component: Mycookbook
-      },
-      {
-        path: '/user/order',
-        component: MyOrder
-      },
-      {
-        path: '/user/address',
-        component: MyAddress
-      }
+          path: '/days',
+          component: Days
+        },
+        {
+          path: '/category/list',
+          component: AllGoodsList
+        },
+        {
+          path: '/buy/detail',
+          component: Detail
+        },
+        {
+          path: '/cookbook/detail',
+          component: CookbookDetail
+        },
+        {
+          path: '/cookbook/Add',
+          component: AddCookBook
+        },
+        {
+          path: '/cookbook/Edit',
+          component: EditCookBook
+        },
+        {
+          path: '/search/item',
+          component: ItemSearch
+        },
+        {
+          path: '/search/cookbook',
+          component: CookbookSearch
+        },
+        {
+          path: '/buy/cart',
+          component: Cart
+        },
+        {
+          path: '/buy/checkout',
+          component: Checkout
+        },
+        {
+          path: '/order/payment',
+          component: Pay
+        },
+        {
+          path: '/user',
+          component: User,
+          redirect: '/user/portal',
+          children: [{
+              path: '/user/portal',
+              component: Portal
+            },
+            {
+              path: '/user/cookbook',
+              component: Mycookbook
+            },
+            {
+              path: '/user/order',
+              component: MyOrder
+            },
+            {
+              path: '/user/address',
+              component: MyAddress
+            }
+          ]
+        }
+
+      ]
+    },
+    {
+      path: '/login',
+      component: UserLogin
+    },
+    {
+      path: '/register',
+      component: Register
+    },
+    {
+      path: '/admin',
+      redirect: '/adminlogin'
+    },
+    {
+      path: '/adminlogin',
+      component: AdminLogin
+    },
+    {
+      path: '/home',
+      component: Home,
+      redirect: '/welcome',
+      children: [{
+          path: '/welcome',
+          component: Welcome
+        },
+        {
+          path: '/users',
+          component: Users
+        },
+        {
+          path: '/rights',
+          component: Rights
+        },
+        {
+          path: '/categories',
+          component: Cate
+        },
+        {
+          path: '/goods',
+          component: GoodsList
+        },
+        {
+          path: '/goods/add',
+          component: GoodAdd
+        },
+        {
+          path: '/goods/edit',
+          component: GoodEdit
+        },
+        {
+          path: '/order',
+          component: Order
+        },
+        {
+          path: '/delivery',
+          component: Delivery
+        },
+        {
+          path: '/merchant',
+          component: MerchantList
+        },
+        {
+          path: '/cookbook',
+          component: Cookbook
+        },
+        {
+          path: '/cookbook/adminadd',
+          component: AdminCookbookAdd
+        },
+        {
+          path: '/cookbook/adminedit',
+          component: AdminCookbookEdit
+        },
+        {
+          path: '/carouselList',
+          component: CarouselList
+        }
       ]
     }
-
-    ]
-  },
-  {
-    path: '/login',
-    component: UserLogin
-  },
-  {
-    path: '/register',
-    component: Register
-  },
-  {
-    path: '/admin',
-    redirect: '/adminlogin'
-  },
-  {
-    path: '/adminlogin',
-    component: AdminLogin
-  },
-  {
-    path: '/home',
-    component: Home,
-    redirect: '/welcome',
-    children: [{
-      path: '/welcome',
-      component: Welcome
-    },
-    {
-      path: '/users',
-      component: Users
-    },
-    {
-      path: '/rights',
-      component: Rights
-    },
-    {
-      path: '/categories',
-      component: Cate
-    },
-    {
-      path: '/goods',
-      component: GoodsList
-    },
-    {
-      path: '/goods/add',
-      component: GoodAdd
-    },
-    {
-      path: '/goods/edit',
-      component: GoodEdit
-    },
-    {
-      path: '/order',
-      component: Order
-    },
-    {
-      path: '/delivery',
-      component: Delivery
-    },
-    {
-      path: '/merchant',
-      component: MerchantList
-    },
-    {
-      path: '/cookbook',
-      component: Cookbook
-    },
-    {
-      path: '/cookbook/adminadd',
-      component: AdminCookbookAdd
-    },
-    {
-      path: '/cookbook/adminedit',
-      component: AdminCookbookEdit
-    },
-    {
-      path: '/carouselList',
-      component: CarouselList
-    }
-    ]
-  }
   ]
 })
 
@@ -208,8 +208,8 @@ router.beforeEach((to, from, next) => {
   }
 
   const requireAdmin = ['/categories', '/goods', '/users', '/delivery',
-    '/merchant', '/order', '/cookbook', '/welcome',
-    '/carouselList'
+    '/merchant', '/order', '/cookbook', '/welcome', '/cookbook/adminadd',
+    '/cookbook/adminedit','/carouselList'
   ]
   const requireLogin = ['/user/portal', '/user', '/user/cookbook',
     '/user/address', '/user/order', '/buy/detail', '/cookbook/detail',

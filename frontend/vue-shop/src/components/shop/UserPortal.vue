@@ -43,7 +43,12 @@
       </div>
     </el-card>
     <!-- 修改手机号对话框 -->
-    <el-dialog title="修改手机号" :visible.sync="editPhoneDialogVisible" width="30%" @closed="editPhoneDialogClosed">
+    <el-dialog
+      title="修改手机号"
+      :visible.sync="editPhoneDialogVisible"
+      width="30%"
+      @closed="editPhoneDialogClosed"
+    >
       <el-form
         ref="editPhoneFormRef"
         :model="editPhoneForm"
@@ -61,7 +66,12 @@
       </span>
     </el-dialog>
     <!-- 修改邮箱的对话框 -->
-    <el-dialog title="修改邮箱" :visible.sync="editEmailDialogVisible" width="30%" @closed="editEmailDialogClosed">
+    <el-dialog
+      title="修改邮箱"
+      :visible.sync="editEmailDialogVisible"
+      width="30%"
+      @closed="editEmailDialogClosed"
+    >
       <el-form
         ref="editEmailFormRef"
         :model="editEmailForm"
@@ -79,7 +89,12 @@
       </span>
     </el-dialog>
     <!-- 修改密码的对话框 -->
-    <el-dialog title="修改密码" :visible.sync="editPasswordDialogVisible" width="30%" @closed="editPasswordDialogClosed">
+    <el-dialog
+      title="修改密码"
+      :visible.sync="editPasswordDialogVisible"
+      width="30%"
+      @closed="editPasswordDialogClosed"
+    >
       <el-form
         ref="editPasswordFormRef"
         :model="editPasswordForm"
@@ -109,21 +124,25 @@ export default {
       var data = this.$http.get(`checkUsable/${value}`).then((res) => {
         // console.log(res.data);
         if (res.data.meta.code !== 200) {
-          callback(new Error('用户名已被使用！'))
+          callback(new Error("用户名已被使用！"));
         } else {
-          callback()
+          callback();
         }
-      })
-    }
+      });
+    };
     var doublePassWord = (rule, value, callback) => {
-      if (value !== this.editPasswordForm.password) { callback(new Error('两次密码不一致！')) } else { callback() }
-    }
+      if (value !== this.editPasswordForm.password) {
+        callback(new Error("两次密码不一致！"));
+      } else {
+        callback();
+      }
+    };
     return {
       // 图片上传地址
-      uploadUrl: 'http://localhost:80/api/private/userAvatar/',
+      uploadUrl: "http://localhost:80/api/private/userAvatar/",
       // 文件上传的请求头
       headersObj: {
-        Authorization: window.sessionStorage.getItem('token')
+        Authorization: window.sessionStorage.getItem("token"),
       },
       // 头像地址
       imageUrl: this.$store.state.BACKEND_URL + this.$store.state.userInfo.avatar,
@@ -136,18 +155,18 @@ export default {
       // 修改密码表单
       editPasswordForm: {
         id: this.$store.state.userInfo.userId,
-        password: '',
-        secPassword: ''
+        password: "",
+        secPassword: "",
       },
       // 修改手机号表单
       editPhoneForm: {
         id: this.$store.state.userInfo.userId,
-        phone: ''
+        phone: "",
       },
       // 修改邮箱表单
       editEmailForm: {
         id: this.$store.state.userInfo.userId,
-        email: ''
+        email: "",
       },
       // 修改用户表单规则
       editFormRules: {
@@ -155,164 +174,172 @@ export default {
           {
             min: 6,
             max: 16,
-            message: '长度在 6 到 16 个字符之间',
-            trigger: 'blur'
+            message: "长度在 6 到 16 个字符之间",
+            trigger: "blur",
           },
           {
             min: 6,
             max: 16,
-            message: '长度在 6 到 16 个字符之间',
-            trigger: 'change'
-          }
+            message: "长度在 6 到 16 个字符之间",
+            trigger: "change",
+          },
         ],
         secPassword: [
           {
             validator: doublePassWord,
-            message: '两次密码不一致！',
-            trigger: 'blur'
-          }
+            message: "两次密码不一致！",
+            trigger: "blur",
+          },
         ],
         phone: [
           {
             min: 11,
             max: 11,
-            message: '请输入正确格式的手机号码',
-            trigger: 'blur'
+            message: "请输入正确格式的手机号码",
+            trigger: "blur",
           },
           {
             min: 11,
             max: 11,
-            message: '请输入正确格式的手机号码',
-            trigger: 'change'
-          }
+            message: "请输入正确格式的手机号码",
+            trigger: "change",
+          },
         ],
         email: [
           {
-            type: 'string',
-            message: '邮箱格式不正确',
-            trigger: 'blur',
+            type: "string",
+            message: "邮箱格式不正确",
+            trigger: "blur",
             transform(value) {
               if (
                 !/^\w+((-\w+)|(\.\w+))*@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/.test(
                   value
                 )
               ) {
-                return true
+                return true;
               } else {
               }
-            }
+            },
           },
-          { type: 'string', message: '长度不能超过30位', trigger: 'blur', max: 30 }
-        ]
-      }
-    }
+          { type: "string", message: "长度不能超过30位", trigger: "blur", max: 30 },
+        ],
+      },
+    };
   },
   filters: {
     phoneHidden: function (phone) {
-      const reg = /^(.{3}).*(.{4})$/
-      return phone.replace(reg, '$1****$2')
-    }
+      const reg = /^(.{3}).*(.{4})$/;
+      return phone.replace(reg, "$1****$2");
+    },
   },
   created() {},
   methods: {
     // 修改手机号对话框显示
     showEditPhoneDialog() {
-      this.editPhoneDialogVisible = true
+      this.editPhoneDialogVisible = true;
     },
     showEditEmailDialog() {
-      this.editEmailDialogVisible = true
+      this.editEmailDialogVisible = true;
     },
     showEditPasswordDialog() {
-      this.editPasswordDialogVisible = true
+      this.editPasswordDialogVisible = true;
     },
     // 修改用户手机号
     updatePhone() {
       this.$refs.editPhoneFormRef.validate(async (valid) => {
-        if (!valid) return
-        const { data: res } = await this.$http.put('users/', this.editPhoneForm)
+        if (!valid) return;
+        const { data: res } = await this.$http.put("users/", this.editPhoneForm);
         // console.log(res)
         if (res.meta.code !== 201) {
-          return this.$message.error(res.meta.message)
+          return this.$message.error(res.meta.message);
         }
-        this.$message.success(res.meta.message)
+        this.$message.success(res.meta.message);
         // 隐藏添加提示框
-        this.editPhoneDialogVisible = false
+        this.editPhoneDialogVisible = false;
         // 重新获取用户数据
-        this.$store.commit('updateUserInfo', res.data)
-      })
+        this.$store.commit("updateUserInfo", res.data);
+      });
     },
     // 修改用户邮箱
     updateEmail() {
       this.$refs.editEmailFormRef.validate(async (valid) => {
-        if (!valid) return
-        const { data: res } = await this.$http.put('users/', this.editEmailForm)
+        if (!valid) return;
+        const { data: res } = await this.$http.put("users/", this.editEmailForm);
         // console.log(res)
         if (res.meta.code !== 201) {
-          return this.$message.error(res.meta.message)
+          return this.$message.error(res.meta.message);
         }
-        this.$message.success(res.meta.message)
+        this.$message.success(res.meta.message);
         // 隐藏添加提示框
-        this.editEmailDialogVisible = false
+        this.editEmailDialogVisible = false;
         // 重新获取用户数据
-        this.$store.commit('updateUserInfo', res.data)
-      })
+        this.$store.commit("updateUserInfo", res.data);
+      });
     },
     // 修改用户密码
     updatePassword() {
       this.$refs.editPasswordFormRef.validate(async (valid) => {
-        if (!valid) return
-        const { data: res } = await this.$http.put('users/', this.editPasswordForm)
+        if (!valid) return;
+        const { data: res } = await this.$http.put("users/", this.editPasswordForm);
         // console.log(res)
         if (res.meta.code !== 201) {
-          return this.$message.error(res.meta.message)
+          return this.$message.error(res.meta.message);
         }
-        this.$message.success(res.meta.message)
+        this.$message.success(res.meta.message);
         // 隐藏添加提示框
-        this.editPasswordDialogVisible = false
+        this.editPasswordDialogVisible = false;
         // 重新获取用户数据
-        this.$store.commit('updateUserInfo', res.data)
-      })
+        this.$store.commit("updateUserInfo", res.data);
+      });
     },
     // 监听修改密码对话框的关闭事件
     editPasswordDialogClosed() {
-      this.$refs.editPasswordFormRef.resetFields()
+      this.$refs.editPasswordFormRef.resetFields();
     },
     // 监听修改手机号对话框的关闭事件
     editPhoneDialogClosed() {
-      this.$refs.editPhoneFormRef.resetFields()
+      this.$refs.editPhoneFormRef.resetFields();
     },
     // 监听修改邮箱对话框的关闭事件
     editEmailDialogClosed() {
-      this.$refs.editEmailFormRef.resetFields()
+      this.$refs.editEmailFormRef.resetFields();
     },
     // 显示编辑用户的对话框
     async showEditDialog(id) {
-      const { data: res } = await this.$http.get('users/' + id)
-      if (res.meta.code !== 200) return this.$message.error('获取信息失败')
-      this.editForm = res.data
-      this.editDialogVisible = true
+      const { data: res } = await this.$http.get("users/" + id);
+      if (res.meta.code !== 200) return this.$message.error("获取信息失败");
+      this.editForm = res.data;
+      this.editDialogVisible = true;
       // console.log(id)
     },
     handleAvatarSuccess(res, file) {
       if (res.meta.code !== 200) {
-        return this.$message.error(res.meta.message)
+        return this.$message.error(res.meta.message);
       }
-      this.$store.commit('updateUserAvatar', res.data.url)
+      this.$store.commit("updateUserAvatar", res.data.url);
     },
     beforeAvatarUpload(file) {
-      const isJPG = file.type === 'image/jpeg'
-      const isLt2M = file.size / 1024 / 1024 < 2
+      const isJPG = file.type === "image/jpeg";
+      const isLt2M = file.size / 1024 / 1024 < 2;
 
       if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!')
+        this.$message.error("上传头像图片只能是 JPG 格式!");
+        return false;
       }
       if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 2MB!')
+        this.$message.error("上传头像图片大小不能超过 2MB!");
+        return false;
       }
-      return isJPG && isLt2M
-    }
-  }
-}
+        
+      if (isJPG && isLt2M){
+        this.$message.success("更换头像成功");
+        return true;
+      }
+      return isJPG && isLt2M;
+      
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>

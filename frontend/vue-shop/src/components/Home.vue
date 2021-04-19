@@ -4,7 +4,7 @@
         <el-header>
             <div class="headtool" @click="toWelcomePage">
                 <img src="..\assets\logo.png" alt="" height="50px">
-                <span>电商后台管理系统</span>
+                <span>网上买菜系统</span>
             </div>
             <div>
                 <el-avatar :src='this.userava' id="ava"></el-avatar>
