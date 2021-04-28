@@ -59,6 +59,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
+    'api.Middleware.myMiddleware.MDW'
 ]
 
 CORS_ALLOW_CREDENTIALS = True  # 允许携带cookie

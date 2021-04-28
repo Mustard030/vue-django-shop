@@ -16,17 +16,7 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="582da8aa-470c-4504-aef3-f6f4ca6bdbcd" name="Default Changelist" comment="staticfiles">
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/Home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/Home.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/Welcome.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/Welcome.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/goods/Add.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/goods/Add.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/goods/Edit.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/goods/Edit.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Days.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Days.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Detail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Detail.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/ItemSearch.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/ItemSearch.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Pay.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Pay.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/UserPortal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/UserPortal.vue" afterDir="false" />
-    </list>
+    <list default="true" id="582da8aa-470c-4504-aef3-f6f4ca6bdbcd" name="Default Changelist" comment="staticfiles" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -57,7 +47,7 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="JupyterTrust" id="a600c43f-ea53-4d80-a176-beaebc78c023" />
+  <component name="JupyterTrust" id="21a4da2d-9ea4-48ed-b544-aa7dcb257d20" />
   <component name="ProjectId" id="1jUuQMLTIf6fZN7loT6wzM00npp" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -76,7 +66,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="add_unversioned_files" value="true" />
     <property name="ignore_missing_gitignore" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../workspace/测试" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
@@ -274,6 +264,10 @@
       <workItem from="1618400020172" duration="1748000" />
       <workItem from="1618491199347" duration="3581000" />
       <workItem from="1618835495446" duration="5757000" />
+      <workItem from="1618896348564" duration="47000" />
+      <workItem from="1619076871516" duration="1660000" />
+      <workItem from="1619338828984" duration="6533000" />
+      <workItem from="1619422927701" duration="17000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1603520933070</created>
@@ -655,10 +649,10 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="705" y="328" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1080@0.0.1920.1080" timestamp="1613888440390" />
-    <state x="686" y="234" key="FileChooserDialogImpl" timestamp="1618400559578">
+    <state x="686" y="234" key="FileChooserDialogImpl" timestamp="1618896393389">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="686" y="234" key="FileChooserDialogImpl/0.0.1920.1080@0.0.1920.1080" timestamp="1618400559578" />
+    <state x="686" y="234" key="FileChooserDialogImpl/0.0.1920.1080@0.0.1920.1080" timestamp="1618896393389" />
     <state width="1875" height="353" key="GridCell.Tab.0.bottom" timestamp="1617369381736">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>

@@ -26,6 +26,9 @@ class Permission(models.Model):
     title = models.CharField(verbose_name='标题', max_length=32)
     url = models.CharField(verbose_name='url', max_length=128)
 
+    def __str__(self):
+        return self.url
+
 
 class Token(models.Model):
     token = models.CharField('token', max_length=128)

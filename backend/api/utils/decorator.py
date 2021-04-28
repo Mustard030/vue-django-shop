@@ -3,8 +3,7 @@ from django.http import JsonResponse
 
 
 def need_admin(func):
-    def wrapper(*args, **kwargs):
-        request = args[0]
+    def wrapper(request, *args, **kwargs):
         token = request.headers.get('Authorization', None)
         user = models.Token.objects.filter(token=token).first()
 
@@ -23,8 +22,7 @@ def need_admin(func):
 
 
 def need_login(func):
-    def wrapper(*args, **kwargs):
-        request = args[0]
+    def wrapper(request, *args, **kwargs):
         token = request.headers.get('Authorization', None)
         user = models.Token.objects.filter(token=token).first()
 
