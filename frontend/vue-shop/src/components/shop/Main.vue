@@ -69,6 +69,10 @@
                       ><i class="el-icon-tickets"></i
                       ><a @click="goMyOrderPage">我的订单</a></el-dropdown-item
                     >
+                    <el-dropdown-item
+                      ><i class="el-icon-dish"></i
+                      ><a @click="randomeat">随便吃什么</a></el-dropdown-item
+                    >
                     <el-dropdown-item divided
                       ><i class="el-icon-switch-button"></i
                       ><a @click="clearLocalStorage">退出登录</a></el-dropdown-item
@@ -152,6 +156,12 @@ export default {
       if (res.meta.code !== 200) { return this.$message.error(res.meta.message) }
       this.$store.commit('updateSearchResult', res.data)
       this.$router.push(`/search/${this.select}?keyword=${this.keyword}`)
+    },
+    // 随便吃什么
+    async randomeat(){
+      const { data: res } = await this.$http.get('randomCookbook/')
+      const essayID = res.data.cookbook.id
+      this.$router.push(`/cookbook/detail?bookid=`+ essayID)
     }
   },
   computed: {

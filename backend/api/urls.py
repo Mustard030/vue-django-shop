@@ -82,6 +82,8 @@ urlpatterns = [
     path('uuid/', views.get_uuid),
     # 管理员欢迎页信息
     path('sold/', views.getHomePageData),
+    # 随便吃什么接口
+    path('randomCookbook/', views.RandomCookbook.as_view()),
     # 测试接口
     path('test/', views.test),
     # 新增随机用户

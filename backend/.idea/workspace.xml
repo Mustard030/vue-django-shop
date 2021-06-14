@@ -16,7 +16,11 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="582da8aa-470c-4504-aef3-f6f4ca6bdbcd" name="Default Changelist" comment="staticfiles" />
+    <list default="true" id="582da8aa-470c-4504-aef3-f6f4ca6bdbcd" name="Default Changelist" comment="staticfiles">
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/CookbookDetail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/CookbookDetail.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/CookbookSearch.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/CookbookSearch.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Main.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/vue-shop/src/components/shop/Main.vue" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -47,7 +51,7 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="JupyterTrust" id="21a4da2d-9ea4-48ed-b544-aa7dcb257d20" />
+  <component name="JupyterTrust" id="80e824b0-e8b8-4093-acef-4286c36ad353" />
   <component name="ProjectId" id="1jUuQMLTIf6fZN7loT6wzM00npp" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -268,6 +272,18 @@
       <workItem from="1619076871516" duration="1660000" />
       <workItem from="1619338828984" duration="6533000" />
       <workItem from="1619422927701" duration="17000" />
+      <workItem from="1619781726081" duration="4131000" />
+      <workItem from="1620044547918" duration="26000" />
+      <workItem from="1620044615821" duration="69000" />
+      <workItem from="1620213969050" duration="91000" />
+      <workItem from="1620215673890" duration="1000" />
+      <workItem from="1620459938820" duration="648000" />
+      <workItem from="1620474521140" duration="317000" />
+      <workItem from="1620513700386" duration="7390000" />
+      <workItem from="1620546212173" duration="56000" />
+      <workItem from="1621237275965" duration="969000" />
+      <workItem from="1621262178116" duration="15000" />
+      <workItem from="1622275372703" duration="27000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1603520933070</created>
@@ -649,10 +665,10 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="705" y="328" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1080@0.0.1920.1080" timestamp="1613888440390" />
-    <state x="686" y="234" key="FileChooserDialogImpl" timestamp="1618896393389">
+    <state x="686" y="234" key="FileChooserDialogImpl" timestamp="1621262191575">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="686" y="234" key="FileChooserDialogImpl/0.0.1920.1080@0.0.1920.1080" timestamp="1618896393389" />
+    <state x="686" y="234" key="FileChooserDialogImpl/0.0.1920.1080@0.0.1920.1080" timestamp="1621262191575" />
     <state width="1875" height="353" key="GridCell.Tab.0.bottom" timestamp="1617369381736">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
@@ -685,10 +701,10 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state width="1875" height="353" key="GridCell.Tab.1.right/0.0.1920.1080@0.0.1920.1080" timestamp="1617369381736" />
-    <state x="84" y="258" key="SettingsEditor" timestamp="1618400541813">
+    <state x="67" y="253" key="SettingsEditor" timestamp="1621238528538">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="84" y="258" key="SettingsEditor/0.0.1920.1080@0.0.1920.1080" timestamp="1618400541813" />
+    <state x="67" y="253" key="SettingsEditor/0.0.1920.1080@0.0.1920.1080" timestamp="1621238528538" />
     <state x="539" y="226" width="840" height="848" key="search.everywhere.popup" timestamp="1616588086522">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>

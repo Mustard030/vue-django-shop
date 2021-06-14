@@ -9,7 +9,7 @@ def need_admin(func):
 
         permission = user.user.is_superuser if user else False
         if permission:
-            return func(*args, **kwargs)
+            return func(request, *args, **kwargs)
         else:
             res = {
                 'meta': {
@@ -28,7 +28,7 @@ def need_login(func):
 
         permission = user.user.is_active if user else False
         if permission:
-            return func(*args, **kwargs)
+            return func(request, *args, **kwargs)
         else:
             res = {
                 'meta': {

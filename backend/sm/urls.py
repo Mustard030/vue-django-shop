@@ -19,11 +19,6 @@ from django.conf import settings
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
-    # path('timer/', views.timer),
-    # path('login/', test01.views.userlogin, name='Login'),
-    # re_path(r'^register/', include(('register.urls', 'register'))),
-    # re_path(r'^test01/', include(('test01.urls', 'test01'))),
-    # re_path(r'^test02/', include(('test02.urls', 'test02'))),
     path('api/private/', include(('api.urls', 'api'))),
 
 ]

@@ -38,6 +38,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.main-wrapper{
+  background:none;
+  padding-top:0;
+}
 .el-row {
   margin-bottom: 20px;
   &:last-child {

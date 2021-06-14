@@ -1926,11 +1926,39 @@ class Cart(APIView):
         return JsonResponse(res, safe=False)
 
 
+class RandomCookbook(APIView):
+    def get(self, request):
+        res = {
+            'meta': {
+                'message': '获取随机菜谱失败',
+                'code': 400
+            }}
+        all_cookbook = models.CookBooks.objects.all()
+        random_cookbook = random.choice(all_cookbook)
+        essay = dict()
+        if random_cookbook:
+            essay['id'] = random_cookbook.pk
+            # essay['author'] = random_cookbook.author.username
+            # essay['authorID'] = random_cookbook.author.pk
+            # essay['title'] = random_cookbook.title
+            # essay['content'] = random_cookbook.content
+            # temp = str(random_cookbook.create_time).replace('T', ' ')
+            # essay['create_time'] = temp[:temp.rfind(".")]
+            # temp = str(random_cookbook.modify_time).replace('T', ' ')
+            # essay['modify_time'] = temp[:temp.rfind(".")]
+        res.update({'data': {}})
+        res['data'].update({'cookbook': essay})
+        res['meta']['code'] = 200
+        res['meta']['message'] = '获取随机菜谱成功'
+        return JsonResponse(res, safe=False)
+
+
+
 def get_uuid(request):
     return JsonResponse({'uuid': uuid.uuid4()}, safe=False)
 
 
-@need_admin
+# @need_admin
 def getHomePageData(request):
     res = {
         'data': {},
@@ -1954,19 +1982,17 @@ def getHomePageData(request):
     return JsonResponse(res, safe=False)
 
 
-# @need_admin
+@need_admin
 def test(request):
     res = {
         'meta': {
             'message': '测试地址返回成功',
             'code': 200
         }}
-    # print(request.get_full_path())  # 打印出全路径（路径和参数）
-    # print(request.path_info)  # 取当前请求的路径
+
     return JsonResponse(res, safe=False)
 
 
-@need_admin
 def newRandomUser(request, num):
     User = auth.get_user_model()
     for _ in range(num):
@@ -1985,7 +2011,6 @@ def newRandomUser(request, num):
     return HttpResponse(f'new {num} user success')
 
 
-@need_admin
 def newRandomOrder(request, num):
     if generate_fake_order(num):
         return HttpResponse(f'new {num} order success')
@@ -1993,7 +2018,6 @@ def newRandomOrder(request, num):
         return HttpResponse(f'An error occurred')
 
 
-@need_admin
 def newRandomOrderOfSb(request, num, user):
     if generate_fake_order(num, user):
         return HttpResponse(f'new {num} order of {user} success')
